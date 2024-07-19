@@ -6,6 +6,7 @@ import com.exam.dto.BranchDTO;
 
 public interface BranchService {
 	
+	public int save(BranchDTO branchDTO);
 	List<BranchDTO> findAll();
 	
 }
