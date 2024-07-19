@@ -1,10 +1,11 @@
 package com.exam.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Table;
+
+import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,18 +21,35 @@ import lombok.ToString;
 @ToString
 @Entity
 public class Branch {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	String branch_id;
-	String passwd;
-	String branch_name;
-	String nickname;
-	String branch_num;
-	String branch_image;
-	String post;
-	String addr1;
-	String addr2;
-	String phone_num;
 
+    @Id
+    @Column(name = "branchid")
+    private String branchId;
+
+    @Column(name = "passwd")
+    private String passwd;
+
+    @Column(name = "branchname")
+    private String branchName;
+
+    @Column(name = "nickname")
+    private String nickname;
+
+    @Column(name = "branchnum")
+    private String branchNum;
+
+    @Column(name = "branchimage")
+    private String branchImage;
+
+    @Column(name = "post")
+    private String post;
+
+    @Column(name = "addr1")
+    private String addr1;
+
+    @Column(name = "addr2")
+    private String addr2;
+
+    @Column(name = "phonenum")
+    private String phoneNum;
 }
