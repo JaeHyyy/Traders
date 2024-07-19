@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.exam.dto.EmpDTO;
 import com.exam.entity.Emp;
-import com.exam.repository.EmpRepository;
 import com.exam.repository.GoodsRepository;
 
 @Service
