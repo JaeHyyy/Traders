@@ -1,10 +1,5 @@
 package com.exam.dto;
 
-import java.time.LocalDate;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,11 +13,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DeptDTO {
-
-	Long deptno;
-	String dname;
-	String loc;
+public class BranchDTO {
 	
+	String branch_id;
+	String passwd;
+	String branch_name;
+	String nickname;
+	String branch_num;
+	String branch_image;
+	String post;
+	String addr1;
+	String addr2;
+	String phone_num;
 
 }
