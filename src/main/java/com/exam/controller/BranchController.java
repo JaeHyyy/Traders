@@ -17,7 +17,7 @@ public class BranchController {
 		this.branchService = branchService;
 	}
 	
-	@GetMapping("/login") //test 하려고 security 피해서 적은거임. 쓰셈!
+	@GetMapping("/hello")// Test용 경로
 	public List<BranchDTO> findAll(){
 		return branchService.findAll();
 	}
