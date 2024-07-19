@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.exam.entity.Dept;
+import com.exam.entity.Branch;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class EmpDTO {
 	//연관 테이블 참조
 	@ManyToOne   //다대일
 	@JoinColumn(name = "deptno") //조인하는 컬럼 쓰면됌
-	DeptDTO dept;
+	BranchDTO dept;
 	
 
 }
