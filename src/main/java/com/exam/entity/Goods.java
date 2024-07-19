@@ -1,12 +1,9 @@
 package com.exam.entity;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,17 +19,19 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Table(name = "goods")
 public class Goods {
 	
 	//int에 null이 들어갈수없어서 타입들을 클래스형태로 바꿔줌
 	@Id
-	String gCode;
-	String gCategory;
-	String gName;
-	Integer gCost_price;
-	String gImage;
-	String gCompany;
-	String gUnit;
+	String gcode;
+	String gcategory;
+	String gname;
+	@Column(nullable = true)
+	Integer gcostprice;
+	String gimage;
+	String gcompany;
+	String gunit;
 	
 
 	

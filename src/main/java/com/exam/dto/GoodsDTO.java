@@ -3,10 +3,7 @@ package com.exam.dto;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,13 +20,14 @@ import lombok.ToString;
 @ToString
 public class GoodsDTO {
 	
-	String gCode;
-	String gCategory;
-	String gName;
-	int gCost_price;
-	String gImage;
-	String gCompany;
-	String gUnit;
+	
+	String gcode;
+	String gcategory;
+	String gname;
+	Integer gcostprice;
+	String gimage;
+	String gcompany;
+	String gunit;
 	
 
 }
