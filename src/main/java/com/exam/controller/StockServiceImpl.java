@@ -26,7 +26,7 @@ public class StockServiceImpl implements StockService{
 	public List<StockDTO> findAll(){
 		ModelMapper mapper = new ModelMapper();
 		
-		List<Stock> list = stockRepository.findAll();
+		List<Stock> list = stockRepository.findAll();  
 		List<StockDTO> stockList = list.stream()
 										 .map(e->mapper.map(e, StockDTO.class))
 										 .collect(Collectors.toList());
