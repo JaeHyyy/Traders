@@ -1,12 +1,12 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.exam.dto.BranchDTO;
 
 public interface BranchService {
 	
-	public int save(BranchDTO branchDTO);
+	void save(BranchDTO branchDTO);
 	List<BranchDTO> findAll();
-	
 }

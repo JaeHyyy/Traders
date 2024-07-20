@@ -15,15 +15,16 @@ import lombok.ToString;
 @ToString
 public class BranchDTO {
 	
-	String branch_id;
+	String branchId;
+	
 	String passwd;
-	String branch_name;
+	String branchName;
 	String nickname;
-	String branch_num;
-	String branch_image;
+	String branchNum;
+	String branchImage;
 	String post;
 	String addr1;
 	String addr2;
-	String phone_num;
+	String phoneNum;
 
 }

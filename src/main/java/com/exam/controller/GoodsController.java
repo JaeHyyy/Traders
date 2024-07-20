@@ -2,11 +2,11 @@ package com.exam.controller;
 
 import java.util.List;
 
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exam.dto.EmpDTO;
 import com.exam.dto.GoodsDTO;
 import com.exam.entity.Goods;
 import com.exam.service.GoodsService;
