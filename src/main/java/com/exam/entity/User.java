@@ -20,36 +20,36 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Branch {
+public class User {
 
     @Id
     @Column(name = "branchid")
-    private String branchId;
+    private String branchId; // 아이디(이메일)
 
     @Column(name = "passwd")
-    private String passwd;
+    private String passwd; // 비밀번호
 
     @Column(name = "branchname")
-    private String branchName;
+    private String branchName; // 사업자명
 
     @Column(name = "nickname")
-    private String nickname;
+    private String nickname; // 닉네임
 
     @Column(name = "branchnum")
-    private String branchNum;
+    private String branchNum; // 사업자번호
 
     @Column(name = "branchimage")
-    private String branchImage;
+    private String branchImage; // 사업자등록증
 
     @Column(name = "post")
-    private String post;
+    private String post; // 우편번호
 
     @Column(name = "addr1")
-    private String addr1;
+    private String addr1; // 지점주소
 
     @Column(name = "addr2")
-    private String addr2;
+    private String addr2; // 지점주소2
 
     @Column(name = "phonenum")
-    private String phoneNum;
+    private String phoneNum; // 전화번호
 }
