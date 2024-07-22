@@ -38,14 +38,14 @@ import com.nimbusds.jose.proc.SecurityContext;
 @EnableMethodSecurity
 public class JwtSecurityFilterChainConfig {
 
-	  @Bean
+	  	@Bean
 	    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
 	        
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
-	                .authorizeHttpRequests(auth -> 
-	                
-	                auth.antMatchers("/","/users","/hello").permitAll()  // 회원가입 요청 허용.
+	                .authorizeHttpRequests(auth ->
+	                auth.antMatchers("/","/signup","/login","/success","/users","/hello","/home", "/home/{gname}").permitAll()  // 회원가입 요청 허용.
+
 	                    .antMatchers("/authenticate").permitAll()
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()

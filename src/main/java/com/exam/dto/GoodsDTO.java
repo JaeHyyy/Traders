@@ -2,7 +2,7 @@ package com.exam.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -18,11 +18,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DeptDTO {
-
-	Long deptno;
-	String dname;
-	String loc;
+public class GoodsDTO {
+	
+	
+	String gcode;
+	String gcategory;
+	String gname;
+	Integer gcostprice;
+	String gimage;
+	String gcompany;
+	String gunit;
 	
 
 }
