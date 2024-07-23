@@ -2,16 +2,18 @@ package com.exam.controller;
 
 import java.util.List;
 
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.GoodsDTO;
-import com.exam.entity.Goods;
 import com.exam.service.GoodsService;
 
 @RestController
+@RequestMapping("/home")
+@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
 public class GoodsController {
 	
 	GoodsService goodsService;
@@ -21,7 +23,7 @@ public class GoodsController {
 	}
 	
 	//본사 상품 전체 조회
-	@GetMapping("/home")
+	@GetMapping
 	public List<GoodsDTO> findAll() {
 		return goodsService.findAll();
 	}

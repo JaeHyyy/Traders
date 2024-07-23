@@ -2,6 +2,8 @@ package com.exam.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -24,6 +26,7 @@ public class Goods {
 	
 	//int에 null이 들어갈수없어서 타입들을 클래스형태로 바꿔줌
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	String gcode;
 	String gcategory;
 	String gname;
