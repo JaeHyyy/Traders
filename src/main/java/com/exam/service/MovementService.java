@@ -7,5 +7,7 @@ import com.exam.dto.MovementDTO;
 public interface MovementService {
 	
 	public List<MovementDTO> findAll();
+	public List<MovementDTO> findByOrdercode(Long ordercode);
+
 	
 }
