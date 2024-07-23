@@ -33,4 +33,14 @@ public class MovementServiceImpl implements MovementService {
 		return movementList;
 	}
 	
+	@Override
+	public List<MovementDTO> findByOrdercode(Long ordercode){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Movement> list = movementRepository.findByOrdercode(ordercode);
+		List<MovementDTO> movementList = list.stream()
+				 							 .map(e->mapper.map(e, MovementDTO.class))
+				 							 .collect(Collectors.toList());
+		return movementList;
+	}
 }
