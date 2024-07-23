@@ -13,4 +13,5 @@ public interface GoodsService {
 
 	public List<GoodsDTO> findAll();
 	public List<GoodsDTO> findByGname( String gname);
+	public List<GoodsDTO> findByGcategory(String gcategory);
 }
