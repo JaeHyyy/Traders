@@ -17,10 +17,11 @@ import lombok.ToString;
 @ToString
 public class StockDTO {
 	int stockid;
-	int inccode;
-	int loccode;
 	String gcode;
 	int stockquantity;
 	LocalDate expdate;
 	int gprice;
+	String loc1;
+	String loc2;
+	String loc3;
 }

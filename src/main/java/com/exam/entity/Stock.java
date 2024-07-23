@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,12 +26,15 @@ import lombok.ToString;
 public class Stock {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer stockid;
-	Integer inccode;
-	Integer loccode;
-	String gcode;
 	Integer stockquantity;
 	LocalDate expdate;
 	Integer gprice;
+	String loc1;
+	String loc2;
+	String loc3;
+	
+	@OneToMany
+	@JoinColumn(name = "gcode")
+	Goods goods;
 }
