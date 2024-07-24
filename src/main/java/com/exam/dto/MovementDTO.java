@@ -17,6 +17,7 @@ import lombok.ToString;
 @ToString
 public class MovementDTO {
 	
+	long movidx;
 	long movcode;
 	long ordercode;
 	String branchid;
@@ -24,5 +25,6 @@ public class MovementDTO {
 	LocalDate movdate;
 	long movquantity;
 	String movstatus;
+	long count; 
 	
 }
