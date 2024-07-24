@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.ibatis.annotations.Param;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,17 @@ public class MovementServiceImpl implements MovementService {
 		ModelMapper mapper = new ModelMapper();
 		
 		List<Movement> list = movementRepository.findByOrdercode(ordercode);
+		List<MovementDTO> movementList = list.stream()
+				 							 .map(e->mapper.map(e, MovementDTO.class))
+				 							 .collect(Collectors.toList());
+		return movementList;
+	}
+	
+	@Override
+	public List<MovementDTO> findAllByBranchIdGroupedByDate(String branchid){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Movement> list = movementRepository.findAllByBranchIdGroupedByDate(branchid);
 		List<MovementDTO> movementList = list.stream()
 				 							 .map(e->mapper.map(e, MovementDTO.class))
 				 							 .collect(Collectors.toList());

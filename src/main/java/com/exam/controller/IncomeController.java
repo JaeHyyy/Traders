@@ -2,6 +2,7 @@ package com.exam.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,11 @@ public class IncomeController {
 	@GetMapping("/{ordercode}")
 	public List<MovementDTO> findByOrdercode(@PathVariable Long ordercode){
 		return movementService.findByOrdercode(ordercode);
+	}
+	
+	@GetMapping("/receipt")
+	public List<MovementDTO> findAllByBranchIdGroupedByDate(@Param("branchid") String branchid){
+		return movementService.findAllByBranchIdGroupedByDate(branchid);
 	}
 	
 }
