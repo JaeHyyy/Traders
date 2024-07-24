@@ -1,7 +1,6 @@
 package com.exam.service;
 
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -36,23 +35,13 @@ public class GoodsServiceImpl implements GoodsService {
 		return goodsList;
 	}
 	
+	
+	
 	//상품명, 카테고리명, 상품코드로 검색 조회
-	//본사 상품의 상품명 검색으로 해당 상품 조회
 	@Override
-	public List<GoodsDTO> findByGname(String gname) {
+	public List<GoodsDTO> search(String keyword) {
 		ModelMapper mapper = new ModelMapper();
-		List<Goods> list = goodsRepository.findByGnameContaining(gname);
-		
-		List<GoodsDTO> goodsList = list.stream()
-				.map(e->mapper.map(e, GoodsDTO.class))
-				.collect(Collectors.toList());
-		return goodsList;
-	}
-	//본사 상품의 카테고리명 검색으로 해당 상품 조회
-	@Override
-	public List<GoodsDTO> findByGcategory(String gcategory) {
-		ModelMapper mapper = new ModelMapper();
-		List<Goods> list = goodsRepository.findByGcategoryContaining(gcategory);
+		List<Goods> list = goodsRepository.search(keyword);
 		
 		List<GoodsDTO> goodsList = list.stream()
 				.map(e->mapper.map(e, GoodsDTO.class))
@@ -60,6 +49,14 @@ public class GoodsServiceImpl implements GoodsService {
 		return goodsList;
 	}
 	
+    private GoodsDTO convertToDTO(Goods goods) {
+        GoodsDTO dto = new GoodsDTO();
+        dto.setGcode(goods.getGcode());
+        dto.setGcategory(goods.getGcategory());
+        dto.setGname(goods.getGname());
+        dto.setGcostprice(goods.getGcostprice());
+        return dto;
+    }
 	
 	
 	
