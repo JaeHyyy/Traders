@@ -30,8 +30,8 @@ public class IncomeController {
 	}
 	
 	@GetMapping("/receipt")
-	public List<MovementDTO> findAllByBranchIdGroupedByDate(@Param("branchid") String branchid){
-		return movementService.findAllByBranchIdGroupedByDate(branchid);
+	public List<MovementDTO> findGroupedByMovdate(){
+		return movementService.findGroupedByMovdate();
 	}
 	
 }

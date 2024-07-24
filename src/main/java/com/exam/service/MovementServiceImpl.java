@@ -1,5 +1,6 @@
 package com.exam.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,13 +47,15 @@ public class MovementServiceImpl implements MovementService {
 	}
 	
 	@Override
-	public List<MovementDTO> findAllByBranchIdGroupedByDate(String branchid){
-		ModelMapper mapper = new ModelMapper();
-		
-		List<Movement> list = movementRepository.findAllByBranchIdGroupedByDate(branchid);
-		List<MovementDTO> movementList = list.stream()
-				 							 .map(e->mapper.map(e, MovementDTO.class))
-				 							 .collect(Collectors.toList());
-		return movementList;
-	}
+    public List<MovementDTO> findGroupedByMovdate() {
+        List<Object[]> results = movementRepository.findGroupedByMovdate();
+
+        return results.stream()
+                      .map(result -> MovementDTO.builder()
+                    		  					.movdate((LocalDate) result[0])
+                    		  					.count((Long) result[1])
+                                                .build())
+                      .collect(Collectors.toList());
+    }
+	
 }
