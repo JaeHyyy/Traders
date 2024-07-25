@@ -1,10 +1,12 @@
 package com.exam.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.ibatis.annotations.Param;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,28 @@ public class MovementServiceImpl implements MovementService {
 				 							 .collect(Collectors.toList());
 		return movementList;
 	}
+	
+	@Override
+	public List<MovementDTO> findByOrdercode(Long ordercode){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Movement> list = movementRepository.findByOrdercode(ordercode);
+		List<MovementDTO> movementList = list.stream()
+				 							 .map(e->mapper.map(e, MovementDTO.class))
+				 							 .collect(Collectors.toList());
+		return movementList;
+	}
+	
+	@Override
+    public List<MovementDTO> findGroupedByMovdate() {
+        List<Object[]> results = movementRepository.findGroupedByMovdate();
+
+        return results.stream()
+                      .map(result -> MovementDTO.builder()
+                    		  					.movdate((LocalDate) result[0])
+                    		  					.count((Long) result[1])
+                                                .build())
+                      .collect(Collectors.toList());
+    }
 	
 }

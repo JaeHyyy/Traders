@@ -2,7 +2,9 @@ package com.exam.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.MovementDTO;
@@ -20,6 +22,16 @@ public class IncomeController {
 	@GetMapping("/income")
 	public List<MovementDTO> findAll(){
 		return movementService.findAll();
+	}
+	
+	@GetMapping("/{ordercode}")
+	public List<MovementDTO> findByOrdercode(@PathVariable Long ordercode){
+		return movementService.findByOrdercode(ordercode);
+	}
+	
+	@GetMapping("/receipt")
+	public List<MovementDTO> findGroupedByMovdate(){
+		return movementService.findGroupedByMovdate();
 	}
 	
 }
