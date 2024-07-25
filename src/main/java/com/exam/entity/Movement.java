@@ -27,6 +27,7 @@ public class Movement {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	Long movidx;
 	Long movcode;
 	Long ordercode;
 	String branchid;

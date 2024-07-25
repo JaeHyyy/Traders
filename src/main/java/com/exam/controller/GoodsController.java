@@ -29,17 +29,26 @@ public class GoodsController {
 	}
 	
 	
-	//상품명, 카테고리명, 상품코드로 검색 조회
-	//본사 상품의 상품명 검색으로 해당 상품 조회
-	@GetMapping("/{gname}")
-	public List<GoodsDTO> findByGname(@PathVariable String gname) {
-		return goodsService.findByGname(gname);
-	}
-	//본사 상품의 카테고리명 검색으로 해당 상품 조회
-	@GetMapping("/{gcategory}")
-	public List<GoodsDTO> findByGcategory(@PathVariable String gcategory) {
-		return goodsService.findByGcategory(gcategory);
-	}
+	//입력값으로 해당 상품 조회
+	@GetMapping("/{keyword}")
+	 public List<GoodsDTO> search(@PathVariable String keyword) {
+	        return goodsService.search(keyword);
+	    }
+	
+	
+	
+	
+	
+//	//본사 상품의 상품명 검색으로 해당 상품 조회
+//	@GetMapping("/{gname}")
+//	public List<GoodsDTO> findByGname(@PathVariable String gname) {
+//		return goodsService.findByGname(gname);
+//	}
+//	//본사 상품의 카테고리명 검색으로 해당 상품 조회
+//	@GetMapping("/{gcategory}")
+//	public List<GoodsDTO> findByGcategory(@PathVariable String gcategory) {
+//		return goodsService.findByGcategory(gcategory);
+//	}
 
 
 	
