@@ -58,4 +58,26 @@ public class MovementServiceImpl implements MovementService {
                       .collect(Collectors.toList());
     }
 	
+	@Override
+	public List<MovementDTO> findAllByOrderByMovdateAsc(){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Movement> list = movementRepository.findAllByOrderByMovdateAsc();
+		List<MovementDTO> movementList = list.stream()
+				 							 .map(e->mapper.map(e, MovementDTO.class))
+				 							 .collect(Collectors.toList());
+		return movementList;
+	}
+	
+	@Override
+	public List<MovementDTO> findAllByOrderByMovdateDesc(){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Movement> list = movementRepository.findAllByOrderByMovdateDesc();
+		List<MovementDTO> movementList = list.stream()
+				 							 .map(e->mapper.map(e, MovementDTO.class))
+				 							 .collect(Collectors.toList());
+		return movementList;
+	}
+	
 }

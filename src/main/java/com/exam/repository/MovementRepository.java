@@ -11,8 +11,10 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 
 	List<Movement> findByOrdercode(Long ordercode);
 	
-	@Query("SELECT m.movdate, count(m) FROM Movement m GROUP BY m.movdate")
+	@Query("SELECT m.movdate, count(m) FROM Movement m GROUP BY m.movdate ORDER BY m.movdate")
     List<Object[]> findGroupedByMovdate();
-
+    
+    List<Movement> findAllByOrderByMovdateAsc();
+    List<Movement> findAllByOrderByMovdateDesc();
     
 }
