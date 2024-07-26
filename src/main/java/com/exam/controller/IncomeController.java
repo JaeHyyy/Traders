@@ -36,7 +36,7 @@ public class IncomeController {
 	
 	@GetMapping("/movdateasc")
 	public List<MovementDTO> findAllByOrderByMovdateAsc(){
-		return movementService.findAllByOrderByMovdateAsc();
+		return movementService.findAllSortedByDate();
 	}
 	@GetMapping("/movdatedesc")
 	public List<MovementDTO> findAllByOrderByMovdateDesc(){

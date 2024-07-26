@@ -105,9 +105,9 @@ public class UserController {
 	}
 	
 
-    @GetMapping("/hello") // 테스트를 위해 보안 없이 접근 가능하도록 설정
-    public List<UserDTO> findAll() {
-        return userService.findAll();
-    }
+//    @GetMapping("/hello") // 테스트를 위해 보안 없이 접근 가능하도록 설정
+//    public List<UserDTO> findAll() {
+//        return userService.findAll();
+//    }
 }
 
