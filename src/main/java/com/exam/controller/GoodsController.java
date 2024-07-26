@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.dto.GoodsDTO;
+import com.exam.entity.Goods;
 import com.exam.service.GoodsService;
 
 @RestController
@@ -35,20 +40,15 @@ public class GoodsController {
 	        return goodsService.search(keyword);
 	    }
 	
+    @PostMapping("/save")
+    public Goods save(@ModelAttribute GoodsDTO goodsDTO, @RequestParam("file") MultipartFile file) {
+        return goodsService.save(goodsDTO, file);
+    }
 	
 	
 	
 	
-//	//본사 상품의 상품명 검색으로 해당 상품 조회
-//	@GetMapping("/{gname}")
-//	public List<GoodsDTO> findByGname(@PathVariable String gname) {
-//		return goodsService.findByGname(gname);
-//	}
-//	//본사 상품의 카테고리명 검색으로 해당 상품 조회
-//	@GetMapping("/{gcategory}")
-//	public List<GoodsDTO> findByGcategory(@PathVariable String gcategory) {
-//		return goodsService.findByGcategory(gcategory);
-//	}
+	
 
 
 	
