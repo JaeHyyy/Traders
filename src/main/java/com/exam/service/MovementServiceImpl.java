@@ -69,6 +69,19 @@ public class MovementServiceImpl implements MovementService {
         return groupedMovements;
     }
 
+	
+	@Override
+	public List<MovementDTO> findAllByOrderByMovdateDesc(){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Movement> list = movementRepository.findAllByOrderByMovdateDesc();
+		List<MovementDTO> movementList = list.stream()
+				 							 .map(e->mapper.map(e, MovementDTO.class))
+				 							 .collect(Collectors.toList());
+		return movementList;
+	}
+	
+
     // 날짜순으로 모든 데이터찾기
     @Override
     public List<MovementDTO> findAllSortedByDate() {
