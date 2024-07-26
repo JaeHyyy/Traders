@@ -5,15 +5,14 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.dto.GoodsDTO;
+import com.exam.dto.OrderCartDTO;
 import com.exam.entity.Goods;
 
 
-public interface GoodsService {
+public interface OrderCartService {
 
-	public List<GoodsDTO> findAll();
-	public List<GoodsDTO> search(String keyword);
-	public Goods save(GoodsDTO goodsDTO, MultipartFile file);
+	public List<OrderCartDTO> findAll();
+
 }
