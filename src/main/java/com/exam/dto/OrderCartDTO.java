@@ -1,6 +1,11 @@
 package com.exam.dto;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+
+import com.exam.entity.Goods;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +20,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GoodsDTO {
+public class OrderCartDTO {
 	
 	
-	String gcode;
-	String gcategory;
-	String gname;
-	Integer gcostprice;
-	String gimage;
-	String gcompany;
-	String gunit;
-	
-    MultipartFile multipartFile;
-
-
-	
+	int ordercode;
+	Integer gcount;
+	Goods goods;
 	
 
 }
