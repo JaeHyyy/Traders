@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import java.awt.Color;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -27,8 +28,11 @@ public class QrCodeController {
 
     @GetMapping(value = "/qrcode", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> generateQrCode() {
+
+        String qrContent1 = "https://www.naver.com/"; 
+
         String qrContent = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EA%B2%80%EC%88%98"; 
-        //qr코드를 찍으면 연결 될 url+ localhost 대신 ip주소 현재는 ssg ip
+        //qr코드를 찍으면 연결 될 url+ localhost 대신 ip주소 현재는 ssg ip 10.10.10.197
         
         //qr코드의 크기와 색 설정
         int width = 300;
