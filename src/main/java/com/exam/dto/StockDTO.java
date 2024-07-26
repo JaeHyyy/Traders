@@ -2,6 +2,8 @@ package com.exam.dto;
 
 import java.time.LocalDate;
 
+import com.exam.entity.Goods;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,10 +20,11 @@ import lombok.ToString;
 public class StockDTO {
 	int stockid;
 	String gcode;
-	int stockquantity;
+	Integer stockquantity;
 	LocalDate expdate;
-	int gprice;
+	Integer gprice;
 	String loc1;
 	String loc2;
 	String loc3;
+	Goods goods;
 }

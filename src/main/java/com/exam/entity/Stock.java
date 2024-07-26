@@ -3,11 +3,10 @@ package com.exam.entity;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +22,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Table(name = "stock")
 public class Stock {
 	
 	@Id
-	Integer stockid;
+	int stockid;
 	Integer stockquantity;
 	LocalDate expdate;
 	Integer gprice;
@@ -34,7 +34,7 @@ public class Stock {
 	String loc2;
 	String loc3;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "gcode")
 	Goods goods;
 }
