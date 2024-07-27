@@ -7,12 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import com.exam.dto.GoodsDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,23 +23,21 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "goods")
-public class Goods {
+@Table(name = "ordercart")
+public class OrderCart {
 	
 	//int에 null이 들어갈수없어서 타입들을 클래스형태로 바꿔줌
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	String gcode;
-	String gcategory;
-	String gname;
-	@Column(nullable = true)
-	Integer gcostprice;
-	String gimage;
-	String gcompany;
-	String gunit;
+	int ordercode;
+	Integer gcount;
 	
+	//연관 테이블 참조
+	@ManyToOne   //다대일
+	@JoinColumn(name = "gcode") //조인하는 컬럼
+	Goods goods;
 
-
+	
 
 	
 

@@ -3,9 +3,9 @@ package com.exam.entity;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -15,26 +15,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-@Table(name = "stock")
-public class Stock {
+@Entity
+@Table(name = "movement")
+public class Movement {
 	
 	@Id
-	int stockid;
-	Integer stockquantity;
-	LocalDate expdate;
-	Integer gprice;
-	String loc1;
-	String loc2;
-	String loc3;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	Long movidx;
+	Long movcode;
+	Long ordercode;
+	String branchid;
+	String gcode;
+	LocalDate movdate;
+	Long movquantity;
+	String movstatus;
 	
-	@ManyToOne
-	@JoinColumn(name = "gcode")
-	Goods goods;
 }

@@ -1,6 +1,6 @@
 package com.exam.dto;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +15,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GoodsDTO {
+public class MovementDTO {
 	
-	
+	long movidx;
+	long movcode;
+	long ordercode;
+	String branchid;
 	String gcode;
-	String gcategory;
-	String gname;
-	Integer gcostprice;
-	String gimage;
-	String gcompany;
-	String gunit;
+	LocalDate movdate;
+	long movquantity;
+	String movstatus;
+	long count; 
 	
-    MultipartFile multipartFile;
-
-
-	
-	
-
 }
