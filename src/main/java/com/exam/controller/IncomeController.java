@@ -34,4 +34,12 @@ public class IncomeController {
 		return movementService.findGroupedByMovdate();
 	}
 	
+	@GetMapping("/movdateasc")
+	public List<MovementDTO> findAllByOrderByMovdateAsc(){
+		return movementService.findAllSortedByDate();
+	}
+	@GetMapping("/movdatedesc")
+	public List<MovementDTO> findAllByOrderByMovdateDesc(){
+		return movementService.findAllByOrderByMovdateDesc();
+	}
 }
