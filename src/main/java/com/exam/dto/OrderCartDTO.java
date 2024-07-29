@@ -25,7 +25,7 @@ public class OrderCartDTO {
 	
 	int ordercode;
 	Integer gcount;
-	Goods goods;
+	GoodsDTO goods;
 	
 
 }

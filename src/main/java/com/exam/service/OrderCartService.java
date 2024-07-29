@@ -2,7 +2,7 @@ package com.exam.service;
 
 import java.util.List;
 
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,5 +14,5 @@ import com.exam.entity.Goods;
 public interface OrderCartService {
 
 	public List<OrderCartDTO> findAll();
-
+	void saveAll(List<OrderCartDTO> dtos);
 }
