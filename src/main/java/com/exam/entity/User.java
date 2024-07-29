@@ -2,6 +2,7 @@ package com.exam.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import org.hibernate.annotations.Table;
 
@@ -38,6 +39,7 @@ public class User {
     @Column(name = "branchnum")
     private String branchNum; // 사업자번호
 
+    @Lob
     @Column(name = "branchimage")
     private String branchImage; // 사업자등록증
 

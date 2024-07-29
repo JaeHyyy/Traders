@@ -43,6 +43,8 @@ public class JwtSecurityFilterChainConfig {
 
 	                auth.antMatchers("/","/signup","/login","/success","/users","/hello","/home", 
 	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/ordercart","/home/save","/images/items/{filename}","/images/**","/ordercart/saveAll").permitAll()  // 회원가입 요청 허용.
+
+
 	                    .antMatchers("/authenticate").permitAll()
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()

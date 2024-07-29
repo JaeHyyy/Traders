@@ -40,7 +40,7 @@
 //            try {
 //                parsedDate = LocalDate.parse(date, formatter);
 //            } catch (Exception e) {
-//                return ResponseEntity.badRequest().body(new ByteArrayResource("Invalid date format. Use yyyy-MM-dd.".getBytes()));
+//                return ResponseEntity.badRequest().body(new ByteArrayResource("날짜형식을 확인해주세요. Use yyyy-MM-dd.".getBytes()));
 //            }
 //
 //            // 날짜별로 그룹화된 데이터 조회
@@ -80,5 +80,3 @@
 //        }
 //    }
 //}
-//
-//// 단점으론 date 를 수기로 url 작성해줘야한다.
