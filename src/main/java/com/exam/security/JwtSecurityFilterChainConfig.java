@@ -9,9 +9,6 @@ import java.util.UUID;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -46,10 +42,8 @@ public class JwtSecurityFilterChainConfig {
 	                .authorizeHttpRequests(auth ->
 
 	                auth.antMatchers("/","/signup","/login","/success","/users","/hello","/home", 
+	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/ordercart","/home/save","/images/items/{filename}","/images/**","/ordercart/saveAll").permitAll()  // 회원가입 요청 허용.
 
-//	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/images/**").permitAll()  // 회원가입 요청 허용.
-
-	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/ordercart","/home/save","/images/items/{filename}","/images/**").permitAll()  // 회원가입 요청 허용.
 
 	                    .antMatchers("/authenticate").permitAll()
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
@@ -112,4 +106,7 @@ public class JwtSecurityFilterChainConfig {
 	                    "Unable to generate an RSA Key Pair", e);
 	        }
 	    }
+	    
+	    
+	    
 }
