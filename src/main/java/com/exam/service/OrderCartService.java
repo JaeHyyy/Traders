@@ -15,4 +15,6 @@ public interface OrderCartService {
 
 	public List<OrderCartDTO> findAll();
 	void saveAll(List<OrderCartDTO> dtos);
+	public void delete( int ordercode);
+	public void update(int ordercode,OrderCartDTO dto);
 }
