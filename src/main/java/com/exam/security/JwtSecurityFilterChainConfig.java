@@ -42,7 +42,9 @@ public class JwtSecurityFilterChainConfig {
 	                .authorizeHttpRequests(auth ->
 
 	                auth.antMatchers("/","/signup","/login","/success","/users","/hello","/home", 
-	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/ordercart","/home/save","/images/items/{filename}","/images/**","/ordercart/saveAll").permitAll()  // 회원가입 요청 허용.
+	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc",
+	                		"/stock","/ordercart","/home/save","/images/items/{filename}","/images/**",
+	                		"/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**").permitAll()  // 회원가입 요청 허용.
 
 
 	                    .antMatchers("/authenticate").permitAll()
