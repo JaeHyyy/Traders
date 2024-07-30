@@ -109,5 +109,18 @@ public class MovementServiceImpl implements MovementService {
         return movementDTOs.stream()
                 .collect(Collectors.groupingBy(MovementDTO::getMovdate));
     }
+    
+    @Override
+    public List<MovementDTO> findByMovdate(LocalDate movdate) {
+        logger.debug("Request to find movements by movdate: {}", movdate);
+        ModelMapper mapper = new ModelMapper();
+        
+        List<Movement> list = movementRepository.findByMovdate(movdate);
+        List<MovementDTO> movementList = list.stream()
+                                              .map(e -> mapper.map(e, MovementDTO.class))
+                                              .collect(Collectors.toList());
+        logger.debug("Movements found for movdate {}: {}", movdate, movementList);
+        return movementList;
+    }
 
 }

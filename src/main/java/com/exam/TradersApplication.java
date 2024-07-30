@@ -1,6 +1,7 @@
 package com.exam;
 
 import org.springframework.boot.SpringApplication;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -28,6 +29,7 @@ public class TradersApplication extends SpringBootServletInitializer{
 				registry.addMapping("/**")
 					.allowedMethods("*")
 					.allowedOrigins("http://localhost:3000","http://127.0.0.1:5500","*");
+					
 			}
 		};
 	}
