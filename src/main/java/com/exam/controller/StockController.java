@@ -25,5 +25,4 @@ public class StockController {
 	public List<StockDTO> findAll(){
 		return stockService.findAll();
 	}
-	
 }
