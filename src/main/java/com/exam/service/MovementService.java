@@ -11,6 +11,7 @@ public interface MovementService {
 	
 	public List<MovementDTO> findAll();
 	public List<MovementDTO> findByOrdercode(Long ordercode);
+	public List<MovementDTO> findByMovdate(LocalDate movdate);
 	public List<MovementDTO> findGroupedByMovdate();
 	public List<MovementDTO> findAllByOrderByMovdateDesc();
 	

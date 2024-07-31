@@ -26,6 +26,7 @@ public class StockController {
 	public List<StockDTO> findAll(){
 		return stockService.findAll();
 	}
+
 	
 	// stock 테이블 + goods 테이블
     @GetMapping("/all-data")
@@ -38,5 +39,5 @@ public class StockController {
     public List<StockDTO> findGcodeData(@PathVariable String gcode) {
         return stockService.findGcodeData(gcode);
     }
-	
+
 }

@@ -69,4 +69,22 @@ public class StockServiceImpl implements StockService{
                    })
                    .collect(Collectors.toList());
     }
+
+	
+	@Override
+    public void updateStockLocation(String gcode, String loc1, String loc2, String loc3) {
+        stockRepository.updateLocationByGcode(gcode, loc1, loc2, loc3);
+    }
+	
+	@Override
+	public List<StockDTO> findByGoodsGcode(String gcode){
+		ModelMapper mapper = new ModelMapper();
+		
+		List<Stock> list = stockRepository.findByGoodsGcode(gcode);
+		List<StockDTO> stockList = list.stream()
+										 .map(e->mapper.map(e, StockDTO.class))
+										 .collect(Collectors.toList());
+		return stockList;
+	}
+
 }
