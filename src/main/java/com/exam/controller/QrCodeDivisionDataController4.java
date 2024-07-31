@@ -229,6 +229,8 @@ import com.google.zxing.common.BitMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -246,6 +248,7 @@ public class QrCodeDivisionDataController4 {
     @Autowired
     private MovementService movementService;
 
+    // 모든 QR 데이터
     @GetMapping("/qrcodeDivisions")
     public ResponseEntity<Map<String, Map<String, String>>> getQrCodeDivisions() {
         try {
@@ -282,5 +285,18 @@ public class QrCodeDivisionDataController4 {
             return ResponseEntity.status(500).build();
         }
     }
+    
+    // 물품상태업데이트(대기->완료)
+    @PostMapping("/updateStatuses")
+    public ResponseEntity<List<MovementDTO>> updateStatuses(@RequestBody List<MovementDTO> movementsToUpdate) {
+        try {
+            List<MovementDTO> updatedMovements = movementService.updateStatuses(movementsToUpdate);
+            return ResponseEntity.ok(updatedMovements);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+   
 }
 

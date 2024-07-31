@@ -49,7 +49,8 @@ public class JwtSecurityFilterChainConfig {
 
 //	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/images/**").permitAll()  // 회원가입 요청 허용.
 
-	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock","/ordercart","/home/save","/images/items/{filename}","/images/**").permitAll()  // 회원가입 요청 허용.
+	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock/**","/gcode-data/{gcode}",
+	                		"/ordercart","/home/save","/images/items/{filename}","/images/**").permitAll()  // 회원가입 요청 허용.
 
 	                    .antMatchers("/authenticate").permitAll()
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.

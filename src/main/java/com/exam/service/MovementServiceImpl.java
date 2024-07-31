@@ -110,4 +110,27 @@ public class MovementServiceImpl implements MovementService {
                 .collect(Collectors.groupingBy(MovementDTO::getMovdate));
     }
 
+    // 물품상태업데이트
+    @Override
+    public List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        List<Movement> movements = movementsToUpdate.stream()
+                .map(movementDTO -> {
+                    Movement movement = movementRepository.findById(movementDTO.getMovidx()).orElse(null); // movidx 사용
+                    if (movement != null) {
+                        movement.setMovstatus("완료");
+                    }
+                    return movement;
+                })
+                .collect(Collectors.toList());
+
+        List<Movement> updatedMovements = movementRepository.saveAll(movements);
+
+        return updatedMovements.stream()
+                .map(movement -> modelMapper.map(movement, MovementDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 }

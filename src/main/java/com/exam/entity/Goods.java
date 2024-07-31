@@ -42,10 +42,4 @@ public class Goods {
 	String gimage;
 	String gcompany;
 	String gunit;
-	
-
-
-
-	
-
 }
