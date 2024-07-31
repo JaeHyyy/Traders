@@ -18,6 +18,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StockDTO {
+	
 	int stockid;
 	String gcode;
 	Integer stockquantity;
@@ -27,4 +28,8 @@ public class StockDTO {
 	String loc2;
 	String loc3;
 	Goods goods;
+	
+	// stock 테이블 + goods 테이블
+	// Goods 로 받는게 아닌 GoodsDTO 로 받는것이라 참고할것.
+	GoodsDTO goodsData;
 }
