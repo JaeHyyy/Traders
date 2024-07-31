@@ -32,6 +32,7 @@ public class StockServiceImpl implements StockService{
 										 .collect(Collectors.toList());
 		return stockList;
 	}
+
 	
 	@Override
     public void updateStockLocation(String gcode, String loc1, String loc2, String loc3) {
