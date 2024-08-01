@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.MovementDTO;
+import com.exam.dto.MovementGoodsDTO;
+import com.exam.dto.GoodsDTO; 
+import com.exam.entity.Goods;
 import com.exam.entity.Movement;
 import com.exam.repository.MovementRepository;
 
@@ -122,5 +125,46 @@ public class MovementServiceImpl implements MovementService {
         logger.debug("Movements found for movdate {}: {}", movdate, movementList);
         return movementList;
     }
+
+    // 물품상태업데이트
+    @Override
+    public List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        List<Movement> movements = movementsToUpdate.stream()
+                .map(movementDTO -> {
+                    Movement movement = movementRepository.findById(movementDTO.getMovidx()).orElse(null); // movidx 사용
+                    if (movement != null) {
+                        movement.setMovstatus("완료");
+                    }
+                    return movement;
+                })
+                .collect(Collectors.toList());
+
+        List<Movement> updatedMovements = movementRepository.saveAll(movements);
+
+        return updatedMovements.stream()
+                .map(movement -> modelMapper.map(movement, MovementDTO.class))
+                .collect(Collectors.toList());
+    }
+    
+    
+    @Override
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate) {
+        ModelMapper mapper = new ModelMapper();
+        List<Object[]> results = movementRepository.findMovementsWithGoodsByMovdate(movdate);
+        List<MovementGoodsDTO> movementGoodsList = results.stream()
+                .map(result -> {
+                    Movement movement = (Movement) result[0];
+                    Goods goods = (Goods) result[1];
+                    MovementDTO movementDTO = mapper.map(movement, MovementDTO.class);
+                    GoodsDTO goodsDTO = mapper.map(goods, GoodsDTO.class);
+                    return new MovementGoodsDTO(movementDTO, goodsDTO);
+                })
+                .collect(Collectors.toList());
+        return movementGoodsList;
+    }
+   
+
 
 }

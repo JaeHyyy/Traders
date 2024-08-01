@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.exam.dto.MovementDTO;
+import com.exam.dto.MovementGoodsDTO;
 
 
 public interface MovementService {
@@ -19,4 +20,8 @@ public interface MovementService {
 	public List<MovementDTO> findAllSortedByDate();
     // 날짜별로 데이터를 그룹화하여 반환
     Map<LocalDate, List<MovementDTO>> findAllGroupedByDate();
+    // 상태 업데이트
+    List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate);
+    
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate);
 }
