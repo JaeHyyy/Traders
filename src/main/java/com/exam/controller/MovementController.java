@@ -27,6 +27,6 @@ public class MovementController {
 	
     @GetMapping("/{gcode}")
     public List<MovementDTO> findByGcode(@PathVariable String gcode) {
-        return movementDataService.findByGcode(gcode); // 새로운 엔드포인트 추가
+        return movementDataService.findByGcode(gcode);
     }
 }
