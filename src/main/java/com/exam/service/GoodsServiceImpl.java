@@ -90,6 +90,17 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsRepository.save(goods);
     }
     
+    @Override
+	public List<GoodsDTO> findByGcode(String gcode) {
+		ModelMapper mapper = new ModelMapper();
+		List<Goods> list = goodsRepository.findByGcode(gcode);
+		
+		List<GoodsDTO> goodsList = list.stream()
+				.map(e->mapper.map(e, GoodsDTO.class))
+				.collect(Collectors.toList());
+		return goodsList;
+	}
+    
     
 }//end
 	

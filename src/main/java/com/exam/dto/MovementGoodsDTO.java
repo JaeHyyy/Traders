@@ -1,9 +1,5 @@
 package com.exam.dto;
 
-import java.time.LocalDate;
-
-import com.exam.entity.Goods;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,16 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MovementDTO {
-	
-	long movidx;
-	long movcode;
-	long ordercode;
-	String branchid;
-	String gcode;
-	LocalDate movdate;
-	long movquantity;
-	String movstatus;
-	long count; 
-
+public class MovementGoodsDTO {
+	private MovementDTO movement;
+	private GoodsDTO goods;
 }
