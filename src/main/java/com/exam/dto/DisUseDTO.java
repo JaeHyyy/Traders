@@ -1,6 +1,10 @@
 package com.exam.dto;
 
+import java.sql.Date;
 import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
 
 import com.exam.entity.Goods;
 
@@ -17,16 +21,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MovementDTO {
+public class DisUseDTO {
 	
-	long movidx;
-	long movcode;
-	long ordercode;
-	String branchid;
-	String gcode;
-	LocalDate movdate;
-	long movquantity;
-	String movstatus;
-	long count; 
+	
+	int disid;
+	Date disdate;
+	StockDTO stock;
+	
 
 }
