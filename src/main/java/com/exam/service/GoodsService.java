@@ -2,7 +2,7 @@ package com.exam.service;
 
 import java.util.List;
 
-
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,4 +16,13 @@ public interface GoodsService {
 	public List<GoodsDTO> findAll();
 	public List<GoodsDTO> search(String keyword);
 	public Goods save(GoodsDTO goodsDTO, MultipartFile file);
+	
+<<<<<<< HEAD
+	// 모바일용 데이터 - 전체조회
+	public List<GoodsDTO> findAllData();
+	// 모바일용 데이터 - gcode 기준으로 찾기
+	GoodsDTO findByGcode(String gcode);
+=======
+	public List<GoodsDTO> findByGcode(String gcode);
+>>>>>>> 879e4877bfefd83084d08fb06d8412abba4f6dd5
 }

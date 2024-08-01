@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.MovementDTO;
+import com.exam.dto.MovementGoodsDTO;
+import com.exam.dto.GoodsDTO; 
+import com.exam.entity.Goods;
 import com.exam.entity.Movement;
 import com.exam.repository.MovementRepository;
 
@@ -23,6 +26,7 @@ public class MovementServiceImpl implements MovementService {
     private static final Logger logger = LoggerFactory.getLogger(MovementServiceImpl.class);
 
     private final MovementRepository movementRepository;
+    private final ModelMapper mapper = new ModelMapper();
 
     public MovementServiceImpl(MovementRepository movementRepository) {
         this.movementRepository = movementRepository;
@@ -143,6 +147,34 @@ public class MovementServiceImpl implements MovementService {
         return updatedMovements.stream()
                 .map(movement -> modelMapper.map(movement, MovementDTO.class))
                 .collect(Collectors.toList());
+    }
+    
+    
+    @Override
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate) {
+        ModelMapper mapper = new ModelMapper();
+        List<Object[]> results = movementRepository.findMovementsWithGoodsByMovdate(movdate);
+        List<MovementGoodsDTO> movementGoodsList = results.stream()
+                .map(result -> {
+                    Movement movement = (Movement) result[0];
+                    Goods goods = (Goods) result[1];
+                    MovementDTO movementDTO = mapper.map(movement, MovementDTO.class);
+                    GoodsDTO goodsDTO = mapper.map(goods, GoodsDTO.class);
+                    return new MovementGoodsDTO(movementDTO, goodsDTO);
+                })
+                .collect(Collectors.toList());
+        return movementGoodsList;
+    }
+   
+
+    // 모바일 - gcode 로 데이터 조회
+    @Override
+    public List<MovementDTO> findByGcode(String gcode){
+        logger.debug("gcode로 이동 데이터를 조회하는 요청: {}", gcode);
+        List<Movement> list = movementRepository.findByGcode(gcode);
+        return list.stream()
+                   .map(e -> mapper.map(e, MovementDTO.class))
+                   .collect(Collectors.toList());
     }
 
 

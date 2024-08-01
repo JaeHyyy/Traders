@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.exam.dto.GoodsDTO;
 import com.exam.dto.MovementDTO;
+import com.exam.dto.MovementGoodsDTO;
 import com.exam.dto.StockDTO;
+import com.exam.service.GoodsService;
 import com.exam.service.MovementService;
 import com.exam.service.StockService;
 
@@ -18,10 +21,12 @@ public class ReceiptModifyController {
 	
 	MovementService movementService;
 	StockService stockService;
+	GoodsService goodsService;
 
-	public ReceiptModifyController(MovementService movementService, StockService stockService) {
+	public ReceiptModifyController(MovementService movementService, StockService stockService, GoodsService goodsService) {
 		this.movementService = movementService;
 		this.stockService = stockService;
+		this.goodsService = goodsService;
 	}
 	
 	
@@ -44,5 +49,16 @@ public class ReceiptModifyController {
             @RequestParam String loc3) {
         stockService.updateStockLocation(gcode, loc1, loc2, loc3);
     }
+	
+	@GetMapping("/findgcode")
+	public List<GoodsDTO> findByGcode(@RequestParam String gcode){
+		return goodsService.findByGcode(gcode);
+	}
+	
+	@GetMapping("/join")
+	public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(@RequestParam("movdate") LocalDate movdate){
+		return movementService.findMovementsWithGoodsByMovdate(movdate);
+	}
+    
 	
 }
