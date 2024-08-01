@@ -27,9 +27,4 @@ public class GoodsDTO {
 	String gunit;
 	
     MultipartFile multipartFile;
-
-
-	
-	
-
 }
