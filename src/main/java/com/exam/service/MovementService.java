@@ -22,11 +22,11 @@ public interface MovementService {
     Map<LocalDate, List<MovementDTO>> findAllGroupedByDate();
     // 상태 업데이트
     List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate);
-<<<<<<< HEAD
+
     // 모바일 - gcode 로 데이터 조회
     List<MovementDTO> findByGcode(String gcode);
-=======
+
     
     public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate);
->>>>>>> 879e4877bfefd83084d08fb06d8412abba4f6dd5
+
 }

@@ -21,12 +21,11 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
     List<Movement> findAllByOrderByMovdateAsc(); // 날짜순으로 모든 이동 데이터를 찾기 위한 새로운 메서드
     List<Movement> findAllByOrderByMovdateDesc();
     
-<<<<<<< HEAD
+
     // 모바일 - gcode 로 데이터 조회
     List<Movement> findByGcode(String gcode);
-=======
+
     @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.movdate = :movdate")
     List<Object[]> findMovementsWithGoodsByMovdate(@Param("movdate") LocalDate movdate);
->>>>>>> 879e4877bfefd83084d08fb06d8412abba4f6dd5
     
 }
