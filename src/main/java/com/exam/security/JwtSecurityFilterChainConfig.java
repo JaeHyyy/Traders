@@ -45,7 +45,7 @@ public class JwtSecurityFilterChainConfig {
 	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc",
 	                		"/stock","/ordercart","/home/save","/images/items/{filename}","/images/**",
 	                		"/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-	                		"/updateLocation/**","/getLocation/**").permitAll()  // 회원가입 요청 허용.
+	                		"/updateLocation/**","/getLocation/**","/findgcode/**").permitAll()  // 회원가입 요청 허용.
 
 
 

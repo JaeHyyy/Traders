@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -31,9 +33,12 @@ public class Movement {
 	Long movcode;
 	Long ordercode;
 	String branchid;
-	String gcode;
 	LocalDate movdate;
 	Long movquantity;
 	String movstatus;
+	
+	@ManyToOne
+	@JoinColumn(name = "gcode", referencedColumnName = "gcode")
+	Goods goods;
 	
 }
