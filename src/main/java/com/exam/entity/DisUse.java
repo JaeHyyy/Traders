@@ -1,6 +1,6 @@
 package com.exam.entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,20 +25,22 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "stock")
-public class Stock {
+@Table(name = "disuse")
+public class DisUse {
 	
+	//int에 null이 들어갈수없어서 타입들을 클래스형태로 바꿔줌
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int stockid;
-	Integer stockquantity;
-	LocalDate expdate;
-	Integer gprice;
-	String loc1;
-	String loc2;
-	String loc3;
+	int disid;
+	Date disdate ;
 	
-	@ManyToOne
-	@JoinColumn(name = "gcode")
-	Goods goods;
+	//연관 테이블 참조
+	@OneToOne   //다대일
+	@JoinColumn(name = "stockid") //조인하는 컬럼
+	Stock stock;
+
+	
+
+	
+
 }
