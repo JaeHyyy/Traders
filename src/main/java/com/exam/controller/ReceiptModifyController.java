@@ -50,10 +50,7 @@ public class ReceiptModifyController {
         stockService.updateStockLocation(gcode, loc1, loc2, loc3);
     }
 	
-	@GetMapping("/findgcode")
-	public List<GoodsDTO> findByGcode(@RequestParam String gcode){
-		return goodsService.findByGcode(gcode);
-	}
+
 	
 	@GetMapping("/join")
 	public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(@RequestParam("movdate") LocalDate movdate){
