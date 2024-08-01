@@ -23,6 +23,7 @@ public class MovementServiceImpl implements MovementService {
     private static final Logger logger = LoggerFactory.getLogger(MovementServiceImpl.class);
 
     private final MovementRepository movementRepository;
+    private final ModelMapper mapper = new ModelMapper();
 
     public MovementServiceImpl(MovementRepository movementRepository) {
         this.movementRepository = movementRepository;
@@ -143,6 +144,16 @@ public class MovementServiceImpl implements MovementService {
         return updatedMovements.stream()
                 .map(movement -> modelMapper.map(movement, MovementDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    // 모바일 - gcode 로 데이터 조회
+    @Override
+    public List<MovementDTO> findByGcode(String gcode){
+        logger.debug("gcode로 이동 데이터를 조회하는 요청: {}", gcode);
+        List<Movement> list = movementRepository.findByGcode(gcode);
+        return list.stream()
+                   .map(e -> mapper.map(e, MovementDTO.class))
+                   .collect(Collectors.toList());
     }
 
 
