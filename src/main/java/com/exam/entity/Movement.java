@@ -32,13 +32,10 @@ public class Movement {
 	Long movidx;
 	Long movcode;
 	Long ordercode;
+	String gcode;
 	String branchid;
 	LocalDate movdate;
 	Long movquantity;
 	String movstatus;
-	
-	@ManyToOne
-	@JoinColumn(name = "gcode", referencedColumnName = "gcode")
-	Goods goods;
 	
 }

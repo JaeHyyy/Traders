@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.MovementDTO;
+import com.exam.dto.MovementGoodsDTO;
+import com.exam.dto.GoodsDTO; 
+import com.exam.entity.Goods;
 import com.exam.entity.Movement;
 import com.exam.repository.MovementRepository;
 
@@ -144,6 +147,24 @@ public class MovementServiceImpl implements MovementService {
                 .map(movement -> modelMapper.map(movement, MovementDTO.class))
                 .collect(Collectors.toList());
     }
+    
+    
+    @Override
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate) {
+        ModelMapper mapper = new ModelMapper();
+        List<Object[]> results = movementRepository.findMovementsWithGoodsByMovdate(movdate);
+        List<MovementGoodsDTO> movementGoodsList = results.stream()
+                .map(result -> {
+                    Movement movement = (Movement) result[0];
+                    Goods goods = (Goods) result[1];
+                    MovementDTO movementDTO = mapper.map(movement, MovementDTO.class);
+                    GoodsDTO goodsDTO = mapper.map(goods, GoodsDTO.class);
+                    return new MovementGoodsDTO(movementDTO, goodsDTO);
+                })
+                .collect(Collectors.toList());
+        return movementGoodsList;
+    }
+   
 
 
 }
