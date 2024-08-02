@@ -88,4 +88,10 @@ public class StockServiceImpl implements StockService{
 		return stockList;
 	}
 
+	// 모바일 - 상세정보페이지의 위치업데이트
+	@Override
+	public void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3) {
+		stockRepository.mobileUpdateLocationByGcode(gcode, loc1, loc2, loc3);
+	}
+
 }
