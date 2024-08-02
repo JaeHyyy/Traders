@@ -18,5 +18,8 @@ public interface StockService {
 
 	List<StockDTO> findByGoodsGcode(String gcode);
 	void updateStockLocation(String gcode, String loc1, String loc2, String loc3);
+	
+	// 모바일 - 상세정보페이지의 위치업데이트
+	void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3);
 
 }
