@@ -3,6 +3,7 @@ package com.exam.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +16,7 @@ import com.exam.service.StockService;
 
 @RestController
 @RequestMapping("/stock")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StockController {
 	
 	StockService stockService;
@@ -42,6 +43,14 @@ public class StockController {
         return stockService.findGcodeData(gcode);
     }
     
+
+    //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
+	@DeleteMapping("/delete/{stockid}")
+	public void delete(@PathVariable int stockid) {
+		stockService.delete(stockid);
+	} 
+    
+
     // 모바일 상세정보 페이지에서 위치정보 업데이트
     @PutMapping("/mobile-update-location")
     public void mobileUpdateLocation(@RequestParam String gcode,
@@ -50,5 +59,6 @@ public class StockController {
             @RequestParam String loc3) {
     	stockService.mobileUpdateStockLocation(gcode, loc1, loc2, loc3);
     }
+
 
 }
