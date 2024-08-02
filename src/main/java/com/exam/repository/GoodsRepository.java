@@ -27,6 +27,10 @@ public interface GoodsRepository extends JpaRepository<Goods, String> {
 	@Query("SELECT g FROM Goods g WHERE g.gname LIKE %:keyword% OR g.gcategory LIKE %:keyword% OR g.gcode LIKE %:keyword% OR CAST(g.gcostprice AS string) LIKE %:keyword%")
 	List<Goods> search (@Param("keyword") String keyword);
 	
-	List<Goods> findByGcode(String gcode);
-	
+
+	// 모바일용 - gcode 기준으로 데이터 찾기
+	Goods findByGcode(String gcode);
+
+
+
 }

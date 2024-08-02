@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -60,10 +61,10 @@ public class StockServiceImpl implements StockService{
                    .map(stock -> {
                        StockDTO stockDTO = mapper.map(stock, StockDTO.class);
                        GoodsDTO goodsDTO = mapper.map(stock.getGoods(), GoodsDTO.class);
-                       
                        stockDTO.setGoods(null); // goods 엔티티를 제거
                        stockDTO.setGoodsData(goodsDTO); // GoodsDTO를 StockDTO에 설정
-                       stockDTO.setGcode(goodsDTO.getGcode());
+                       stockDTO.setGcode(goodsDTO.getGcode()); // gcode 가져옴.
+                       goodsDTO.setGname(goodsDTO.getGname());
                        
                        return stockDTO;
                    })

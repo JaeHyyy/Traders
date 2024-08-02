@@ -20,11 +20,12 @@ import com.exam.repository.GoodsRepository;
 public class GoodsServiceImpl implements GoodsService {
 	
 	GoodsRepository goodsRepository;
+	ModelMapper modelMapper;
 
 
-
-	public GoodsServiceImpl(GoodsRepository goodsRepository) {
+	public GoodsServiceImpl(GoodsRepository goodsRepository, ModelMapper modelMapper) {
 		this.goodsRepository = goodsRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	//본사 상품 전체 조회
@@ -89,17 +90,28 @@ public class GoodsServiceImpl implements GoodsService {
        
         return goodsRepository.save(goods);
     }
-    
-    @Override
-	public List<GoodsDTO> findByGcode(String gcode) {
-		ModelMapper mapper = new ModelMapper();
-		List<Goods> list = goodsRepository.findByGcode(gcode);
-		
-		List<GoodsDTO> goodsList = list.stream()
-				.map(e->mapper.map(e, GoodsDTO.class))
-				.collect(Collectors.toList());
-		return goodsList;
+
+    // 모바일용 데이터 - 전체조회
+	@Override
+	public List<GoodsDTO> findAllData() {
+        // 저장소에서 모든 goods 데이터를 가져옵니다
+        List<Goods> goodsList = goodsRepository.findAll();
+        
+        // Goods 엔티티 리스트를 GoodsDTO 리스트로 변환합니다
+        return goodsList.stream()
+                        .map(goods -> modelMapper.map(goods, GoodsDTO.class))
+                        .collect(Collectors.toList());
+    }
+	
+	// 모바일용 데이터 - gcode 로 찾기
+	@Override
+	public GoodsDTO findByGcode(String gcode) {
+	    Goods goods = goodsRepository.findByGcode(gcode);
+	    return modelMapper.map(goods, GoodsDTO.class);
 	}
+
+    
+    
     
     
 }//end
