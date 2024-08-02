@@ -1,7 +1,7 @@
 package com.exam.service;
 
+import java.time.LocalDate;
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -26,11 +26,12 @@ public class StockServiceImpl implements StockService{
 		this.mapper = mapper;
 	}
 	
+	//stock테이블에서 유통기한 안 지난 재고 상품들만 보여주기
 	@Override
 	public List<StockDTO> findAll(){
 		ModelMapper mapper = new ModelMapper();
-		
-		List<Stock> list = stockRepository.findAll();
+		 LocalDate currentDate = LocalDate.now();
+		List<Stock> list = stockRepository.findAllValidStocks(currentDate);
 		List<StockDTO> stockList = list.stream()
 										 .map(e->mapper.map(e, StockDTO.class))
 										 .collect(Collectors.toList());
@@ -88,4 +89,13 @@ public class StockServiceImpl implements StockService{
 		return stockList;
 	}
 
-}
+	//유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
+	@Override
+	public void delete(int stockid) {
+	    Stock stock = stockRepository.findById(stockid).orElse(null);
+		if(stock!=null) {
+			stockRepository.delete(stock);
+		}
+	}
+
+}//end

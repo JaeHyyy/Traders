@@ -46,7 +46,7 @@ public class JwtSecurityFilterChainConfig {
 
 	                		"/stock","/ordercart/**","/home/save","/images/items/{filename}","/images/**",
 
-	                		"/stock","/ordercart","/home/save","/images/items/{filename}","/images/**",
+	                		"/stock/**","/ordercart","/home/save","/images/items/{filename}","/images/**",
 
 	                		"/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
 	                		"/updateLocation/**","/getLocation/**","/stock/**","/gcode-data/{gcode}"
