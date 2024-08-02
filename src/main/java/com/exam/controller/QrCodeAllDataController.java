@@ -27,7 +27,7 @@ public class QrCodeAllDataController {
     @Autowired
     private MovementService movementService;
 
-    @GetMapping("/qrcode")
+    @GetMapping("/qrcodedata")
     public ResponseEntity<ByteArrayResource> getQrCode() {
         try {
         	// movement 데이터 전체조회
