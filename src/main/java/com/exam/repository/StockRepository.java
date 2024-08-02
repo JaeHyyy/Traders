@@ -52,6 +52,11 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     List<Stock> findByGcode(String gcode);
 
 	List<Stock> findByGoodsGcode(String gcode);
+	
+	// 모바일 - 상세정보페이지 위치 업데이트
+    @Modifying
+    @Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3 WHERE s.goods.gcode = :gcode")
+    void mobileUpdateLocationByGcode(String gcode, String loc1, String loc2, String loc3);
 
 
 }

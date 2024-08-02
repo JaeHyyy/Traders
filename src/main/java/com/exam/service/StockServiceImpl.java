@@ -89,6 +89,7 @@ public class StockServiceImpl implements StockService{
 		return stockList;
 	}
 
+
 	//유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
 	@Override
 	public void delete(int stockid) {
@@ -98,4 +99,12 @@ public class StockServiceImpl implements StockService{
 		}
 	}
 
-}//end
+
+	// 모바일 - 상세정보페이지의 위치업데이트
+	@Override
+	public void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3) {
+		stockRepository.mobileUpdateLocationByGcode(gcode, loc1, loc2, loc3);
+	}
+
+}
+

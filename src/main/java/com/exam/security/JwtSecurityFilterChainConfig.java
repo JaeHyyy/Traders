@@ -53,7 +53,7 @@ public class JwtSecurityFilterChainConfig {
 	                		,"/goods", "/goods/{gcode}", "/movement/**",
 
 	                		"/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-	                		"/updateLocation/**","/getLocation/**","/findgcode/**","/join/**").permitAll()  // 회원가입 요청 허용.
+	                		"/updateLocation/**","/getLocation/**","/findgcode/**","/join/**","/mobile/main").permitAll()  // 회원가입 요청 허용.
 
 //	                		"/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
 //	                		"/updateLocation/**","/getLocation/**","/findgcode/**","/join/**").permitAll()  // 회원가입 요청 허용.
