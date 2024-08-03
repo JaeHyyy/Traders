@@ -228,6 +228,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -242,6 +243,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper; // ++
+import com.fasterxml.jackson.databind.ObjectMapper; // ++
 @RestController
 @RequestMapping("/api")
 public class QrCodeDivisionDataController4 {
@@ -287,17 +290,20 @@ public class QrCodeDivisionDataController4 {
 //        }
 //    }
     
-    // 물품상태업데이트(대기->완료)
-    @PostMapping("/updateStatuses")
-    public ResponseEntity<List<MovementDTO>> updateStatuses(@RequestBody List<MovementDTO> movementsToUpdate) {
-        try {
-            List<MovementDTO> updatedMovements = movementService.updateStatuses(movementsToUpdate);
-            return ResponseEntity.ok(updatedMovements);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).build();
-        }
-    }
+ // 물품상태업데이트(대기->완료)
+//    @PostMapping("/updateStatuses")
+//    public ResponseEntity<List<MovementDTO>> updateStatuses(@RequestBody List<MovementDTO> movementsToUpdate) {
+//        try {
+//            System.out.println("업데이트할 데이터: " + movementsToUpdate);
+//            List<MovementDTO> updatedMovements = movementService.updateStatuses(movementsToUpdate);
+//            return ResponseEntity.ok(updatedMovements);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
+
+    
    
 }
 
