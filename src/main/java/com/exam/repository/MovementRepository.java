@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.exam.dto.MovementGoodsDTO;
@@ -24,6 +25,10 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 
     // 모바일 - gcode 로 데이터 조회
     List<Movement> findByGcode(String gcode);
+    // 모바일 - 상태업데이트 ( 대기 -> 완료 )
+    @Modifying
+    @Query("UPDATE Movement m SET m.movstatus = :newStatus WHERE m.movidx = :movidx")
+    void updateMovStatus(@Param("movidx") Long movidx, @Param("newStatus") String newStatus);
 
     @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.movdate = :movdate")
     List<Object[]> findMovementsWithGoodsByMovdate(@Param("movdate") LocalDate movdate);

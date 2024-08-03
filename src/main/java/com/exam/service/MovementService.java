@@ -20,11 +20,11 @@ public interface MovementService {
 	public List<MovementDTO> findAllSortedByDate();
     // 날짜별로 데이터를 그룹화하여 반환
     Map<LocalDate, List<MovementDTO>> findAllGroupedByDate();
-    // 상태 업데이트
-    List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate);
 
     // 모바일 - gcode 로 데이터 조회
     List<MovementDTO> findByGcode(String gcode);
+    // 모바일 - status 변경 (대기 -> 완료)
+    void updateMovStatus(Long movidx, String newStatus);
 
     
     public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate);

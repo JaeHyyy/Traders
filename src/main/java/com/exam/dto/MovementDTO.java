@@ -28,5 +28,4 @@ public class MovementDTO {
 	long movquantity;
 	String movstatus;
 	long count; 
-
 }

@@ -14,6 +14,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 @Service
 public class QrCodeService {
+	
 	public byte[] generateQRCode(String text, int width, int height) throws Exception {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, Object> hints = new HashMap<>();
