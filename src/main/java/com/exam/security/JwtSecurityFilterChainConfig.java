@@ -43,11 +43,15 @@ public class JwtSecurityFilterChainConfig {
 
 	                auth.antMatchers("/","/signup","/login","/success","/users","/hello","/home", 
 	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc",
-	                		"/stock","/ordercart","/home/save","/images/items/{filename}","/images/**",
+
+	                		"/stock","/ordercart/**","/home/save","/images/items/{filename}","/images/**",
+
+	                		"/stock/**","/ordercart","/home/save","/images/items/{filename}","/images/**",
 
 	                		"/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
 	                		"/updateLocation/**","/getLocation/**","/stock/**","/gcode-data/{gcode}"
 	                		,"/goods", "/goods/{gcode}", "/movement/**",
+
 	                		"/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
 	                		"/updateLocation/**","/getLocation/**","/findgcode/**","/join/**","/mobile/main").permitAll()  // 회원가입 요청 허용.
 

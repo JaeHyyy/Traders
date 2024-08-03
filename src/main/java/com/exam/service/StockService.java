@@ -3,6 +3,8 @@ package com.exam.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.exam.dto.StockDTO;
 import com.exam.entity.Stock;
 
@@ -18,8 +20,9 @@ public interface StockService {
 
 	List<StockDTO> findByGoodsGcode(String gcode);
 	void updateStockLocation(String gcode, String loc1, String loc2, String loc3);
-	
+	public void delete(int stockid);
 	// 모바일 - 상세정보페이지의 위치업데이트
 	void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3);
+
 
 }
