@@ -28,5 +28,6 @@ public class DisUseDTO {
 	Date disdate;
 	StockDTO stock;
 	
+	
 
 }

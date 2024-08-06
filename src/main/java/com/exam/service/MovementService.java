@@ -13,7 +13,7 @@ public interface MovementService {
 	public List<MovementDTO> findAll();
 	public List<MovementDTO> findByOrdercode(Long ordercode);
 	public List<MovementDTO> findByMovdate(LocalDate movdate);
-	public List<MovementDTO> findGroupedByMovdate();
+	public List<MovementDTO> findGroupedByMovdate(String branchid);
 	public List<MovementDTO> findAllByOrderByMovdateDesc();
 	
 	// 날짜순으로 모든 데이터찾기

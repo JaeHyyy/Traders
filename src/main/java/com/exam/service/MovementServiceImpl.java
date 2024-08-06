@@ -59,7 +59,7 @@ public class MovementServiceImpl implements MovementService {
     }
 
     @Override
-    public List<MovementDTO> findGroupedByMovdate() {
+    public List<MovementDTO> findGroupedByMovdate(String branchid) {
         logger.debug("Request to find movements grouped by date");
         List<Object[]> results = movementRepository.findGroupedByMovdate();
 
