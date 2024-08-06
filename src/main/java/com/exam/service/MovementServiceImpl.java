@@ -126,29 +126,6 @@ public class MovementServiceImpl implements MovementService {
         logger.debug("Movements found for movdate {}: {}", movdate, movementList);
         return movementList;
     }
-
-    // 물품상태업데이트
-    @Override
-    public List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate) {
-        ModelMapper modelMapper = new ModelMapper();
-
-        List<Movement> movements = movementsToUpdate.stream()
-                .map(movementDTO -> {
-                    Movement movement = movementRepository.findById(movementDTO.getMovidx()).orElse(null); // movidx 사용
-                    if (movement != null) {
-                        movement.setMovstatus("완료");
-                    }
-                    return movement;
-                })
-                .collect(Collectors.toList());
-
-        List<Movement> updatedMovements = movementRepository.saveAll(movements);
-
-        return updatedMovements.stream()
-                .map(movement -> modelMapper.map(movement, MovementDTO.class))
-                .collect(Collectors.toList());
-    }
-    
     
     @Override
     public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate) {
@@ -176,6 +153,12 @@ public class MovementServiceImpl implements MovementService {
                    .map(e -> mapper.map(e, MovementDTO.class))
                    .collect(Collectors.toList());
     }
+
+    // 모바일 - status 변경 (대기 -> 완료)
+	@Override
+	public void updateMovStatus(Long movidx, String newStatus) {
+		movementRepository.updateMovStatus(movidx, newStatus);
+	}
 
 
 }

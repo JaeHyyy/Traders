@@ -1,13 +1,17 @@
 package com.exam.controller;
 
 import com.exam.dto.MovementDTO;
+
 import com.exam.service.MovementService;
 import com.exam.service.QrCodeService;
+import com.mysql.cj.log.Log;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -39,7 +44,8 @@ public class QrCodeController {
                     .collect(Collectors.joining("\n"));
             
             // 이동할 URL을 포함한 QR 코드 텍스트 생성 (ssg wifi : 10.10.10.197)
-            String qrCodeText = "http://10.10.10.197:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
+            String qrCodeText = "http://10.10.10.207:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
+//            String qrCodeText = "http://192.168.0.109:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
             
             // qr코드 이미지 생성
             byte[] qrCodeImage = qrCodeService.generateQRCode(qrCodeText, 250, 250);
@@ -53,5 +59,23 @@ public class QrCodeController {
             return ResponseEntity.badRequest().build();
         }
     }
+    
+    // 모바일 status 변경 (대기 -> 완료)
+    @PostMapping("/updateMovStatus")
+    public ResponseEntity<?> updateMovStatus(@RequestBody List<Map<String, Object>> itemsToUpdate) {
+        try {
+            for (Map<String, Object> item : itemsToUpdate) {
+                Long movidx = Long.parseLong((String) item.get("movidx"));
+                String newStatus = (String) item.get("newStatus");
+                movementService.updateMovStatus(movidx, newStatus);
+            }
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            System.out.println("Error updating movement statuses: "+ e);
+            return ResponseEntity.status(500).body("Error updating movement statuses: " + e.getMessage());
+        }
+    }
+
+
 	
 }
