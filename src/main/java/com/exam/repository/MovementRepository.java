@@ -12,9 +12,9 @@ import com.exam.dto.MovementGoodsDTO;
 import com.exam.entity.Movement;
 
 public interface MovementRepository extends JpaRepository<Movement, Long> {
-
-	List<Movement> findByOrdercode(Long ordercode);
-	List<Movement> findByMovdate(LocalDate movdate);
+	
+	@Query("SELECT m FROM Movement m WHERE m.branchid = :branchid AND m.movdate = :movdate")
+	List<Movement> findByMovdate(@Param("branchid") String branchid, LocalDate movdate);
 	
 	@Query("SELECT m.movdate, count(m) FROM Movement m WHERE m.branchid = :branchid GROUP BY m.movdate order by m.movdate desc")
     List<Object[]> findGroupedByMovdate(@Param("branchid") String branchid);
@@ -30,7 +30,7 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
     @Query("UPDATE Movement m SET m.movstatus = :newStatus WHERE m.movidx = :movidx")
     void updateMovStatus(@Param("movidx") Long movidx, @Param("newStatus") String newStatus);
 
-    @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.movdate = :movdate")
-    List<Object[]> findMovementsWithGoodsByMovdate(@Param("movdate") LocalDate movdate);
+    @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = :branchid AND m.movdate = :movdate")
+    List<Object[]> findMovementsWithGoodsByMovdate(@Param("branchid") String branchid, @Param("movdate") LocalDate movdate);
     
 }
