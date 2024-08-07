@@ -3,6 +3,7 @@ package com.exam.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import com.exam.service.DisUseService;
 
 @RestController
 @RequestMapping("/disuse")
-//@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
+@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
 public class DisUseController {
 	
 	DisUseService disUseService;
@@ -47,6 +48,12 @@ public class DisUseController {
             return ResponseEntity.status(500).body("Error occurred while moving expired stocks: " + e.getMessage());
         }
     }
+    //12시에 자동 실행 
+    @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
+    public void scheduleExpiredStock() {
+    	disUseService.moveExpiredStocksToDisuse();
+    }
+    
     
     //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
 	@DeleteMapping("/delete/{disid}")

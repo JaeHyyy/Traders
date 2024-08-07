@@ -8,8 +8,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -21,12 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.exam.config.SecurityConfig;
 import com.exam.dto.UserDTO;
 import com.exam.entity.User;
 import com.exam.security.JwtTokenResponse;
@@ -52,7 +48,6 @@ public class UserController {
             @RequestParam("branchId") String branchId,
             @RequestParam("passwd") String passwd,
             @RequestParam("branchName") String branchName,
-            @RequestParam("nickname") String nickname,
             @RequestParam("branchNum") String branchNum,
             @RequestParam("post") String post,
             @RequestParam("addr1") String addr1,
@@ -78,7 +73,6 @@ public class UserController {
             userDTO.setBranchId(branchId);
             userDTO.setPasswd(encryptedPassword);
             userDTO.setBranchName(branchName);
-//            userDTO.setNickname(nickname);
             userDTO.setBranchNum(branchNum);
             userDTO.setPost(post);
             userDTO.setAddr1(addr1);
@@ -141,4 +135,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
+
 }
