@@ -40,33 +40,21 @@ public class JwtSecurityFilterChainConfig {
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
 	                .authorizeHttpRequests(auth ->
-//	                auth.antMatchers("/signup", "/login").permitAll()
-	                
-	              auth.antMatchers("/","/signup","/login","/success","/users","/hello","/home", 
-	              "/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc",
-	              
-	              "/stock","/ordercart/**","/home/save","/images/items/{filename}","/images/**",
-	              
-	              "/stock/**","/ordercart","/home/save","/images/items/{filename}","/images/**",
-	              
-	              "/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-	              "/updateLocation/**","/getLocation/**","/stock/**","/gcode-data/{gcode}"
-	              ,"/goods", "/goods/{gcode}", "/movement/**",
-	              
-	              "/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-	              "/updateLocation/**","/getLocation/**","/findgcode/**","/join/**","/mobile/main").permitAll()  // 회원가입 요청 허용.
+	                auth.antMatchers("/signup","/login").permitAll()
+//	                		,"/success","/users","/hello","/home", 
+//	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc",
+//
+//	                		"/stock","/ordercart/**","/home/save","/images/items/{filename}","/images/**",
+//
+//	                		"/stock/**","/ordercart","/home/save","/images/items/{filename}","/images/**",
+//
+//	                		"/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
+//	                		"/updateLocation/**","/getLocation/**","/stock/**","/gcode-data/{gcode}"
+//	                		,"/goods", "/goods/{gcode}", "/movement/**",
+//
+//	                		"/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
+//	                		"/updateLocation/**","/getLocation/**","/findgcode/**","/join/**","/mobile/main").permitAll()  // 회원가입 요청 허용.
 
-//	              "/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-//	              "/updateLocation/**","/getLocation/**","/findgcode/**","/join/**").permitAll()  // 회원가입 요청 허용.
-
-
-
-
-	              //"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc", "/stock/**","/gcode-data/{gcode}",
-	              //"/ordercart","/home/save","/images/items/{filename}","/images/**").permitAll()  // 회원가입 요청 허용.
-	                
-	                
-	                
 	                    .antMatchers("/authenticate").permitAll()
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
