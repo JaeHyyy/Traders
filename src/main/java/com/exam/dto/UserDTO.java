@@ -19,7 +19,7 @@ public class UserDTO {
 	
 	String passwd; // 비밀번호
 	String branchName; // 사업자명
-	String nickname; // 닉네임
+//	String nickname; // 닉네임
 	String branchNum; // 사업자번호
 	String branchImage; // 사업자등록증
 	String post; // 우편번호

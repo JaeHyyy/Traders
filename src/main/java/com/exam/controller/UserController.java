@@ -46,24 +46,6 @@ public class UserController {
         this.jwtTokenService = jwtTokenService;
     }
 
-//    // 회원가입
-//    @PostMapping("/signup")
-//    public ResponseEntity<?> signup(@RequestBody UserDTO userDTO) {
-//        try {
-//            log.debug("Received signup request: {}", userDTO);
-//
-//            // 비밀번호 암호화
-//            String encryptedPassword = new BCryptPasswordEncoder().encode(userDTO.getPasswd());
-//            userDTO.setPasswd(encryptedPassword);
-//
-//            userService.save(userDTO);
-//
-//            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
-//        } catch (Exception e) {
-//            log.error("Signup error: ", e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Signup failed: " + e.getMessage());
-//        }
-//    }
     
     @PostMapping("/signup")
     public ResponseEntity<String> signup(
@@ -96,7 +78,7 @@ public class UserController {
             userDTO.setBranchId(branchId);
             userDTO.setPasswd(encryptedPassword);
             userDTO.setBranchName(branchName);
-            userDTO.setNickname(nickname);
+//            userDTO.setNickname(nickname);
             userDTO.setBranchNum(branchNum);
             userDTO.setPost(post);
             userDTO.setAddr1(addr1);
@@ -159,17 +141,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
-    
-    // 로그인 성공시 뜨도록 했는데 react 서버를 띄우면 될려나..?
-	@GetMapping("/success")
-	public String login_success() {
-		log.debug("logger:{}", "hello");
-		return "hello world";
-	}
-	
-
-//    @GetMapping("/hello") // 테스트를 위해 보안 없이 접근 가능하도록 설정
-//    public List<UserDTO> findAll() {
-//        return userService.findAll();
-//    }
 }
