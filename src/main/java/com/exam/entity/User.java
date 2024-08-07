@@ -32,7 +32,7 @@ public class User {
 
     @Column(name = "branchname")
     private String branchName; // 사업자명
-
+    
     @Column(name = "branchnum")
     private String branchNum; // 사업자번호
 

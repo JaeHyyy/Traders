@@ -17,4 +17,7 @@ public interface OrderCartService {
 	void saveAll(List<OrderCartDTO> dtos);
 	public void delete( int ordercode);
 	public void update(int ordercode,OrderCartDTO dto);
+	
+	// branchId 로 OrderCart 조회
+	List<OrderCartDTO> findByBranchId(String branchId);
 }
