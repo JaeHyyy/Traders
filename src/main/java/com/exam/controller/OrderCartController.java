@@ -57,20 +57,11 @@ public class OrderCartController {
 		orderCartService.update(ordercode, dto);
 	}
 	
-	
 
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-
-
-	
+	// branchId 로 OrderCart 조회
+    @GetMapping("/branch/{branchId}")
+    public List<OrderCartDTO> findByBranchId(@PathVariable String branchId) {
+        return orderCartService.findByBranchId(branchId);
+    }
 	
 }

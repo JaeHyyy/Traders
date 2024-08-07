@@ -17,6 +17,7 @@ import com.exam.repository.OrderCartRepository;
 public class OrderCartServiceImpl implements OrderCartService {
 	
 	OrderCartRepository orderCartRepository;
+    ModelMapper mapper = new ModelMapper();
 
 	public OrderCartServiceImpl(OrderCartRepository orderCartRepository) {
 		this.orderCartRepository = orderCartRepository;
@@ -80,6 +81,13 @@ public class OrderCartServiceImpl implements OrderCartService {
 		orderCartRepository.save(orderCart);
 		}
 	}
+	
+	// branchId 로 OrderCart 조회
+    @Override
+    public List<OrderCartDTO> findByBranchId(String branchId) {
+        List<OrderCart> list = orderCartRepository.findByBranchId(branchId);
+        return list.stream().map(e -> mapper.map(e, OrderCartDTO.class)).collect(Collectors.toList());
+    }
 	
 	
 	
