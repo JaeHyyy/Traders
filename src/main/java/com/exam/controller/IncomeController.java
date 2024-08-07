@@ -24,11 +24,6 @@ public class IncomeController {
 		return movementService.findAll();
 	}
 	
-	@GetMapping("/{ordercode}")
-	public List<MovementDTO> findByOrdercode(@PathVariable Long ordercode){
-		return movementService.findByOrdercode(ordercode);
-	}
-	
 	@GetMapping("/{branchid}/receipt")
 	public List<MovementDTO> findGroupedByMovdate(@PathVariable String branchid){
 		return movementService.findGroupedByMovdate(branchid);

@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,11 +35,11 @@ public class QrCodeController {
         this.movementService = movementService;
     }
 
-    @GetMapping("/qrcode")
-    public ResponseEntity<byte[]> generateQRCode(@RequestParam("date") String date) {
+    @GetMapping("/{branchid}/qrcode")
+    public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date) {
         try {
             LocalDate movdate = LocalDate.parse(date);
-            List<MovementDTO> movements = movementService.findByMovdate(movdate);
+            List<MovementDTO> movements = movementService.findByMovdate(branchid, movdate);
             String text = movements.stream()
                     .map(MovementDTO::toString)
                     .collect(Collectors.joining("\n"));
