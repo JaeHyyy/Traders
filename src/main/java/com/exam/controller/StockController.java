@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.exam.dto.OrderCartDTO;
 import com.exam.dto.StockDTO;
 import com.exam.service.StockService;
 
 @RestController
 @RequestMapping("/stock")
-@CrossOrigin(origins = "http://localhost:3000")
 public class StockController {
 	
 	StockService stockService;
@@ -25,12 +25,11 @@ public class StockController {
 		this.stockService = stockService;
 	}
 	
-	@GetMapping
+	@GetMapping()
 	public List<StockDTO> findAll(){
 		return stockService.findAll();
 	}
 
-	
 	// stock 테이블 + goods 테이블
     @GetMapping("/all-data")
     public List<StockDTO> findAllData() {
@@ -58,6 +57,12 @@ public class StockController {
             @RequestParam String loc2,
             @RequestParam String loc3) {
     	stockService.mobileUpdateStockLocation(gcode, loc1, loc2, loc3);
+    }
+    
+	// branchId 로 Stock 조회
+    @GetMapping("/branch/{branchId}")
+    public List<StockDTO> findByBranchIdStock(@PathVariable String branchId) {
+        return stockService.findByBranchIdStock(branchId);
     }
 
 

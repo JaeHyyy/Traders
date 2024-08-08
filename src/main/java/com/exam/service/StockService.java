@@ -23,6 +23,9 @@ public interface StockService {
 	public void delete(int stockid);
 	// 모바일 - 상세정보페이지의 위치업데이트
 	void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3);
+	
+	// branchId 로 Stock 조회
+	public List<StockDTO> findByBranchIdStock(String branchId);
 
 
 }

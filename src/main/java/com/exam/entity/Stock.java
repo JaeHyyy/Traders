@@ -3,6 +3,7 @@ package com.exam.entity;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,4 +41,8 @@ public class Stock {
 	@ManyToOne
 	@JoinColumn(name = "gcode")
 	Goods goods;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branchid", referencedColumnName = "branchId")
+    private User user;
 }
