@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.GoodsDTO;
+import com.exam.dto.OrderCartDTO;
 import com.exam.dto.StockDTO;
+import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
 import com.exam.repository.StockRepository;
 
@@ -105,6 +107,17 @@ public class StockServiceImpl implements StockService{
 	public void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3) {
 		stockRepository.mobileUpdateLocationByGcode(gcode, loc1, loc2, loc3);
 	}
+	
+	// branchId 로 Stock 조회
+    @Override
+    public List<StockDTO> findByBranchIdStock(String branchId) {
+    	 ModelMapper mapper = new ModelMapper();
+         LocalDate currentDate = LocalDate.now();
+         List<Stock> list = stockRepository.findByBranchIdStock(currentDate, branchId);
+         return list.stream()
+                    .map(e -> mapper.map(e, StockDTO.class))
+                    .collect(Collectors.toList());
 
 }
+}//end
 
