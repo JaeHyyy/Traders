@@ -11,8 +11,7 @@ import com.exam.dto.MovementGoodsDTO;
 public interface MovementService {
 	
 	public List<MovementDTO> findAll();
-	public List<MovementDTO> findByOrdercode(Long ordercode);
-	public List<MovementDTO> findByMovdate(LocalDate movdate);
+	public List<MovementDTO> findByMovdate(String branchid, LocalDate movdate);
 	public List<MovementDTO> findGroupedByMovdate(String branchid);
 	public List<MovementDTO> findAllByOrderByMovdateDesc();
 	
@@ -27,6 +26,6 @@ public interface MovementService {
     void updateMovStatus(Long movidx, String newStatus);
 
     
-    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate);
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(String branchid, LocalDate movdate);
 
 }

@@ -2,6 +2,7 @@ package com.exam.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,9 +37,9 @@ public class OrderCart {
 	@ManyToOne   //다대일
 	@JoinColumn(name = "gcode") //조인하는 컬럼
 	Goods goods;
-
-	
-
-	
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branchid", referencedColumnName = "branchId")
+    private User user;
 
 }
