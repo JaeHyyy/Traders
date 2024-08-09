@@ -3,6 +3,7 @@ package com.exam.entity;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,6 +39,10 @@ public class DisUse {
 	@OneToOne   //다대일
 	@JoinColumn(name = "stockid") //조인하는 컬럼
 	Stock stock;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branchid", referencedColumnName = "branchId")
+    private User user;
 
 	
 
