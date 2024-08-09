@@ -11,22 +11,21 @@ import com.exam.dto.MovementGoodsDTO;
 public interface MovementService {
 	
 	public List<MovementDTO> findAll();
-	public List<MovementDTO> findByOrdercode(Long ordercode);
-	public List<MovementDTO> findByMovdate(LocalDate movdate);
-	public List<MovementDTO> findGroupedByMovdate();
+	public List<MovementDTO> findByMovdate(String branchid, LocalDate movdate);
+	public List<MovementDTO> findGroupedByMovdate(String branchid);
 	public List<MovementDTO> findAllByOrderByMovdateDesc();
 	
 	// 날짜순으로 모든 데이터찾기
 	public List<MovementDTO> findAllSortedByDate();
     // 날짜별로 데이터를 그룹화하여 반환
     Map<LocalDate, List<MovementDTO>> findAllGroupedByDate();
-    // 상태 업데이트
-    List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate);
-<<<<<<< HEAD
+
     // 모바일 - gcode 로 데이터 조회
     List<MovementDTO> findByGcode(String gcode);
-=======
+    // 모바일 - status 변경 (대기 -> 완료)
+    void updateMovStatus(Long movidx, String newStatus);
+
     
-    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate);
->>>>>>> 879e4877bfefd83084d08fb06d8412abba4f6dd5
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(String branchid, LocalDate movdate);
+
 }

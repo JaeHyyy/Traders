@@ -1,7 +1,7 @@
 package com.exam.service;
 
+import java.time.LocalDate;
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.GoodsDTO;
+import com.exam.dto.OrderCartDTO;
 import com.exam.dto.StockDTO;
+import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
 import com.exam.repository.StockRepository;
 
@@ -26,11 +28,12 @@ public class StockServiceImpl implements StockService{
 		this.mapper = mapper;
 	}
 	
+	//stock테이블에서 유통기한 안 지난 재고 상품들만 보여주기
 	@Override
 	public List<StockDTO> findAll(){
 		ModelMapper mapper = new ModelMapper();
-		
-		List<Stock> list = stockRepository.findAll();
+		 LocalDate currentDate = LocalDate.now();
+		List<Stock> list = stockRepository.findAllValidStocks(currentDate);
 		List<StockDTO> stockList = list.stream()
 										 .map(e->mapper.map(e, StockDTO.class))
 										 .collect(Collectors.toList());
@@ -88,4 +91,33 @@ public class StockServiceImpl implements StockService{
 		return stockList;
 	}
 
+
+	//유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
+	@Override
+	public void delete(int stockid) {
+	    Stock stock = stockRepository.findById(stockid).orElse(null);
+		if(stock!=null) {
+			stockRepository.delete(stock);
+		}
+	}
+
+
+	// 모바일 - 상세정보페이지의 위치업데이트
+	@Override
+	public void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3) {
+		stockRepository.mobileUpdateLocationByGcode(gcode, loc1, loc2, loc3);
+	}
+	
+	// branchId 로 Stock 조회
+    @Override
+    public List<StockDTO> findByBranchIdStock(String branchId) {
+    	 ModelMapper mapper = new ModelMapper();
+         LocalDate currentDate = LocalDate.now();
+         List<Stock> list = stockRepository.findByBranchIdStock(currentDate, branchId);
+         return list.stream()
+                    .map(e -> mapper.map(e, StockDTO.class))
+                    .collect(Collectors.toList());
+
 }
+}//end
+

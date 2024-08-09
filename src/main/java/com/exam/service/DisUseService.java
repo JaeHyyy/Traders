@@ -16,7 +16,8 @@ public interface DisUseService {
 
 	public List<DisUseDTO> findAll();
 	 void moveExpiredStocksToDisuse();
-//	void saveAll(List<OrderCartDTO> dtos);
-//	public void delete( int ordercode);
-//	public void update(int ordercode,OrderCartDTO dto);
+	 public void delete(int disid);
+	 public void update(int disid, DisUseDTO dto);
+	 public List<DisUseDTO> findByBranchIdDisuse(String branchId);
+
 }

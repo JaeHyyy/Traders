@@ -45,23 +45,11 @@ public class MovementServiceImpl implements MovementService {
         return movementList;
     }
 
-    @Override
-    public List<MovementDTO> findByOrdercode(Long ordercode){
-        logger.debug("Request to find movements by ordercode: {}", ordercode);
-        ModelMapper mapper = new ModelMapper();
-        
-        List<Movement> list = movementRepository.findByOrdercode(ordercode);
-        List<MovementDTO> movementList = list.stream()
-                                              .map(e->mapper.map(e, MovementDTO.class))
-                                              .collect(Collectors.toList());
-        logger.debug("Movements found for ordercode {}: {}", ordercode, movementList);
-        return movementList;
-    }
 
     @Override
-    public List<MovementDTO> findGroupedByMovdate() {
+    public List<MovementDTO> findGroupedByMovdate(String branchid) {
         logger.debug("Request to find movements grouped by date");
-        List<Object[]> results = movementRepository.findGroupedByMovdate();
+        List<Object[]> results = movementRepository.findGroupedByMovdate(branchid);
 
         List<MovementDTO> groupedMovements = results.stream()
                                                     .map(result -> MovementDTO.builder()
@@ -115,45 +103,22 @@ public class MovementServiceImpl implements MovementService {
     }
     
     @Override
-    public List<MovementDTO> findByMovdate(LocalDate movdate) {
+    public List<MovementDTO> findByMovdate(String branchid, LocalDate movdate) {
         logger.debug("Request to find movements by movdate: {}", movdate);
         ModelMapper mapper = new ModelMapper();
         
-        List<Movement> list = movementRepository.findByMovdate(movdate);
+        List<Movement> list = movementRepository.findByMovdate(branchid, movdate);
         List<MovementDTO> movementList = list.stream()
                                               .map(e -> mapper.map(e, MovementDTO.class))
                                               .collect(Collectors.toList());
         logger.debug("Movements found for movdate {}: {}", movdate, movementList);
         return movementList;
     }
-
-    // 물품상태업데이트
-    @Override
-    public List<MovementDTO> updateStatuses(List<MovementDTO> movementsToUpdate) {
-        ModelMapper modelMapper = new ModelMapper();
-
-        List<Movement> movements = movementsToUpdate.stream()
-                .map(movementDTO -> {
-                    Movement movement = movementRepository.findById(movementDTO.getMovidx()).orElse(null); // movidx 사용
-                    if (movement != null) {
-                        movement.setMovstatus("완료");
-                    }
-                    return movement;
-                })
-                .collect(Collectors.toList());
-
-        List<Movement> updatedMovements = movementRepository.saveAll(movements);
-
-        return updatedMovements.stream()
-                .map(movement -> modelMapper.map(movement, MovementDTO.class))
-                .collect(Collectors.toList());
-    }
-    
     
     @Override
-    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(LocalDate movdate) {
+    public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(String branchid, LocalDate movdate) {
         ModelMapper mapper = new ModelMapper();
-        List<Object[]> results = movementRepository.findMovementsWithGoodsByMovdate(movdate);
+        List<Object[]> results = movementRepository.findMovementsWithGoodsByMovdate(branchid, movdate);
         List<MovementGoodsDTO> movementGoodsList = results.stream()
                 .map(result -> {
                     Movement movement = (Movement) result[0];
@@ -176,6 +141,12 @@ public class MovementServiceImpl implements MovementService {
                    .map(e -> mapper.map(e, MovementDTO.class))
                    .collect(Collectors.toList());
     }
+
+    // 모바일 - status 변경 (대기 -> 완료)
+	@Override
+	public void updateMovStatus(Long movidx, String newStatus) {
+		movementRepository.updateMovStatus(movidx, newStatus);
+	}
 
 
 }

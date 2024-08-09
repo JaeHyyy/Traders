@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,9 +31,9 @@ public class ReceiptModifyController {
 	}
 	
 	
-	@GetMapping("/receiptmodify")
-    public List<MovementDTO> findByMovdate(@RequestParam("movdate") LocalDate movdate) {
-        return movementService.findByMovdate(movdate);
+	@GetMapping("/{branchid}/receiptmodify")
+    public List<MovementDTO> findByMovdate(@PathVariable String branchid, @RequestParam("movdate") LocalDate movdate) {
+        return movementService.findByMovdate(branchid, movdate);
     }
 	
 	@GetMapping("/getLocation")
@@ -50,14 +51,11 @@ public class ReceiptModifyController {
         stockService.updateStockLocation(gcode, loc1, loc2, loc3);
     }
 	
-	@GetMapping("/findgcode")
-	public List<GoodsDTO> findByGcode(@RequestParam String gcode){
-		return goodsService.findByGcode(gcode);
-	}
+
 	
-	@GetMapping("/join")
-	public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(@RequestParam("movdate") LocalDate movdate){
-		return movementService.findMovementsWithGoodsByMovdate(movdate);
+	@GetMapping("/{branchid}/join")
+	public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(@PathVariable String branchid, @RequestParam("movdate") LocalDate movdate){
+		return movementService.findMovementsWithGoodsByMovdate(branchid, movdate);
 	}
     
 	

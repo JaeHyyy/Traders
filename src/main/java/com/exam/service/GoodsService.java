@@ -17,12 +17,10 @@ public interface GoodsService {
 	public List<GoodsDTO> search(String keyword);
 	public Goods save(GoodsDTO goodsDTO, MultipartFile file);
 	
-<<<<<<< HEAD
+
 	// 모바일용 데이터 - 전체조회
 	public List<GoodsDTO> findAllData();
 	// 모바일용 데이터 - gcode 기준으로 찾기
 	GoodsDTO findByGcode(String gcode);
-=======
-	public List<GoodsDTO> findByGcode(String gcode);
->>>>>>> 879e4877bfefd83084d08fb06d8412abba4f6dd5
+
 }
