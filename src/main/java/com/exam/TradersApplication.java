@@ -37,10 +37,6 @@ public class TradersApplication extends SpringBootServletInitializer{
 							"http://192.168.0.109:8090/**",
 							"http://10.10.10.170:8090/**",
 							"*");
-//					.allowedOrigins("http://localhost:3000")
-//					.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//		            .allowedHeaders("*")
-//		            .allowCredentials(true);
 			}
 		};
 	}
