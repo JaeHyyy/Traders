@@ -14,10 +14,10 @@ import com.exam.entity.Goods;
 
 public interface DisUseService {
 
-	public List<DisUseDTO> findAll();
+
 	 void moveExpiredStocksToDisuse();
-	 public void delete(int disid);
-	 public void update(int disid, DisUseDTO dto);
+	 public void deleteByBranchIdDisuse(int disid,String branchId);
+	 public void updateByBranchIdDisuse(int disid,String branchId,DisUseDTO dto);
 	 public List<DisUseDTO> findByBranchIdDisuse(String branchId);
 
 }
