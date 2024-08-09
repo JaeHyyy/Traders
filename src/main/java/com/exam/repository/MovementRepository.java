@@ -32,5 +32,4 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 
     @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = :branchid AND m.movdate = :movdate")
     List<Object[]> findMovementsWithGoodsByMovdate(@Param("branchid") String branchid, @Param("movdate") LocalDate movdate);
-    
 }

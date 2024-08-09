@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,32 +37,64 @@ public class OrderCartController {
 		return orderCartService.findAll();
 	}
 	
-	//메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장 
-	@Transactional
-	 @PostMapping("/saveAll")
-	    public ResponseEntity<String> saveAll(@RequestBody List<OrderCartDTO> dtos) {
-		 System.out.println("Received OrderCartDTOs: " + dtos); // 요청된 데이터 로그
-	        orderCartService.saveAll(dtos);
-	        return ResponseEntity.ok("OrderCartDTOs saved successfully");
-	    }
-	
-	//발주하기 페이지에서 선택 후 담았던 상품 삭제 
-	@DeleteMapping("/delete/{ordercode}")
-	public void delete(@PathVariable int ordercode) {
-		orderCartService.delete(ordercode);
-	}
-	
-	//발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
-	@PutMapping("/update/{ordercode}")
-	public void update(@PathVariable int ordercode, @RequestBody OrderCartDTO dto) {
-		orderCartService.update(ordercode, dto);
-	}
-	
+//	//메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장 
+//	@Transactional
+//	 @PostMapping("/saveAll")
+//	    public ResponseEntity<String> saveAll(@RequestBody List<OrderCartDTO> dtos) {
+//		 System.out.println("Received OrderCartDTOs: " + dtos); // 요청된 데이터 로그
+//	        orderCartService.saveAll(dtos);
+//	        return ResponseEntity.ok("OrderCartDTOs saved successfully");
+//	    }
+//	
+//	//발주하기 페이지에서 선택 후 담았던 상품 삭제 
+//	@DeleteMapping("/delete/{ordercode}")
+//	public void delete(@PathVariable int ordercode) {
+//		orderCartService.delete(ordercode);
+//	}
+//	
+//	//발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
+//	@PutMapping("/update/{ordercode}")
+//	public void update(@PathVariable int ordercode, 
+//			@RequestBody OrderCartDTO dto) {
+//		orderCartService.update(ordercode, dto);
+//	}
+//	
 
+	// ------- ▼ security 적용후 -------------------------------------------------------
+	
 	// branchId 로 OrderCart 조회
     @GetMapping("/branch/{branchId}")
     public List<OrderCartDTO> findByBranchId(@PathVariable String branchId) {
         return orderCartService.findByBranchId(branchId);
+    }
+    
+    //메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장
+    @Transactional
+    @PostMapping("/saveAll/{branchId}")
+    public ResponseEntity<String> saveAll(@PathVariable String branchId, @RequestBody List<OrderCartDTO> dtos) {
+        try {
+            if (dtos == null || dtos.isEmpty()) {
+                return ResponseEntity.badRequest().body("OrderCartDTOs are empty or null");
+            }
+            orderCartService.saveAll(branchId, dtos);
+            return ResponseEntity.ok("OrderCartDTOs saved successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
+
+
+    //발주하기 페이지에서 선택 후 담았던 상품 삭제 
+    @DeleteMapping("/delete/{branchId}/{ordercode}")
+    public void delete(@PathVariable String branchId, @PathVariable int ordercode) {
+        orderCartService.delete(branchId, ordercode);
+    }
+
+    //발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
+    @PutMapping("/update/{branchId}/{ordercode}")
+    public void update(@PathVariable String branchId, @PathVariable int ordercode, @RequestBody OrderCartDTO dto) {
+        orderCartService.update(branchId, ordercode, dto);
     }
 	
 }
