@@ -10,11 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.exam.dto.DisUseDTO;
 import com.exam.entity.DisUse;
-import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
 import com.exam.repository.DisUseRepository;
 import com.exam.repository.StockRepository;
@@ -26,6 +24,7 @@ public class DisUseServiceImpl implements DisUseService {
 	StockRepository stockRepository;
 	@Autowired
 	DisUseRepository disUseRepository;
+	
 
 	public DisUseServiceImpl(DisUseRepository disUseRepository) {
 		this.disUseRepository = disUseRepository;
@@ -134,6 +133,19 @@ public class DisUseServiceImpl implements DisUseService {
 			disUse.setDisdate(dto.getDisdate());
 			disUseRepository.save(disUse);
 	     }
+	}
+
+	// branchId 로 disuse 조회
+	@Override
+	public List<DisUseDTO> findByBranchIdDisuse(String branchId) {
+		 ModelMapper mapper = new ModelMapper();
+			
+		 List<DisUse> list = disUseRepository.findByBranchIdDisuse(branchId);
+			
+		 List<DisUseDTO> disuseList = list.stream()
+					.map(e->mapper.map(e, DisUseDTO.class))
+					.collect(Collectors.toList());
+			return disuseList;
 	}
 
 	

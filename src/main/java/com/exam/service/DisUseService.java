@@ -18,5 +18,6 @@ public interface DisUseService {
 	 void moveExpiredStocksToDisuse();
 	 public void delete(int disid);
 	 public void update(int disid, DisUseDTO dto);
+	 public List<DisUseDTO> findByBranchIdDisuse(String branchId);
 
 }

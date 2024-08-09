@@ -19,7 +19,7 @@ import com.exam.service.DisUseService;
 
 @RestController
 @RequestMapping("/disuse")
-@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
+//@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
 public class DisUseController {
 	
 	DisUseService disUseService;
@@ -66,6 +66,14 @@ public class DisUseController {
 	public void update(@PathVariable int disid, @RequestBody DisUseDTO dto) {
 		disUseService.update(disid, dto);
 	}
+	
+	
+	// branchId 로 disuse 조회
+    @GetMapping("/branch/{branchId}")
+    public List<DisUseDTO> findByBranchIdDisuse(@PathVariable String branchId) {
+        return disUseService.findByBranchIdDisuse(branchId);
+    }
+
 	
 	
 
