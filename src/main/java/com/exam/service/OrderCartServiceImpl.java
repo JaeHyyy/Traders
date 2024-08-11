@@ -6,17 +6,23 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.OrderCartDTO;
 import com.exam.entity.OrderCart;
+import com.exam.entity.User;
 import com.exam.repository.OrderCartRepository;
+import com.exam.repository.UserRepository;
 
 @Service
 @Transactional
 public class OrderCartServiceImpl implements OrderCartService {
 	
 	OrderCartRepository orderCartRepository;
+	
+	@Autowired
+	UserRepository userRepository;
     ModelMapper mapper = new ModelMapper();
 
 	public OrderCartServiceImpl(OrderCartRepository orderCartRepository) {
@@ -38,50 +44,51 @@ public class OrderCartServiceImpl implements OrderCartService {
 	}
 
 
-	//메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장 
-    @Override
-    public void saveAll(List<OrderCartDTO> dtos) {
-        ModelMapper mapper = new ModelMapper();
-        // 받아온 dto 출력
-        System.out.println("Received OrderCartDTOs: " + dtos);
-        List<OrderCart> orderCarts = dtos.stream()
-        		                 .map(dto -> {
-                     // 매핑 전 dto 출력
-                     System.out.println("Mapping OrderCartDTO: " + dto);
-                     OrderCart orderCart = mapper.map(dto, OrderCart.class);
-                     // 매핑 후 orderCartㄴ 출력
-                     System.out.println("Mapped OrderCart entity: " + orderCart);
-                     return orderCart;
-                 })
-                                 .collect(Collectors.toList());
-        orderCartRepository.saveAll(orderCarts);	
-        System.out.println("Saved OrderCarts: " + orderCarts);
-    }
-
-    
-     //발주하기 페이지에서 선택 후 담았던 상품 삭제 
-	@Override
-	public void delete(int ordercode) {
-		OrderCart orderCart = orderCartRepository.findById(ordercode).orElse(null);
-		if(orderCart!=null) {
-			orderCartRepository.delete(orderCart);
-		}
-		
-	}
-
+//	//메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장 
+//    @Override
+//    public void saveAll(List<OrderCartDTO> dtos) {
+//        ModelMapper mapper = new ModelMapper();
+//        // 받아온 dto 출력
+//        System.out.println("Received OrderCartDTOs: " + dtos);
+//        List<OrderCart> orderCarts = dtos.stream()
+//        		                 .map(dto -> {
+//                     // 매핑 전 dto 출력
+//                     System.out.println("Mapping OrderCartDTO: " + dto);
+//                     OrderCart orderCart = mapper.map(dto, OrderCart.class);
+//                     // 매핑 후 orderCartㄴ 출력
+//                     System.out.println("Mapped OrderCart entity: " + orderCart);
+//                     return orderCart;
+//                 })
+//                                 .collect(Collectors.toList());
+//        orderCartRepository.saveAll(orderCarts);	
+//        System.out.println("Saved OrderCarts: " + orderCarts);
+//    }
+//
+//    
+//     //발주하기 페이지에서 선택 후 담았던 상품 삭제 
+//	@Override
+//	public void delete(int ordercode) {
+//		OrderCart orderCart = orderCartRepository.findById(ordercode).orElse(null);
+//		if(orderCart!=null) {
+//			orderCartRepository.delete(orderCart);
+//		}
+//		
+//	}
+//
+//	
+//	//발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
+//	@Override
+//	public void update(int ordercode, OrderCartDTO dto) {
+//		//우선 찾기 먼저 하고
+//		OrderCart orderCart = orderCartRepository.findById(ordercode).orElse(null);
+//		//더티체킹(수정)
+//		if (orderCart != null) {
+//		orderCart.setGcount(dto.getGcount());
+//		orderCartRepository.save(orderCart);
+//		}
+//	}
 	
-	//발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
-	@Override
-	public void update(int ordercode, OrderCartDTO dto) {
-		//우선 찾기 먼저 하고
-		OrderCart orderCart = orderCartRepository.findById(ordercode).orElse(null);
-		//더티체킹(수정)
-		if (orderCart != null) {
-		orderCart.setGcount(dto.getGcount());
-		orderCartRepository.save(orderCart);
-		}
-	}
-	
+	// ▼ security 적용 후
 	// branchId 로 OrderCart 조회
     @Override
     public List<OrderCartDTO> findByBranchId(String branchId) {
@@ -89,6 +96,37 @@ public class OrderCartServiceImpl implements OrderCartService {
         return list.stream().map(e -> mapper.map(e, OrderCartDTO.class)).collect(Collectors.toList());
     }
 	
+    @Override
+    public void saveAll(String branchId, List<OrderCartDTO> dtos) {
+        User user = userRepository.findByBranchId(branchId);
+        if (user != null) {
+            List<OrderCart> orderCarts = dtos.stream()
+                                             .map(dto -> {
+                                                 OrderCart orderCart = mapper.map(dto, OrderCart.class);
+                                                 orderCart.setUser(user);
+                                                 return orderCart;
+                                             })
+                                             .collect(Collectors.toList());
+            orderCartRepository.saveAll(orderCarts);
+        }
+    }
+
+    @Override
+    public void delete(String branchId, int ordercode) {
+        OrderCart orderCart = orderCartRepository.findByIdAndUserBranchId(ordercode, branchId);
+        if (orderCart != null) {
+            orderCartRepository.delete(orderCart);
+        }
+    }
+
+    @Override
+    public void update(String branchId, int ordercode, OrderCartDTO dto) {
+        OrderCart orderCart = orderCartRepository.findByIdAndUserBranchId(ordercode, branchId);
+        if (orderCart != null) {
+            orderCart.setGcount(dto.getGcount());
+            orderCartRepository.save(orderCart);
+        }
+    }
 	
 	
 	

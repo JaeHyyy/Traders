@@ -10,11 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.exam.dto.DisUseDTO;
 import com.exam.entity.DisUse;
-import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
 import com.exam.repository.DisUseRepository;
 import com.exam.repository.StockRepository;
@@ -26,24 +24,12 @@ public class DisUseServiceImpl implements DisUseService {
 	StockRepository stockRepository;
 	@Autowired
 	DisUseRepository disUseRepository;
+	
 
 	public DisUseServiceImpl(DisUseRepository disUseRepository) {
 		this.disUseRepository = disUseRepository;
 	}
     
-	//sql disuse 테이블 값 전체 조회
-	@Override
-	public List<DisUseDTO> findAll() {
-		 ModelMapper mapper = new ModelMapper();
-			
-		 List<DisUse> list = disUseRepository.findAll();
-			
-		 List<DisUseDTO> disuseList = list.stream()
-					.map(e->mapper.map(e, DisUseDTO.class))
-					.collect(Collectors.toList());
-			return disuseList;
-	}
-	
 	
 	//유통기한 지난 재고 상품들 disuse테이블로 데이터 저장 시키기
 	@Override
@@ -116,7 +102,7 @@ public class DisUseServiceImpl implements DisUseService {
     
     //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
 	@Override
-	public void delete(int disid) {
+	public void deleteByBranchIdDisuse(int disid,String branchId) {
 		  DisUse disUse = disUseRepository.findById(disid).orElse(null);
 			if(disUse!=null) {
 				disUseRepository.delete(disUse);
@@ -126,7 +112,7 @@ public class DisUseServiceImpl implements DisUseService {
 	
 	//유통기한관리페이지에서 폐기완료 버튼 클릭시 disdate에 현재 날짜 나오게 하기
 	@Override
-	public void update(int disid, DisUseDTO dto) {
+	public void updateByBranchIdDisuse(int disid,String branchId,DisUseDTO dto) {
 		//우선 찾기 먼저 하고
 		DisUse disUse = disUseRepository.findById(disid).orElse(null);
 		//더티체킹(수정)
@@ -134,6 +120,19 @@ public class DisUseServiceImpl implements DisUseService {
 			disUse.setDisdate(dto.getDisdate());
 			disUseRepository.save(disUse);
 	     }
+	}
+
+	// branchId 로 disuse 조회
+	@Override
+	public List<DisUseDTO> findByBranchIdDisuse(String branchId) {
+		 ModelMapper mapper = new ModelMapper();
+			
+		 List<DisUse> list = disUseRepository.findByBranchIdDisuse(branchId);
+			
+		 List<DisUseDTO> disuseList = list.stream()
+					.map(e->mapper.map(e, DisUseDTO.class))
+					.collect(Collectors.toList());
+			return disuseList;
 	}
 
 	

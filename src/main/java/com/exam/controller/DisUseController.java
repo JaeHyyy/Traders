@@ -19,7 +19,7 @@ import com.exam.service.DisUseService;
 
 @RestController
 @RequestMapping("/disuse")
-@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
+//@CrossOrigin(origins = "http://localhost:3000") // React 앱이 실행되는 포트
 public class DisUseController {
 	
 	DisUseService disUseService;
@@ -27,13 +27,6 @@ public class DisUseController {
 	public DisUseController(DisUseService disUseService) {
 		this.disUseService = disUseService;
 	}
-
-	//sql disuse 테이블 값 전체 조회
-	@GetMapping
-	public List<DisUseDTO> findAll() {
-		return disUseService.findAll();
-	}
-	
 	
 	//현재 날짜 기준 유통기한 지난 상품 stock 테이블에서 삭제 및 disuse 테이블에 저장
     @PostMapping("/exp")
@@ -54,18 +47,26 @@ public class DisUseController {
     }
     
     
-    //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
-	@DeleteMapping("/delete/{disid}")
-	public void delete(@PathVariable int disid) {
-		disUseService.delete(disid);
+    //유통기한관리페이지에서 삭제 버튼 클릭시 stock테이블의 해당 데이터 삭제
+	@DeleteMapping("/delete/{disid}/{branchId}")
+	public void deleteByBranchIdDisuse(@PathVariable int disid,String branchId) {
+		disUseService.deleteByBranchIdDisuse(disid,branchId);
 	}
 	
 	
 	//유통기한관리페이지에서 폐기완료 버튼 누르면 disuse테이블의 disdate에 현재 날짜 데이터로 업데이트하기
-	@PutMapping("/update/{disid}")
-	public void update(@PathVariable int disid, @RequestBody DisUseDTO dto) {
-		disUseService.update(disid, dto);
+	@PutMapping("/update/{disid}/{branchId}")
+	public void updateByBranchIdDisuse(@PathVariable int disid,String branchId, @RequestBody DisUseDTO dto) {
+		disUseService.updateByBranchIdDisuse(disid,branchId, dto);
 	}
+	
+	
+	// branchId 로 disuse 조회
+    @GetMapping("/branch/{branchId}")
+    public List<DisUseDTO> findByBranchIdDisuse(@PathVariable String branchId) {
+        return disUseService.findByBranchIdDisuse(branchId);
+    }
+
 	
 	
 
