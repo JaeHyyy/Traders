@@ -24,9 +24,13 @@ import lombok.ToString;
 public class DisUseDTO {
 	
 	
+
 	int disid;
 	Date disdate;
 	StockDTO stock;
+	UserDTO user;
+	
+	
 	
 
 }

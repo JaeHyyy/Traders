@@ -27,4 +27,8 @@ public interface StockService {
 	
 	List<UserStockDTO> countStocksByBranch();
 
+	// branchId 로 Stock 조회
+	public List<StockDTO> findByBranchIdStock(String branchId);
+
+
 }

@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.exam.dto.MovementGoodsDTO;
 import com.exam.entity.Movement;
 
 public interface MovementRepository extends JpaRepository<Movement, Long> {
@@ -47,4 +46,5 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
     
     @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = (SELECT u.branchId FROM User u WHERE u.branchName = :branchName) AND m.movdate = :movdate AND m.movstatus=:movstatus ")
     List<Object[]> findPendingMovementsByBranchAndDate(@Param("branchName") String branchName, @Param("movdate") LocalDate movdate, @Param("movstatus") String movstatus);
+
 }
