@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.exam.dto.MovementDTO;
 import com.exam.dto.MovementGoodsDTO;
+import com.exam.entity.Movement;
 
 
 public interface MovementService {
@@ -27,5 +30,9 @@ public interface MovementService {
 
     
     public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(String branchid, LocalDate movdate);
+    
+    public List<Movement> OrderSaveMovements(List<MovementDTO> movementDTOs);
+    
+//    public List<MovementDTO> findByOrdercode(String ordercode);
 
 }

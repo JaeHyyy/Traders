@@ -18,24 +18,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-@Entity
-@Table(name = "movement")
-public class Movement {
-	
+@Table(name = "payment")
+public class Payment {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	Long movidx;
-	Long movcode;
-	String ordercode;
-	String gcode;
-	String branchid;
-	LocalDate movdate;
-	Long movquantity;
-	String movstatus;
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String orderId;
+	private String orderName;
+	private String customerName;
+	private int amount;
+	
+	
 }

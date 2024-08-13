@@ -47,6 +47,7 @@ public class JwtSecurityFilterChainConfig {
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 	                    .anyRequest()
 	                    .authenticated())
+//	                .cors(Customizer.withDefaults()) // CORS 설정 추가
 	                .csrf(AbstractHttpConfigurer::disable)
 	                .sessionManagement(session -> session.
 	                    sessionCreationPolicy(SessionCreationPolicy.STATELESS))

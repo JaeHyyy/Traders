@@ -23,6 +23,6 @@ public interface OrderCartService {
 	// branchId 로 OrderCart 조회
 	List<OrderCartDTO> findByBranchId(String branchId);
     void saveAll(String branchId, List<OrderCartDTO> dtos);
-    void delete(String branchId, int ordercode);
-    void update(String branchId, int ordercode, OrderCartDTO dto);
+    void delete(String branchId, String ordercode);
+    void update(String branchId, String ordercode, OrderCartDTO dto);
 }

@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.exam.dto.GoodsDTO;
 import com.exam.dto.MovementDTO;
 import com.exam.dto.MovementGoodsDTO;
-import com.exam.dto.GoodsDTO; 
 import com.exam.entity.Goods;
 import com.exam.entity.Movement;
 import com.exam.repository.MovementRepository;
@@ -147,6 +148,33 @@ public class MovementServiceImpl implements MovementService {
 	public void updateMovStatus(Long movidx, String newStatus) {
 		movementRepository.updateMovStatus(movidx, newStatus);
 	}
+
+	@Override
+	public List<Movement> OrderSaveMovements(List<MovementDTO> movementDTOs) {
+	    List<Movement> movements = new ArrayList<>();
+	    for (MovementDTO dto : movementDTOs) {
+	        Movement movement = new Movement();
+	        movement.setOrdercode(dto.getOrdercode());
+	        movement.setBranchid(dto.getBranchid());
+	        movement.setGcode(dto.getGcode());
+	        movement.setMovquantity(dto.getMovquantity()); // gcount -> movquantity
+	        movement.setMovdate(dto.getMovdate()); // 프론트에서 받아온 movdate
+	        movement.setMovstatus(dto.getMovstatus()); // 프론트에서 받아온 movstatus
+	        movements.add(movement);
+	    }
+	    return movementRepository.saveAll(movements);
+	}
+	
+//	@Override
+//	public List<MovementDTO> findByOrdercode(String ordercode){
+//		ModelMapper mapper = new ModelMapper();
+//		
+//		List<Movement> list = movementRepository.findByOrdercode(ordercode);
+//		List<MovementDTO> movementList = list.stream()
+//				 							 .map(e->mapper.map(e, MovementDTO.class))
+//				 							 .collect(Collectors.toList());
+//		return movementList;
+//	}
 
 
 }
