@@ -3,6 +3,8 @@ package com.exam.repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -30,12 +32,25 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 	@Query("UPDATE Movement m SET m.movstatus = :newStatus WHERE m.movidx = :movidx")
 	void updateMovStatus(@Param("movidx") Long movidx, @Param("newStatus") String newStatus);
 
-	@Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = :branchid AND m.movdate = :movdate")
-	List<Object[]> findMovementsWithGoodsByMovdate(@Param("branchid") String branchid,
-			@Param("movdate") LocalDate movdate);
-
 //	@Modifying
 //	@Query("INSERT INTO Movement (ordercode, gcode, branchid, movdate, movquantity, movstatus) "
 //			+ "VALUES (:ordercode, :gcode, :branchid, :movdate, :movquantity, :movstatus)")
 //	void insertMovement(@Param("ordercode") String ordercode,@Param("gcode") String gcode,@Param("branchid") String branchid,@Param("movquantity") Long movquantity);
+	
+    @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = :branchid AND m.movdate = :movdate")
+    List<Object[]> findMovementsWithGoodsByMovdate(@Param("branchid") String branchid, @Param("movdate") LocalDate movdate);
+    
+    
+    //admin page
+    @Query("select u.branchName, m.movdate, count(m) from User u JOIN Movement m ON u.branchId = m.branchid group by u.branchName, m.movdate")
+    List<Object[]> findBranchMovements();
+    
+    @Modifying
+    @Transactional
+    @Query("UPDATE Movement m SET m.movstatus = :movstatus WHERE m.branchid = (SELECT u.branchId FROM User u WHERE u.branchName = :branchName) AND m.movdate = :movdate")
+    void updateMovstatusForGroup(@Param("branchName") String branchName, @Param("movdate") LocalDate movdate, @Param("movstatus") String movstatus);
+    
+    @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = (SELECT u.branchId FROM User u WHERE u.branchName = :branchName) AND m.movdate = :movdate AND m.movstatus=:movstatus ")
+    List<Object[]> findPendingMovementsByBranchAndDate(@Param("branchName") String branchName, @Param("movdate") LocalDate movdate, @Param("movstatus") String movstatus);
+
 }

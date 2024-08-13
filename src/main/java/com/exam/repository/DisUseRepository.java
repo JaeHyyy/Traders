@@ -1,15 +1,12 @@
 package com.exam.repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.exam.dto.DisUseDTO;
 import com.exam.entity.DisUse;
-import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
 
 
@@ -35,6 +32,11 @@ public interface DisUseRepository extends JpaRepository<DisUse, Integer> {
 	
 	@Query("SELECT d FROM DisUse d WHERE d.user.branchId = :branchId")
 	List<DisUse> findByBranchIdDisuse(@Param("branchId") String branchId);
+	
+	
+//	
+//	@Query("SELECT d.stock.goods.gcode FROM DisUse d WHERE d.stock.goods.gcode IN :gcodes AND d.user.branchId = :branchId")
+//	List<String> findDuplicateGcodes(@Param("gcodes") List<String> gcodes, @Param("branchId") String branchId);
 
 	
 }

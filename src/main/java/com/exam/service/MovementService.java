@@ -35,4 +35,13 @@ public interface MovementService {
     
 //    public List<MovementDTO> findByOrdercode(String ordercode);
 
+    //admin page
+    public List<Object[]> findBranchMovements();
+    
+    //admin 출고상세
+    void updateMovstatusForGroup(String branchName, LocalDate movdate, String movstatus);
+    
+ // 출고 대기 상태인 Movement와 Goods 조회
+    List<MovementGoodsDTO> findPendingMovementsByBranchAndDate(String branchName, LocalDate movdate, String movstatus);
+
 }

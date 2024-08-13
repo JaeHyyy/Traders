@@ -15,9 +15,11 @@ import com.exam.entity.Goods;
 public interface DisUseService {
 
 
-	 void moveExpiredStocksToDisuse();
+	 void moveExpiredStocksToDisuse(String branchId);
 	 public void deleteByBranchIdDisuse(int disid,String branchId);
 	 public void updateByBranchIdDisuse(int disid,String branchId,DisUseDTO dto);
 	 public List<DisUseDTO> findByBranchIdDisuse(String branchId);
+	 
+//	 public List<String> findDuplicateGcodes(List<String> gcodes, String branchId);
 
 }
