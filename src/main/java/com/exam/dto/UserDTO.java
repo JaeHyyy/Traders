@@ -25,4 +25,6 @@ public class UserDTO {
 	String addr1; // 지점주소
 	String addr2; // 지점주소2
 	String phoneNum; // 전화번호
+	String role;
+	
 }

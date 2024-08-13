@@ -1,15 +1,12 @@
 package com.exam.repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.exam.dto.DisUseDTO;
 import com.exam.entity.DisUse;
-import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
 
 

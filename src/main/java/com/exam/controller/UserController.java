@@ -14,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -142,6 +144,7 @@ public class UserController {
     }
     
     
+
     //로그인시 branchName값 가지고 오기   // aelin추가 백엔드는 여기 이 컨트롤러 코드 부분만 추가했음
     @GetMapping("/branchname/{branchId}")
     public ResponseEntity<String> getBranchName(@PathVariable String branchId) {
@@ -152,5 +155,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Branch not found");
         }
     }
+
 
 }//end
