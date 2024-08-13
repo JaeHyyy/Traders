@@ -23,7 +23,7 @@ import lombok.ToString;
 public class OrderCartDTO {
 	
 	
-	int ordercode;
+	String ordercode;
 	Integer gcount;
 	GoodsDTO goods;
 	

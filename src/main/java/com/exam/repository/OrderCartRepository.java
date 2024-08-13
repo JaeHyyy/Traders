@@ -15,7 +15,7 @@ import com.exam.entity.OrderCart;
 
 
 
-public interface OrderCartRepository extends JpaRepository<OrderCart, Integer> {
+public interface OrderCartRepository extends JpaRepository<OrderCart, String> {
 
 	/*
 	 * 다음 메서드가 지원됨
@@ -35,7 +35,7 @@ public interface OrderCartRepository extends JpaRepository<OrderCart, Integer> {
     
     // 웹 - branchId 로 OrderCart 조회 
     @Query("SELECT o FROM OrderCart o JOIN o.user u WHERE o.ordercode = :ordercode AND u.branchId = :branchId")
-    OrderCart findByIdAndUserBranchId(@Param("ordercode") int ordercode, @Param("branchId") String branchId);
+    OrderCart findByIdAndUserBranchId(@Param("ordercode") String ordercode, @Param("branchId") String branchId);
 
 	
 }
