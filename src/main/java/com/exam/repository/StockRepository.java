@@ -56,10 +56,15 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     @Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3 WHERE s.goods.gcode = :gcode")
     void mobileUpdateLocationByGcode(String gcode, String loc1, String loc2, String loc3);
     
+
+    @Query("SELECT s.branchid, u.branchName, count(s) FROM Stock s JOIN User u ON s.branchid = u.branchId GROUP BY s.branchid")
+    List<Object[]> countStocksByBranch();
+
  // branchId 로 Stock 조회
     // 유통기한 안 지난 재고 상품들만 branchid를 기준으로 가져오기
     @Query("SELECT s FROM Stock s WHERE s.expdate >= :currentDate AND s.user.branchId = :branchId")
     List<Stock> findByBranchIdStock(@Param("currentDate") LocalDate currentDate, @Param("branchId") String branchId);
+
 
 
 }

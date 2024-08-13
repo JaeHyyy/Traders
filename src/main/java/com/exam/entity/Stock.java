@@ -31,6 +31,7 @@ public class Stock {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int stockid;
+	String branchid;
 	Integer stockquantity;
 	LocalDate expdate;
 	Integer gprice;

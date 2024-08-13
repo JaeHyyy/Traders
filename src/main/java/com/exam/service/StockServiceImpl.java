@@ -10,9 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.GoodsDTO;
-import com.exam.dto.OrderCartDTO;
 import com.exam.dto.StockDTO;
-import com.exam.entity.OrderCart;
+import com.exam.dto.UserStockDTO;
+
 import com.exam.entity.Stock;
 import com.exam.repository.StockRepository;
 
@@ -117,7 +117,28 @@ public class StockServiceImpl implements StockService{
          return list.stream()
                     .map(e -> mapper.map(e, StockDTO.class))
                     .collect(Collectors.toList());
+    }//end
 
+	
+	@Override
+    public List<UserStockDTO> countStocksByBranch() {
+        List<Object[]> results = stockRepository.countStocksByBranch();
+        
+        return results.stream()
+            .map(result -> {
+                String branchid = (String) result[0];
+                String branchName = (String) result[1];
+                long count = (long) result[2];
+
+                UserStockDTO userStockDTO = new UserStockDTO();
+                userStockDTO.setBranchid(branchid);
+                userStockDTO.setBranchName(branchName);
+                userStockDTO.setCount(count);
+                return userStockDTO;
+            })
+            .collect(Collectors.toList());
+    }
+	
 }
-}//end
+
 
