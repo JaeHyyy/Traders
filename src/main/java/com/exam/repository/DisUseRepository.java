@@ -32,6 +32,11 @@ public interface DisUseRepository extends JpaRepository<DisUse, Integer> {
 	
 	@Query("SELECT d FROM DisUse d WHERE d.user.branchId = :branchId")
 	List<DisUse> findByBranchIdDisuse(@Param("branchId") String branchId);
+	
+	
+//	
+//	@Query("SELECT d.stock.goods.gcode FROM DisUse d WHERE d.stock.goods.gcode IN :gcodes AND d.user.branchId = :branchId")
+//	List<String> findDuplicateGcodes(@Param("gcodes") List<String> gcodes, @Param("branchId") String branchId);
 
 	
 }

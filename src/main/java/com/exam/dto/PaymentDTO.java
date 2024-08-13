@@ -17,15 +17,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MovementDTO {
+public class PaymentDTO {
 	
-	long movidx;
-	long movcode;
-	String ordercode;
-	String branchid;
-	String gcode;
-	LocalDate movdate;
-	long movquantity;
-	String movstatus;
-	long count; 
+	String orderId;
+	String orderName;
+	String customerName;
+	int amount;
 }

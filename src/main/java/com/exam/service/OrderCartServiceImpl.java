@@ -112,7 +112,7 @@ public class OrderCartServiceImpl implements OrderCartService {
     }
 
     @Override
-    public void delete(String branchId, int ordercode) {
+    public void delete(String branchId, String ordercode) {
         OrderCart orderCart = orderCartRepository.findByIdAndUserBranchId(ordercode, branchId);
         if (orderCart != null) {
             orderCartRepository.delete(orderCart);
@@ -120,7 +120,7 @@ public class OrderCartServiceImpl implements OrderCartService {
     }
 
     @Override
-    public void update(String branchId, int ordercode, OrderCartDTO dto) {
+    public void update(String branchId, String ordercode, OrderCartDTO dto) {
         OrderCart orderCart = orderCartRepository.findByIdAndUserBranchId(ordercode, branchId);
         if (orderCart != null) {
             orderCart.setGcount(dto.getGcount());

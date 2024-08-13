@@ -87,13 +87,13 @@ public class OrderCartController {
 
     //발주하기 페이지에서 선택 후 담았던 상품 삭제 
     @DeleteMapping("/delete/{branchId}/{ordercode}")
-    public void delete(@PathVariable String branchId, @PathVariable int ordercode) {
+    public void delete(@PathVariable String branchId, @PathVariable String ordercode) {
         orderCartService.delete(branchId, ordercode);
     }
 
     //발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
     @PutMapping("/update/{branchId}/{ordercode}")
-    public void update(@PathVariable String branchId, @PathVariable int ordercode, @RequestBody OrderCartDTO dto) {
+    public void update(@PathVariable String branchId, @PathVariable String ordercode, @RequestBody OrderCartDTO dto) {
         orderCartService.update(branchId, ordercode, dto);
     }
 	
