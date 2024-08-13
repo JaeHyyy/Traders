@@ -8,14 +8,17 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.DisUseDTO;
 import com.exam.entity.DisUse;
 import com.exam.entity.Stock;
+import com.exam.entity.User;
 import com.exam.repository.DisUseRepository;
 import com.exam.repository.StockRepository;
+import com.exam.repository.UserRepository;
 
 @Service
 @Transactional
@@ -24,18 +27,20 @@ public class DisUseServiceImpl implements DisUseService {
 	StockRepository stockRepository;
 	@Autowired
 	DisUseRepository disUseRepository;
+	UserRepository userRepository;
 	
 
-	public DisUseServiceImpl(DisUseRepository disUseRepository) {
+	public DisUseServiceImpl(DisUseRepository disUseRepository, UserRepository userRepository) {
 		this.disUseRepository = disUseRepository;
+		this.userRepository = userRepository;
 	}
     
 	
 	//유통기한 지난 재고 상품들 disuse테이블로 데이터 저장 시키기
 	@Override
-	public void moveExpiredStocksToDisuse() {
+	public void moveExpiredStocksToDisuse(String branchId) {
 	    Date currentDate = new Date(System.currentTimeMillis());
-
+	    
 	    try {
 	        if (stockRepository == null) {
 	            System.out.println("StockRepository is null");
@@ -57,6 +62,11 @@ public class DisUseServiceImpl implements DisUseService {
 	                continue;
 	            }
 	            System.out.println("Processing stock: " + stock);
+	            
+	         // Stock 엔티티에서 User 엔티티를 통해 branchId 가져오기
+	            User user = stock.getUser();
+	            branchId = user.getBranchId();
+	            
 
 	            // stock 엔티티가 데이터베이스에 저장되어 있는지 확인
 	            if (!stockRepository.existsById(stock.getStockid())) {
@@ -72,12 +82,13 @@ public class DisUseServiceImpl implements DisUseService {
 
 	            DisUse disuse = DisUse.builder()
 	                    .stock(stock)
+	                    .user(user)
 	                    .disdate(null) // 일단 disdate를 null로 설정
 	                    .build();
 
 	            System.out.println("Saving disuse record: " + disuse);
 
-	            // 먼저 DisUse 엔티티를 저장합니다.
+	            // 먼저 DisUse 엔티티를 저장
 	            disUseRepository.save(disuse);
 	            disUseRepository.flush(); // Ensure disuse records are saved
 
@@ -93,11 +104,19 @@ public class DisUseServiceImpl implements DisUseService {
 	    }
 	}
 	
-	//해당 시간에 자동으로 유통기한 지난 재고상품 유통기한관리 페이지에 담기게 하기
-    @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
-    public void scheduleExpiredStockCheck() {
-        moveExpiredStocksToDisuse();
-    }
+//	//해당 시간에 자동으로 유통기한 지난 재고상품 유통기한관리 페이지에 담기게 하기
+//    @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
+//    public void scheduleExpiredStockCheck() {
+//        moveExpiredStocksToDisuse();
+//    }
+   //어플리케이션 실행 시 자동으로 유통기한 지난 재고상품 disuse에 저장시키기
+	@EventListener(ContextRefreshedEvent.class)
+	public void onApplicationEvent(ContextRefreshedEvent event) {
+	    // 유통기한이 지난 재고상품들을 각 지점(branchId)별로 처리
+	    this.moveExpiredStocksToDisuse(null);  // branchId를 인수로 전달하지 않음
+	    System.out.println("Checked and moved expired stocks at startup for all branches.");
+	}
+    
 
     
     //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
@@ -134,6 +153,12 @@ public class DisUseServiceImpl implements DisUseService {
 					.collect(Collectors.toList());
 			return disuseList;
 	}
+	
+//	
+//    @Override
+//    public List<String> findDuplicateGcodes(List<String> gcodes, String branchId) {
+//        return disUseRepository.findDuplicateGcodes(gcodes, branchId);
+//    }
 
 	
 

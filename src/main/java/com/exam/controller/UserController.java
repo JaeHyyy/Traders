@@ -17,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,9 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.dto.UserDTO;
 import com.exam.entity.User;
+import com.exam.repository.UserRepository;
 import com.exam.security.JwtTokenResponse;
 import com.exam.security.JwtTokenService;
 import com.exam.service.UserService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -36,10 +39,12 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenService jwtTokenService;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService, JwtTokenService jwtTokenService) {
+    public UserController(UserService userService, JwtTokenService jwtTokenService,UserRepository userRepository) {
         this.userService = userService;
         this.jwtTokenService = jwtTokenService;
+        this.userRepository = userRepository;
     }
 
     
@@ -135,5 +140,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
+    
+    
+    //로그인시 branchName값 가지고 오기   // aelin추가 백엔드는 여기 이 컨트롤러 코드 부분만 추가했음
+    @GetMapping("/branchname/{branchId}")
+    public ResponseEntity<String> getBranchName(@PathVariable String branchId) {
+        User user = userRepository.findByBranchId(branchId);
+        if (user != null) {
+            return ResponseEntity.ok(user.getBranchName());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Branch not found");
+        }
+    }
 
-}
+}//end
