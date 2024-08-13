@@ -7,14 +7,19 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.exam.dto.GoodsDTO;
 import com.exam.dto.StockDTO;
 import com.exam.dto.UserStockDTO;
 
 import com.exam.entity.Stock;
+import com.exam.entity.User;
 import com.exam.repository.StockRepository;
+import com.exam.repository.UserRepository;
 
 @Service
 @Transactional
@@ -22,6 +27,8 @@ public class StockServiceImpl implements StockService{
 	
 	StockRepository stockRepository;
     private final ModelMapper mapper;  // ModelMapper를 클래스 레벨 필드로 선언
+    @Autowired
+	UserRepository userRepository;
 
 	public StockServiceImpl(StockRepository stockRepository, ModelMapper mapper) {
 		this.stockRepository = stockRepository;
@@ -94,7 +101,7 @@ public class StockServiceImpl implements StockService{
 
 	//유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
 	@Override
-	public void delete(int stockid) {
+	public void deleteByBranchIdStock(int stockid, String branchId) {
 	    Stock stock = stockRepository.findById(stockid).orElse(null);
 		if(stock!=null) {
 			stockRepository.delete(stock);
@@ -117,6 +124,7 @@ public class StockServiceImpl implements StockService{
          return list.stream()
                     .map(e -> mapper.map(e, StockDTO.class))
                     .collect(Collectors.toList());
+
     }//end
 
 	
@@ -139,6 +147,22 @@ public class StockServiceImpl implements StockService{
             .collect(Collectors.toList());
     }
 	
-}
+  
+    //발주하기 버튼
+    @Override
+    public void saveAll(String branchId, List<StockDTO> dtos) {
+        User user = userRepository.findByBranchId(branchId);
+        if (user != null) {
+            List<Stock> Stocks = dtos.stream()
+                                             .map(dto -> {
+                                                 Stock stock = mapper.map(dto, Stock.class);
+                                                 stock.setUser(user);
+                                                 return stock;
+                                             })
+                                             .collect(Collectors.toList());
+            stockRepository.saveAll(Stocks);
+        }
+    }
+}//end
 
 

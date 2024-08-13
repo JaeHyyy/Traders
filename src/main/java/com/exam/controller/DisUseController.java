@@ -1,10 +1,14 @@
 package com.exam.controller;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,16 +27,18 @@ import com.exam.service.DisUseService;
 public class DisUseController {
 	
 	DisUseService disUseService;
+    // 마지막 실행 시간을 저장할 변수 (예: 데이터베이스, 파일 등)
+    private LocalDateTime lastExecutionTime;
 
 	public DisUseController(DisUseService disUseService) {
 		this.disUseService = disUseService;
 	}
 	
 	//현재 날짜 기준 유통기한 지난 상품 stock 테이블에서 삭제 및 disuse 테이블에 저장
-    @PostMapping("/exp")
-    public ResponseEntity<String> moveExpiredStocks() {
+    @PostMapping("/exp/{branchId}")
+    public ResponseEntity<String> moveExpiredStocks(@RequestBody List<String> gcodes,@PathVariable String branchId) {
         try {
-        	disUseService.moveExpiredStocksToDisuse();
+        	disUseService.moveExpiredStocksToDisuse(branchId);
             return ResponseEntity.ok("Expired stocks moved successfully");
         } catch (Exception e) {
         	System.out.println("Error occurred while moving expired stocks"+e.getMessage());
@@ -41,10 +47,10 @@ public class DisUseController {
         }
     }
     //12시에 자동 실행 
-    @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
-    public void scheduleExpiredStock() {
-    	disUseService.moveExpiredStocksToDisuse();
-    }
+//    @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
+//    public void scheduleExpiredStock(String branchId) {
+//    	disUseService.moveExpiredStocksToDisuse(branchId);
+//    }
     
     
     //유통기한관리페이지에서 삭제 버튼 클릭시 stock테이블의 해당 데이터 삭제
@@ -66,18 +72,26 @@ public class DisUseController {
     public List<DisUseDTO> findByBranchIdDisuse(@PathVariable String branchId) {
         return disUseService.findByBranchIdDisuse(branchId);
     }
+    
+    
+    
+//    @PostMapping("/checkDuplicates/{branchId}")
+//    public ResponseEntity<Map<String, Object>> checkDuplicates(
+//        @PathVariable String branchId,
+//        @RequestBody List<String> gcodes) {
+//        
+//        List<String> duplicates = disUseService.findDuplicateGcodes(gcodes, branchId);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("duplicates", duplicates);
+//        
+//        System.out.println("Duplicate gcodes: " + duplicates);
+//        System.out.println("Received gcodes: " + gcodes);
+//        System.out.println("Received branchId: " + branchId);
+//        
+//        return ResponseEntity.ok(response);
+//    }
 
-	
-	
-
-	
-	
-	
-	
-
-	
-	
-	
 	
 	
 
