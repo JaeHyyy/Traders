@@ -16,6 +16,7 @@ import lombok.ToString;
 public class UserStockDTO {
 	private UserDTO user;
 	private StockDTO stock;
+	private GoodsDTO goods;
 	
 	String branchid;
 	String branchName;
