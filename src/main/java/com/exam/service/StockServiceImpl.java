@@ -10,8 +10,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.GoodsDTO;
+import com.exam.dto.MovementDTO;
+import com.exam.dto.MovementGoodsDTO;
 import com.exam.dto.StockDTO;
+import com.exam.dto.UserDTO;
+import com.exam.dto.UserStockDTO;
+import com.exam.entity.Goods;
+import com.exam.entity.Movement;
 import com.exam.entity.Stock;
+import com.exam.entity.User;
 import com.exam.repository.StockRepository;
 
 @Service
@@ -105,6 +112,25 @@ public class StockServiceImpl implements StockService{
 	public void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3) {
 		stockRepository.mobileUpdateLocationByGcode(gcode, loc1, loc2, loc3);
 	}
+	
+	@Override
+    public List<UserStockDTO> countStocksByBranch() {
+        List<Object[]> results = stockRepository.countStocksByBranch();
 
+        return results.stream()
+            .map(result -> {
+                String branchid = (String) result[0];
+                String branchName = (String) result[1];
+                long count = (long) result[2];
+
+                UserStockDTO userStockDTO = new UserStockDTO();
+                userStockDTO.setBranchid(branchid);
+                userStockDTO.setBranchName(branchName);
+                userStockDTO.setCount(count);
+                return userStockDTO;
+            })
+            .collect(Collectors.toList());
+    }
+	
 }
 

@@ -9,5 +9,5 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	int save(UserDTO userDTO); // 회원가입
 	User findByBranchId(String branchId); // 로그인
-
+	
 }

@@ -57,6 +57,9 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     @Modifying
     @Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3 WHERE s.goods.gcode = :gcode")
     void mobileUpdateLocationByGcode(String gcode, String loc1, String loc2, String loc3);
+    
+    @Query("SELECT s.branchid, u.branchName, count(s) FROM Stock s JOIN User u ON s.branchid = u.branchId GROUP BY s.branchid")
+    List<Object[]> countStocksByBranch();
 
 
 }

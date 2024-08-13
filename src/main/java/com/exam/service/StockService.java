@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.exam.dto.StockDTO;
+import com.exam.dto.UserStockDTO;
 import com.exam.entity.Stock;
 
 public interface StockService {
@@ -23,6 +24,7 @@ public interface StockService {
 	public void delete(int stockid);
 	// 모바일 - 상세정보페이지의 위치업데이트
 	void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3);
-
+	
+	List<UserStockDTO> countStocksByBranch();
 
 }

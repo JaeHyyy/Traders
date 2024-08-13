@@ -146,6 +146,32 @@ public class MovementServiceImpl implements MovementService {
 	public void updateMovStatus(Long movidx, String newStatus) {
 		movementRepository.updateMovStatus(movidx, newStatus);
 	}
+	
+	
+	//admin
+	@Override
+    public List<Object[]> findBranchMovements() {
+        return movementRepository.findBranchMovements();
+    }
+    
+    @Override
+    public void updateMovstatusForGroup(String branchName, LocalDate movdate, String movstatus) {
+        movementRepository.updateMovstatusForGroup(branchName, movdate, movstatus);
+    }
 
+    @Override
+    public List<MovementGoodsDTO> findPendingMovementsByBranchAndDate(String branchName, LocalDate movdate, String movstatus) {
+        logger.debug("Request to find pending movements for branch: {} and date: {} with movstatus: {}", branchName, movdate, movstatus);
+        List<Object[]> results = movementRepository.findPendingMovementsByBranchAndDate(branchName, movdate, movstatus);
+        return results.stream()
+                      .map(result -> {
+                          Movement movement = (Movement) result[0];
+                          Goods goods = (Goods) result[1];
+                          return new MovementGoodsDTO(mapper.map(movement, MovementDTO.class),
+                                                      mapper.map(goods, GoodsDTO.class));
+                      })
+                      .collect(Collectors.toList());
+    }
+    
 
 }

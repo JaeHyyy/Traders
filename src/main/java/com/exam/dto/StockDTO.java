@@ -20,6 +20,7 @@ import lombok.ToString;
 public class StockDTO {
 	
 	int stockid;
+	String branchid;
 	String gcode;
 	Integer stockquantity;
 	LocalDate expdate;
