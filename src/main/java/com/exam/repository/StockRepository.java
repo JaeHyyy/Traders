@@ -64,7 +64,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     // 유통기한 안 지난 재고 상품들만 branchid를 기준으로 가져오기
     @Query("SELECT s FROM Stock s WHERE s.expdate >= :currentDate AND s.user.branchId = :branchId")
     List<Stock> findByBranchIdStock(@Param("currentDate") LocalDate currentDate, @Param("branchId") String branchId);
-    
  
  
 
