@@ -32,11 +32,10 @@ public class TradersApplication extends SpringBootServletInitializer{
 					.allowedMethods("*")				
 					.allowedOrigins("http://localhost:3000/**",
 							"http://127.0.0.1:5500",
-							"http://10.10.10.207:8090/**",
-							"http://10.10.10.197:8090/**",
-							"http://192.168.0.109:8090/**",
-							"http://10.10.10.170:8090/**",
-							"http://10.10.10.24:8090/**",
+							"http://10.10.10.58:8090/**",
+							"http://10.10.10.58:3000/**",
+							"http://172.30.1.8:8090/**",
+							"http://172.30.1.8:3000/**",
 							"*");
 			}
 		};
