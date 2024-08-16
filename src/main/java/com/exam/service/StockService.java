@@ -28,7 +28,7 @@ public interface StockService {
 	void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3);
 	
 	//admin - 그래프
-	List<UserStockDTO> countStocksByBranch();
+	public List<UserStockDTO> countStocksByBranch();
 	
 	// branchId 로 Stock 조회
 	public List<StockDTO> findByBranchIdStock(String branchId);

@@ -31,7 +31,7 @@ public class AdminMainController {
 		this.movementService = movementService;
 	}
 	
-	@GetMapping("/chart")
+	@GetMapping("/barchart")
 	public List<UserStockDTO> countStocksByBranch() {
 		return stockService.countStocksByBranch();
 	}

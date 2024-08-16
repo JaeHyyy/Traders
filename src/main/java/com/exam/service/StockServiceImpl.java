@@ -134,12 +134,12 @@ public class StockServiceImpl implements StockService{
         
         return results.stream()
             .map(result -> {
-                String branchid = (String) result[0];
+                String branchId = (String) result[0];
                 String branchName = (String) result[1];
                 long count = (long) result[2];
 
                 UserStockDTO userStockDTO = new UserStockDTO();
-                userStockDTO.setBranchid(branchid);
+                userStockDTO.setBranchId(branchId);
                 userStockDTO.setBranchName(branchName);
                 userStockDTO.setCount(count);
                 return userStockDTO;

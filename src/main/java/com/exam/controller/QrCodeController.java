@@ -36,7 +36,7 @@ public class QrCodeController {
     }
 
     @GetMapping("/{branchid}/qrcode")
-    public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date,@RequestParam("token") String token) {
+    public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date) {
         try {
             LocalDate movdate = LocalDate.parse(date);
             List<MovementDTO> movements = movementService.findByMovdate(branchid, movdate);
@@ -45,9 +45,8 @@ public class QrCodeController {
                     .collect(Collectors.joining("\n"));
             
             // 이동할 URL을 포함한 QR 코드 텍스트 생성 
-            String qrCodeText = "http://10.10.10.24:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8")+ "&token=" + URLEncoder.encode(token, "UTF-8");
+            String qrCodeText = "http://10.10.10.24:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
             
-            System.out.println("Generated QR Code URL: " + qrCodeText);
             // qr코드 이미지 생성
             byte[] qrCodeImage = qrCodeService.generateQRCode(qrCodeText, 250, 250);
 

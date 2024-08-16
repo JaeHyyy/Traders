@@ -18,7 +18,7 @@ public class UserStockDTO {
 	private StockDTO stock;
 	private GoodsDTO goods;
 	
-	String branchid;
+	String branchId;
 	String branchName;
 	long count;
 }
