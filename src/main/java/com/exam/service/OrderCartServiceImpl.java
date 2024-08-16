@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -103,6 +104,8 @@ public class OrderCartServiceImpl implements OrderCartService {
             List<OrderCart> orderCarts = dtos.stream()
                                              .map(dto -> {
                                                  OrderCart orderCart = mapper.map(dto, OrderCart.class);
+                                                 // ordercode 수동 생성
+//                                                 orderCart.setOrdercode(UUID.randomUUID().toString());
                                                  orderCart.setUser(user);
                                                  return orderCart;
                                              })

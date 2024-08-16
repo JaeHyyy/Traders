@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,10 @@ public class StockController {
         return stockService.findGcodeData(gcode);
     }
     
+    @GetMapping("/gcode-data/{gcode}/{branchId")
+    public List<StockDTO> findByGcodeDataAndBranchId(@PathVariable String gcode, @PathVariable String branchId) {
+    	return null;
+    }
 
     //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
 	@DeleteMapping("/delete/{stockid}/{branchId}")

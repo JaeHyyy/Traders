@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.nimbusds.jose.JOSEException;
@@ -40,7 +41,8 @@ public class JwtSecurityFilterChainConfig {
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
 	                .authorizeHttpRequests(auth ->
-	                auth.antMatchers("/signup","/login","/images/**","/uploadForm/**").permitAll()
+	                auth.antMatchers("/signup","/login","/images/**","/uploadForm/**",
+	                		"/mobile/**", "/stock/**", "/movemnt/**","/goods/**","/api/**").permitAll()
 
 	                    .antMatchers("/authenticate").permitAll()
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
@@ -109,5 +111,8 @@ public class JwtSecurityFilterChainConfig {
 	    
 }
 
+
+//"/api/**","/stock/**","/movement/**","/goods/**",
+//"/mobile/**","/mobile/main/**","/mobile/productDetail/**"
 
 
