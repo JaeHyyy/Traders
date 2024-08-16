@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.StockDTO;
 
 import java.time.LocalDate;
@@ -60,11 +61,13 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     @Query("SELECT s.user.branchId, s.user.branchName, count(s) FROM Stock s GROUP BY s.user.branchId")
     List<Object[]> countStocksByBranch();
 
- // branchId 로 Stock 조회
+    // branchId 로 Stock 조회
     // 유통기한 안 지난 재고 상품들만 branchid를 기준으로 가져오기
     @Query("SELECT s FROM Stock s WHERE s.expdate >= :currentDate AND s.user.branchId = :branchId")
     List<Stock> findByBranchIdStock(@Param("currentDate") LocalDate currentDate, @Param("branchId") String branchId);
  
- 
-
+    //관리자 메인화면 상품순위 도넛그래프
+    @Query("SELECT g.gname, SUM(s.stockquantity) as summ FROM Stock s JOIN s.goods g GROUP BY g.gname order by summ desc")
+    List<Object[]> findGnameSummaries();
+    
 }
