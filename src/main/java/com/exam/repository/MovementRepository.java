@@ -42,7 +42,7 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
     
     
     //admin page
-    @Query("select u.branchName, m.movdate, count(m) from User u JOIN Movement m ON u.branchId = m.branchid group by u.branchName, m.movdate")
+    @Query("select u.branchName, m.movdate, count(m) from User u JOIN Movement m ON u.branchId = m.branchid where m.movstatus = '출고 대기' group by u.branchName, m.movdate")
     List<Object[]> findBranchMovements();
     
     @Modifying
