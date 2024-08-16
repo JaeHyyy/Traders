@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.exam.dto.GoodsDTO;
 import com.exam.dto.UserDTO;
 import com.exam.entity.User;
 import com.exam.repository.UserRepository;
@@ -155,6 +156,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Branch not found");
         }
     }
-
+    
+    @GetMapping("/findrole")
+    public List<UserDTO> findAll(){
+    	return userService.findAll();
+    }
 
 }//end
