@@ -110,6 +110,7 @@ public class OrderCartServiceImpl implements OrderCartService {
                                                  return orderCart;
                                              })
                                              .collect(Collectors.toList());
+//            System.out.println(">>>>>>>>>>>>>>>>>" + orderCarts);
             orderCartRepository.saveAll(orderCarts);
         }
     }
