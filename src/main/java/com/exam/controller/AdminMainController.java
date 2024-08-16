@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exam.dto.MovementDTO;
+import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.MovementGoodsDTO;
-import com.exam.dto.UserDTO;
 import com.exam.dto.UserStockDTO;
-import com.exam.entity.User;
 import com.exam.repository.UserRepository;
 import com.exam.service.MovementService;
 import com.exam.service.StockService;
@@ -34,6 +32,11 @@ public class AdminMainController {
 	@GetMapping("/barchart")
 	public List<UserStockDTO> countStocksByBranch() {
 		return stockService.countStocksByBranch();
+	}
+	
+	@GetMapping("/chart2")
+	public List<GnameSummaryDTO> findGnameSummaries() {
+		return stockService.findGnameSummaries();
 	}
 	
 	@GetMapping("/adminmovement")

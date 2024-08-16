@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.GoodsDTO;
 import com.exam.dto.StockDTO;
 import com.exam.dto.UserStockDTO;
@@ -136,7 +137,7 @@ public class StockServiceImpl implements StockService{
     }//end
 
 	
-	@Override
+	@Override //ADMIN 막대그래프
     public List<UserStockDTO> countStocksByBranch() {
         List<Object[]> results = stockRepository.countStocksByBranch();
         
@@ -171,6 +172,23 @@ public class StockServiceImpl implements StockService{
                                              .collect(Collectors.toList());
             stockRepository.saveAll(Stocks);
         }
+    }
+    
+    @Override //ADMIN 그래프2
+    public List<GnameSummaryDTO> findGnameSummaries() {
+        List<Object[]> results = stockRepository.findGnameSummaries();
+        
+        return results.stream()
+            .map(result -> {
+                String gname = (String) result[0];
+                Long summ = (Long) result[1];
+
+                GnameSummaryDTO gnameSummaryDTO = new GnameSummaryDTO();
+                gnameSummaryDTO.setGname(gname);
+                gnameSummaryDTO.setSumm(summ);
+                return gnameSummaryDTO;
+            })
+            .collect(Collectors.toList());
     }
 
 	
