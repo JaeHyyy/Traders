@@ -31,9 +31,13 @@ import lombok.ToString;
 public class OrderCart {
 	
 	//int에 null이 들어갈수없어서 타입들을 클래스형태로 바꿔줌
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int ordercode;
+	int ordernum;
+	
+	String ordercode;
+	
 	Integer gcount;
 	
 	//연관 테이블 참조

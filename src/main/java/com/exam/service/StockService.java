@@ -20,6 +20,8 @@ public interface StockService {
 	List<StockDTO> findAllData();
 	// 특정 gcode에 대한 stock 데이터 + goods 데이터 조회
 	List<StockDTO> findGcodeData(String gcode);
+	// 특정 gcode 와 branchId 에 대한 stock 데이터 + goods 데이터 조회
+	List<StockDTO> findByGcodeDataAndBranchId(@PathVariable String gcode, @PathVariable String branchId);
 
 	List<StockDTO> findByGoodsGcode(String gcode);
 	void updateStockLocation(String gcode, String loc1, String loc2, String loc3);
@@ -27,14 +29,14 @@ public interface StockService {
 	// 모바일 - 상세정보페이지의 위치업데이트
 	void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3);
 	
-	List<UserStockDTO> countStocksByBranch();
-
+	//admin - 그래프
+	public List<UserStockDTO> countStocksByBranch();
+	
 	// branchId 로 Stock 조회
 	public List<StockDTO> findByBranchIdStock(String branchId);
 	
 	//발주하기 버튼
 	public void saveAll(String branchId,List<StockDTO> dtos);
-	
 	
 
 

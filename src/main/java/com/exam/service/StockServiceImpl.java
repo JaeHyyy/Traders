@@ -27,6 +27,7 @@ public class StockServiceImpl implements StockService{
 	
 	StockRepository stockRepository;
     private final ModelMapper mapper;  // ModelMapper를 클래스 레벨 필드로 선언
+    
     @Autowired
 	UserRepository userRepository;
 
@@ -80,6 +81,13 @@ public class StockServiceImpl implements StockService{
                    })
                    .collect(Collectors.toList());
     }
+    
+    // 특정 gcode 와 branchId 에 대한 stock 데이터 + goods 데이터 조회
+    @Override
+	public List<StockDTO> findByGcodeDataAndBranchId(String gcode, String branchId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 	@Override
@@ -134,12 +142,12 @@ public class StockServiceImpl implements StockService{
         
         return results.stream()
             .map(result -> {
-                String branchid = (String) result[0];
+                String branchId = (String) result[0];
                 String branchName = (String) result[1];
                 long count = (long) result[2];
 
                 UserStockDTO userStockDTO = new UserStockDTO();
-                userStockDTO.setBranchid(branchid);
+                userStockDTO.setBranchId(branchId);
                 userStockDTO.setBranchName(branchName);
                 userStockDTO.setCount(count);
                 return userStockDTO;
@@ -147,6 +155,7 @@ public class StockServiceImpl implements StockService{
             .collect(Collectors.toList());
     }
 	
+
   
     //발주하기 버튼
     @Override
@@ -163,6 +172,11 @@ public class StockServiceImpl implements StockService{
             stockRepository.saveAll(Stocks);
         }
     }
+
+	
+    
+
 }//end
+
 
 
