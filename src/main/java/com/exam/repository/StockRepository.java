@@ -56,8 +56,8 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     @Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3 WHERE s.goods.gcode = :gcode")
     void mobileUpdateLocationByGcode(String gcode, String loc1, String loc2, String loc3);
     
-    //admin main 지점 순위
-    @Query("SELECT u.branchId, u.branchName, count(s) FROM Stock s JOIN User u GROUP BY u.branchId")
+    //관리자 메인화면 지점 순위 막대그래프
+    @Query("SELECT s.user.branchId, s.user.branchName, count(s) FROM Stock s GROUP BY s.user.branchId")
     List<Object[]> countStocksByBranch();
 
  // branchId 로 Stock 조회

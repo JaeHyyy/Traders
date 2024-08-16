@@ -51,4 +51,7 @@ public class User {
 
     @Column(name = "phonenum")
     private String phoneNum; // 전화번호
+    
+    @Column(name = "role")
+    private String role; //역할
 }
