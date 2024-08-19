@@ -38,4 +38,5 @@ public class Movement {
 	LocalDate movdate;
 	Long movquantity;
 	String movstatus;
+	
 }

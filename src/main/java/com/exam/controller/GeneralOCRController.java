@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/uploadForm")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class GeneralOCRController {
 
 	String apiURL = "https://4930zazour.apigw.ntruss.com/custom/v1/33486/396c66c8c7d0d10efa5a4278b961555e08f3efb6439a845a7cf472c43c3e9200/general";
