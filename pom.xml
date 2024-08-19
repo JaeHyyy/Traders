@@ -12,6 +12,7 @@
 	<groupId>com.exam</groupId>
 	<artifactId>traders</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>traders</name>
 	<description>final project for Spring Boot</description>
 	<properties>

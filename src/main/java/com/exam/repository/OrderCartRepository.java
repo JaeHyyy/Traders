@@ -15,7 +15,7 @@ import com.exam.entity.OrderCart;
 
 
 
-public interface OrderCartRepository extends JpaRepository<OrderCart, String> {
+public interface OrderCartRepository extends JpaRepository<OrderCart, Integer> {
 
 	/*
 	 * 다음 메서드가 지원됨
