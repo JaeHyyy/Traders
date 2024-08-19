@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.StockDTO;
 import com.exam.dto.UserStockDTO;
 import com.exam.entity.Stock;
@@ -31,6 +32,7 @@ public interface StockService {
 	
 	//admin - 그래프
 	public List<UserStockDTO> countStocksByBranch();
+	public List<GnameSummaryDTO> findGnameSummaries();
 	
 	// branchId 로 Stock 조회
 	public List<StockDTO> findByBranchIdStock(String branchId);

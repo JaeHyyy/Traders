@@ -30,19 +30,11 @@ public class TradersApplication extends SpringBootServletInitializer{
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 					.allowedMethods("*")				
-					.allowedOrigins("http://localhost:3000/**",
-							"http://127.0.0.1:5500",
-							"http://10.10.10.207:8090/**",
-							"http://10.10.10.197:8090/**",
-							"http://192.168.0.109:8090/**",
-							"http://10.10.10.227:8090/**",
-							"http://10.10.10.58:8090/**",
-							"http://10.10.10.58:3000/**",
-							"http://172.30.1.8:8090/**",
-							"http://172.30.1.8:3000/**",
-							"*",
-							"http://tradersreactbucket5.s3-website.us-east-2.amazonaws.com/**",
-							"http://tradersapp5.us-east-2.elasticbeanstalk.com/**");
+			        .allowedOrigins(
+			                "http://localhost:3000",
+			                "http://tradersapp5.us-east-2.elasticbeanstalk.com"
+			            );
+
 			}
 		};
 	}
