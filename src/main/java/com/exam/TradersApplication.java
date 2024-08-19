@@ -40,7 +40,9 @@ public class TradersApplication extends SpringBootServletInitializer{
 							"http://10.10.10.58:3000/**",
 							"http://172.30.1.8:8090/**",
 							"http://172.30.1.8:3000/**",
-							"*");
+							"*",
+							"http://tradersreactbucket5.s3-website.us-east-2.amazonaws.com/**",
+							"http://tradersapp5.us-east-2.elasticbeanstalk.com/**");
 			}
 		};
 	}
