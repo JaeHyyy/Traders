@@ -84,6 +84,7 @@ public class OrderCartController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 //        }
 //    }
+    @Transactional
     @PostMapping("/saveAll/{branchId}")
     public ResponseEntity<String> saveAll(@PathVariable String branchId, @RequestBody List<OrderCartDTO> dtos) {
         try {
