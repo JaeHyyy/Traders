@@ -14,7 +14,7 @@ import com.exam.entity.Movement;
 
 public interface MovementRepository extends JpaRepository<Movement, Long> {
 
-	@Query("SELECT m FROM Movement m WHERE m.branchid = :branchid AND m.movdate = :movdate")
+	@Query("SELECT m FROM Movement m WHERE m.branchid = :branchid and m.movstatus = '출고 완료' AND m.movdate = :movdate")
 	List<Movement> findByMovdate(@Param("branchid") String branchid, LocalDate movdate);
 
 	@Query("SELECT m.movdate, count(m) FROM Movement m WHERE m.branchid = :branchid GROUP BY m.movdate order by m.movdate desc")
