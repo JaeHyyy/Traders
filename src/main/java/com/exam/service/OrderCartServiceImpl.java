@@ -126,6 +126,16 @@ public class OrderCartServiceImpl implements OrderCartService {
             throw new EntityNotFoundException("OrderCart not found for ordercode: " + ordercode + " and branchId: " + branchId);
         }
     }
+    
+    // branchId와 gcode로 수량 업데이트
+    @Override
+    public void updateByGcode(String branchId, String gcode, OrderCartDTO dto) {
+        OrderCart orderCart = orderCartRepository.findByBranchIdAndGcode(branchId, gcode);
+        if (orderCart != null) {
+            orderCart.setGcount(dto.getGcount());
+            orderCartRepository.save(orderCart);
+        }
+    }
 
 
 

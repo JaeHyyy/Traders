@@ -123,10 +123,11 @@ public class OrderCartController {
         orderCartService.delete(branchId, ordercode);
     }
 
-    //발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
-    @PutMapping("/update/{branchId}/{ordercode}")
-    public void update(@PathVariable String branchId, @PathVariable String ordercode, @RequestBody OrderCartDTO dto) {
-        orderCartService.update(branchId, ordercode, dto);
+    // branchId와 gcode로 수량 업데이트
+    @PutMapping("/updateByGcode/{branchId}/{gcode}")
+    public ResponseEntity<String> updateByGcode(@PathVariable String branchId, @PathVariable String gcode, @RequestBody OrderCartDTO dto) {
+        orderCartService.updateByGcode(branchId, gcode, dto);
+        return ResponseEntity.ok("OrderCart updated successfully");
     }
    	
 }

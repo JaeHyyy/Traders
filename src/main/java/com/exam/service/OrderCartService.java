@@ -24,6 +24,8 @@ public interface OrderCartService {
 	// branchId 로 OrderCart 조회
 	List<OrderCartDTO> findByBranchId(String branchId);
     void saveAll(String branchId, List<OrderCartDTO> dtos);
+    // gcode 기준으로 수량 변경
+    void updateByGcode(String branchId, String gcode, OrderCartDTO dto);
     
     // 결제성공시 상품 삭제
     void delete(String branchId, String ordercode);
