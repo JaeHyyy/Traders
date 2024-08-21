@@ -1,10 +1,13 @@
 package com.exam.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,9 +29,11 @@ import com.exam.service.OrderCartService;
 public class OrderCartController {
 	
 	OrderCartService orderCartService;
+	Map<String, String> branchOrderCodeMap; // branchId와 ordercode를 매핑하는 Map
 
 	public OrderCartController(OrderCartService orderCartService) {
 		this.orderCartService = orderCartService;
+		this.branchOrderCodeMap = new HashMap<>(); // 초기화
 	}
 
 
@@ -69,21 +74,6 @@ public class OrderCartController {
         return orderCartService.findByBranchId(branchId);
     }
     
-//    //메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장
-//    @Transactional
-//    @PostMapping("/saveAll/{branchId}")
-//    public ResponseEntity<String> saveAll(@PathVariable String branchId, @RequestBody List<OrderCartDTO> dtos) {
-//        try {
-//            if (dtos == null || dtos.isEmpty()) {
-//                return ResponseEntity.badRequest().body("OrderCartDTOs are empty or null");
-//            }
-//            orderCartService.saveAll(branchId, dtos);
-//            return ResponseEntity.ok("OrderCartDTOs saved successfully");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
-//        }
-//    }
     @Transactional
     @PostMapping("/saveAll/{branchId}")
     public ResponseEntity<String> saveAll(@PathVariable String branchId, @RequestBody List<OrderCartDTO> dtos) {
@@ -92,10 +82,18 @@ public class OrderCartController {
                 return ResponseEntity.badRequest().body("OrderCartDTOs are empty or null");
             }
 
-            // `ordercode`가 null인 경우 자동 생성
+            // 해당 branchId에 대해 ordercode가 이미 존재하는지 확인
+            String ordercode = branchOrderCodeMap.get(branchId);
+            if (ordercode == null) {
+                // 존재하지 않으면 새로 생성하고 Map에 저장
+                ordercode = generateOrdercode();
+                branchOrderCodeMap.put(branchId, ordercode);
+            }
+
+            // 각 DTO에 ordercode를 설정
             for (OrderCartDTO dto : dtos) {
                 if (dto.getOrdercode() == null) {
-                    dto.setOrdercode(generateOrdercode());
+                    dto.setOrdercode(ordercode);
                 }
             }
 
@@ -119,7 +117,7 @@ public class OrderCartController {
     }
 
 
-    //발주하기 페이지에서 선택 후 담았던 상품 삭제 
+    // 결제성공시 상품 삭제
     @DeleteMapping("/delete/{branchId}/{ordercode}")
     public void delete(@PathVariable String branchId, @PathVariable String ordercode) {
         orderCartService.delete(branchId, ordercode);
@@ -130,5 +128,5 @@ public class OrderCartController {
     public void update(@PathVariable String branchId, @PathVariable String ordercode, @RequestBody OrderCartDTO dto) {
         orderCartService.update(branchId, ordercode, dto);
     }
-	
+   	
 }

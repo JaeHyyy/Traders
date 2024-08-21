@@ -28,6 +28,9 @@ public interface OrderCartRepository extends JpaRepository<OrderCart, Integer> {
 	 * 이외의 변수로 조회하기 위해서는 추가로 메서드를 정의해야 된다.( Query Method 규칙을 따름 )
 	 */
 	
+	// 결제성공시 상품 삭제
+	List<OrderCart> findAllByOrdercodeAndUserBranchId(String ordercode, String branchId);
+	
 	// branchId 로 OrderCart 조회
 //    @Query("SELECT o FROM ordercart o JOIN o.user u WHERE u.branchId = :branchId")
     @Query("SELECT o FROM OrderCart o JOIN o.user u WHERE u.branchId = :branchId")
