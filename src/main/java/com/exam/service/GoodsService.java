@@ -1,10 +1,6 @@
 package com.exam.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.dto.GoodsDTO;
