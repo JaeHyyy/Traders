@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.exam.dto.GoodsDTO;
 import com.exam.dto.StockDTO;
 import com.exam.service.DisUseService;
 import com.exam.service.StockService;
@@ -48,7 +49,7 @@ public class StockController {
         return stockService.findGcodeData(gcode);
     }
     
-    @GetMapping("/gcode-data/{gcode}/{branchId")
+    @GetMapping("/gcode-data/{gcode}/{branchId}")
     public List<StockDTO> findByGcodeDataAndBranchId(@PathVariable String gcode, @PathVariable String branchId) {
     	return null;
     }

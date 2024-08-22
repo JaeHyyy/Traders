@@ -23,6 +23,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.exam.entity.Goods;
 import com.exam.entity.Movement;
 import com.exam.entity.OrderCart;
 import com.exam.entity.Stock;
@@ -69,5 +70,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     //관리자 메인화면 상품순위 도넛그래프
     @Query("SELECT g.gname, SUM(s.stockquantity) as summ FROM Stock s JOIN s.goods g GROUP BY g.gname order by summ desc")
     List<Object[]> findGnameSummaries();
+    
+
     
 }

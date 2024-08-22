@@ -41,5 +41,7 @@ public interface StockService {
 	public void saveAll(String branchId,List<StockDTO> dtos);
 	
 
+	
+
 
 }

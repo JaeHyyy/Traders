@@ -16,7 +16,7 @@ import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.GoodsDTO;
 import com.exam.dto.StockDTO;
 import com.exam.dto.UserStockDTO;
-
+import com.exam.entity.Goods;
 import com.exam.entity.Stock;
 import com.exam.entity.User;
 import com.exam.repository.StockRepository;
@@ -190,6 +190,8 @@ public class StockServiceImpl implements StockService{
             })
             .collect(Collectors.toList());
     }
+    
+    
 
 	
     
