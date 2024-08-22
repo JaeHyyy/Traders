@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +55,7 @@ public class UserController {
     
     @PostMapping("/signup")
     public ResponseEntity<String> signup(
-            @RequestParam("branchId") String branchId,
+            @Valid @RequestParam("branchId") String branchId,
             @RequestParam("passwd") String passwd,
             @RequestParam("branchName") String branchName,
             @RequestParam("branchNum") String branchNum,
@@ -146,7 +148,7 @@ public class UserController {
     
     
 
-    //로그인시 branchName값 가지고 오기   // aelin추가 백엔드는 여기 이 컨트롤러 코드 부분만 추가했음
+    //로그인시 branchName값 가지고 오기
     @GetMapping("/branchname/{branchId}")
     public ResponseEntity<String> getBranchName(@PathVariable String branchId) {
         User user = userRepository.findByBranchId(branchId);
