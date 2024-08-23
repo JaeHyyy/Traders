@@ -71,6 +71,24 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     @Query("SELECT g.gname, SUM(s.stockquantity) as summ FROM Stock s JOIN s.goods g GROUP BY g.gname order by summ desc")
     List<Object[]> findGnameSummaries();
     
+    //검색창 입력값으로 stock조회
+    @Query("SELECT s FROM Stock s WHERE s.user.branchId = :branchId " +
+    	       "AND (s.goods.gcode LIKE :keyword " + // 상품코드 검색
+    	       "OR s.goods.gname LIKE :keyword " +   // 상품 이름 검색
+    	       "OR s.goods.gcategory LIKE :keyword " + // 카테고리 검색
+    	       "OR s.goods.gunit LIKE :keyword " + // 단위 검색
+    	       "OR s.loc1 LIKE :keyword " +          // loc1 검색
+    	       "OR s.loc2 LIKE :keyword " +          // loc2 검색
+    	       "OR s.loc3 LIKE :keyword " +          // loc3 검색
+    	       "OR CAST(s.gprice AS string) LIKE :keyword " + // 가격 검색
+    	       "OR CAST(s.stockquantity AS string) LIKE :keyword " + // 재고량 검색
+    	       "OR CAST(s.stockid AS string) LIKE :keyword " + // 재고코드 검색
+    	       "OR CAST(s.expdate AS string) LIKE :keyword) " + // 유통기한 검색
+    	       "AND s.expdate >= :currentDate")
+    	List<Stock> stockSearchByKeyword(@Param("currentDate") LocalDate currentDate,
+    	                                 @Param("branchId") String branchId,
+    	                                 @Param("keyword") String keyword);
+    
 
     
 }

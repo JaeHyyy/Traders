@@ -76,6 +76,13 @@ public class StockController {
         return stockService.findByBranchIdStock(branchId);
     }
     
+    
+    //검색창 입력값으로 stock조회
+    @GetMapping("/branch/{branchId}/{keyword}")
+    public List<StockDTO> searchStock(@PathVariable String branchId, @RequestParam String keyword) {
+        return stockService.searchStock(branchId, keyword);
+    }
+    
 
 
 }

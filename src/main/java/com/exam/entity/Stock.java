@@ -42,7 +42,7 @@ public class Stock {
 	@JoinColumn(name = "gcode")
 	Goods goods;
 	
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "branchid", referencedColumnName = "branchId")
     private User user;
 }
