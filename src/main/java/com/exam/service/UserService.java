@@ -1,7 +1,6 @@
 package com.exam.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.exam.dto.UserDTO;
 import com.exam.entity.User;

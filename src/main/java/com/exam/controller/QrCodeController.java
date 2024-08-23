@@ -46,7 +46,7 @@ public class QrCodeController {
             
             // 이동할 URL을 포함한 QR 코드 텍스트 생성 
 
-            String qrCodeText = "http://10.10.10.24:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
+            String qrCodeText = "http://10.10.10.193:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
 			System.out.println("Generated QR Code URL: " + qrCodeText);
 
             // qr코드 이미지 생성

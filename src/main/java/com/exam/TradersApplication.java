@@ -33,7 +33,7 @@ public class TradersApplication extends SpringBootServletInitializer{
 			        .allowedOrigins(
 			                "http://localhost:3000",
 			                "http://traders5reactbucket.s3-website-ap-northeast-1.amazonaws.com",
-			                "*"
+			                "*" 
 			            );
 
 			}
