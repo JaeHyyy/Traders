@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -114,14 +115,30 @@ public class OrderCartServiceImpl implements OrderCartService {
             orderCartRepository.saveAll(orderCarts);
         }
     }
-
+    
+    // 결제성공시 상품 삭제
     @Override
     public void delete(String branchId, String ordercode) {
-        OrderCart orderCart = orderCartRepository.findByIdAndUserBranchId(ordercode, branchId);
-        if (orderCart != null) {
-            orderCartRepository.delete(orderCart);
+        List<OrderCart> orderCarts = orderCartRepository.findAllByOrdercodeAndUserBranchId(ordercode, branchId);
+        if (!orderCarts.isEmpty()) {
+            orderCartRepository.deleteAll(orderCarts);
+        } else {
+            throw new EntityNotFoundException("OrderCart not found for ordercode: " + ordercode + " and branchId: " + branchId);
         }
     }
+    
+    // branchId와 gcode로 수량 업데이트
+    @Override
+    public void updateByGcode(String branchId, String gcode, OrderCartDTO dto) {
+        OrderCart orderCart = orderCartRepository.findByBranchIdAndGcode(branchId, gcode);
+        if (orderCart != null) {
+            orderCart.setGcount(dto.getGcount());
+            orderCartRepository.save(orderCart);
+        }
+    }
+
+
+
 
     @Override
     public void update(String branchId, String ordercode, OrderCartDTO dto) {
@@ -131,12 +148,5 @@ public class OrderCartServiceImpl implements OrderCartService {
             orderCartRepository.save(orderCart);
         }
     }
-	
-	
-	
-
-
-
-
 
 }
