@@ -21,11 +21,12 @@ public class MovementDTO {
 	
 	long movidx;
 	long movcode;
-	String ordercode;
+	Long ordernum;
 	String branchid;
 	String gcode;
 	LocalDate movdate;
 	long movquantity;
 	String movstatus;
-	long count; 
+	long count;
+	String ordercode;
 }

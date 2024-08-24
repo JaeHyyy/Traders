@@ -149,6 +149,16 @@ public class MovementServiceImpl implements MovementService {
 		movementRepository.updateMovStatus(movidx, newStatus);
 	}
 	
+	// 모바일 - branchId 와 movdate 로 데이터 조회
+    @Override
+    public List<MovementDTO> findByBranchIdAndMovdate(String branchid, LocalDate movdate) {
+        logger.debug("Request to find movements by branchid: {} and movdate: {}", branchid, movdate);
+        List<Movement> movements = movementRepository.findByMovdate(branchid, movdate);
+        return movements.stream()
+                        .map(movement -> mapper.map(movement, MovementDTO.class))
+                        .collect(Collectors.toList());
+    }
+	
 	
 	//admin
 	@Override
@@ -166,7 +176,7 @@ public class MovementServiceImpl implements MovementService {
 	    List<Movement> movements = new ArrayList<>();
 	    for (MovementDTO dto : movementDTOs) {
 	        Movement movement = new Movement();
-	        movement.setOrdercode(dto.getOrdercode());
+	        movement.setOrdernum(dto.getOrdernum());
 	        movement.setBranchid(dto.getBranchid());
 	        movement.setGcode(dto.getGcode());
 	        movement.setMovquantity(dto.getMovquantity()); // gcount -> movquantity

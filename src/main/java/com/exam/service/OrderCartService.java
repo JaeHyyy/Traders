@@ -27,6 +27,7 @@ public interface OrderCartService {
     // gcode 기준으로 수량 변경
     void updateByGcode(String branchId, String gcode, OrderCartDTO dto);
     
+    
     // 결제성공시 상품 삭제
     void delete(String branchId, String ordercode);
     void update(String branchId, String ordercode, OrderCartDTO dto);
