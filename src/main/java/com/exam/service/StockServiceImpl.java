@@ -8,15 +8,12 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.GoodsDTO;
 import com.exam.dto.StockDTO;
 import com.exam.dto.UserStockDTO;
-
 import com.exam.entity.Stock;
 import com.exam.entity.User;
 import com.exam.repository.StockRepository;
@@ -190,6 +187,19 @@ public class StockServiceImpl implements StockService{
             })
             .collect(Collectors.toList());
     }
+
+    //검색창 입력값으로 stock조회
+	@Override
+	public List<StockDTO> searchStock(String branchId, String keyword) {
+		 LocalDate currentDate = LocalDate.now();
+		 String likePattern = "%" + keyword + "%"; // LIKE 패턴
+		    List<Stock> stocks = stockRepository.stockSearchByKeyword(currentDate, branchId, likePattern);
+	        return stocks.stream()
+	                     .map(stock -> mapper.map(stock, StockDTO.class))
+	                     .collect(Collectors.toList());
+	}
+    
+    
 
 	
     

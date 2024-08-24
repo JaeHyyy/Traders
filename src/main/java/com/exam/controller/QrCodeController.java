@@ -45,7 +45,7 @@ public class QrCodeController {
 //            + "&date=" + URLEncoder.encode(date, "UTF-8");
             System.out.println("Generated QR Code URL: " + qrCodeText);
 
-            // QR 코드 이미지 생성
+            // qr코드 이미지 생성
             byte[] qrCodeImage = qrCodeService.generateQRCode(qrCodeText, 250, 250);
 
             HttpHeaders headers = new HttpHeaders();
@@ -76,33 +76,3 @@ public class QrCodeController {
     }
 
 }
-
-
-
-//@GetMapping("/{branchid}/qrcode")
-//public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date) {
-//  try {
-//      LocalDate movdate = LocalDate.parse(date);
-//      List<MovementDTO> movements = movementService.findByMovdate(branchid, movdate);
-//      String text = movements.stream()
-//              .map(MovementDTO::toString)
-//              .collect(Collectors.joining("\n"));
-//      
-//      // 이동할 URL을 포함한 QR 코드 텍스트 생성 
-//
-////      String qrCodeText = "http://10.10.10.24:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
-//      String qrCodeText = "http://10.10.10.153:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
-//		System.out.println("Generated QR Code URL: " + qrCodeText);
-//
-//      // qr코드 이미지 생성
-//      byte[] qrCodeImage = qrCodeService.generateQRCode(qrCodeText, 250, 250);
-//
-//      HttpHeaders headers = new HttpHeaders();
-//      headers.setContentType(MediaType.IMAGE_PNG);
-//      headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=qrcode.png");
-//
-//      return ResponseEntity.ok().headers(headers).body(qrCodeImage);
-//  } catch (Exception e) {
-//      return ResponseEntity.badRequest().build();
-//  }
-//}

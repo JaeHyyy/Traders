@@ -40,6 +40,11 @@ public interface StockService {
 	//발주하기 버튼
 	public void saveAll(String branchId,List<StockDTO> dtos);
 	
+	//검색창 입력값으로 stock조회
+	public List<StockDTO> searchStock(String branchId, String keyword);
+	
+
+	
 
 
 }
