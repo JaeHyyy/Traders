@@ -55,7 +55,8 @@ public class MovementServiceImpl implements MovementService {
         List<MovementDTO> groupedMovements = results.stream()
                                                     .map(result -> MovementDTO.builder()
                                                                               .movdate((LocalDate) result[0])
-                                                                              .count((Long) result[1])
+                                                                              .ordercode((String) result[1])
+                                                                              .count((Long) result[2])
                                                                               .build())
                                                     .collect(Collectors.toList());
         logger.debug("Grouped movements found: {}", groupedMovements);
