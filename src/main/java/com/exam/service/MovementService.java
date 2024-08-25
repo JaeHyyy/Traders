@@ -27,6 +27,8 @@ public interface MovementService {
     List<MovementDTO> findByGcode(String gcode);
     // 모바일 - status 변경 (대기 -> 완료)
     void updateMovStatus(Long movidx, String newStatus);
+    // 모바일 - branchId와 movdate로 조회
+    List<MovementDTO> findByBranchIdAndMovdate(String branchid, LocalDate movdate);
 
     
     public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(String branchid, LocalDate movdate);

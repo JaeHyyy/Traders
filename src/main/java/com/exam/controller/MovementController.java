@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,10 @@ public class MovementController {
         }
     }
     
-//    @PostMapping("/{ordercode}")
-//    public List<MovementDTO> findByOrdercode(@PathVariable String ordercode) {
-//        return movementDataService.findByOrdercode(ordercode);
-//    }
+    // 모바일 - branchId와 movdate로 조회
+    @GetMapping("/{branchid}/{movdate}")
+    public List<MovementDTO> findByBranchIdAndMovdate(@PathVariable String branchid, @PathVariable String movdate) {
+        LocalDate date = LocalDate.parse(movdate);
+        return movementDataService.findByBranchIdAndMovdate(branchid, date);
+    }
 }

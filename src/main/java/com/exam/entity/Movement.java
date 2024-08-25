@@ -32,11 +32,11 @@ public class Movement {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long movidx;
 	Long movcode;
-	String ordercode;
+	Long ordernum;
 	String gcode;
 	String branchid;
 	LocalDate movdate;
 	Long movquantity;
 	String movstatus;
-	
+	String ordercode;
 }
