@@ -183,6 +183,7 @@ public class MovementServiceImpl implements MovementService {
 	        movement.setMovquantity(dto.getMovquantity()); // gcount -> movquantity
 	        movement.setMovdate(dto.getMovdate()); // 프론트에서 받아온 movdate
 	        movement.setMovstatus(dto.getMovstatus()); // 프론트에서 받아온 movstatus
+	        movement.setOrdercode(dto.getOrdercode());
 	        movements.add(movement);
 	    }
 	    return movementRepository.saveAll(movements);
