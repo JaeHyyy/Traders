@@ -52,11 +52,34 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     List<Stock> findByGcode(String gcode);
 
 	List<Stock> findByGoodsGcode(String gcode);
-	
-	// 모바일 - 상세정보페이지 위치 업데이트
-    @Modifying
-    @Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3 WHERE s.goods.gcode = :gcode")
-    void mobileUpdateLocationByGcode(String gcode, String loc1, String loc2, String loc3);
+
+	// 모바일 - 상세정보페이지 위치 및 가격 업데이트
+	@Modifying
+	@Transactional
+	@Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3, s.gprice = (SELECT g.gcostprice FROM Goods g WHERE g.gcode = :gcode) WHERE s.goods.gcode = :gcode AND s.user.branchId = :branchId")
+	void mobileUpdateLocationByGcodeAndBranchId(@Param("gcode") String gcode, 
+	                                            @Param("branchId") String branchId, 
+	                                            @Param("loc1") String loc1, 
+	                                            @Param("loc2") String loc2, 
+	                                            @Param("loc3") String loc3);
+
+
+
+	@Modifying
+	@Transactional
+	@Query("UPDATE Stock s SET s.loc1 = :loc1, s.loc2 = :loc2, s.loc3 = :loc3, s.gprice = :price WHERE s.goods.gcode = :gcode AND s.user.branchId = :branchId")
+	void updateLocationWithPrice(@Param("gcode") String gcode, 
+	                             @Param("branchId") String branchId, 
+	                             @Param("loc1") String loc1, 
+	                             @Param("loc2") String loc2, 
+	                             @Param("loc3") String loc3, 
+	                             @Param("price") Integer price);
+
+
+
+
+
+
     
     //관리자 메인화면 지점 순위 막대그래프
     @Query("SELECT s.user.branchId, s.user.branchName, count(s) FROM Stock s GROUP BY s.user.branchId")
@@ -89,6 +112,12 @@ public interface StockRepository extends JpaRepository<Stock, Integer>{
     	                                 @Param("branchId") String branchId,
     	                                 @Param("keyword") String keyword);
     
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    // branchId 로 stock 테이블 + goods 테이블 데이터 조회
+ 	@Query("SELECT s FROM Stock s JOIN FETCH s.goods WHERE s.user.branchId = :branchId AND s.expdate >= :currentDate")
+ 	List<Stock> findAllWithGoodsByBranchId(@Param("branchId") String branchId, @Param("currentDate") LocalDate currentDate);
 
     
 }

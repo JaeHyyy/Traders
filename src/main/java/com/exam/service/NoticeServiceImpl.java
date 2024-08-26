@@ -1,11 +1,15 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.exam.dto.MovementDTO;
+import com.exam.dto.NoticeDTO;
 import com.exam.entity.Notice;
 import com.exam.repository.NoticeRepository;
 
@@ -25,13 +29,23 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<Notice> getNoticesForBranch(String branchId) {
-		return noticeRepository.findByUser_BranchId(branchId);
+	public List<NoticeDTO> getNoticesForBranch(String branchId) {
+		ModelMapper mapper = new ModelMapper();
+	    List<Notice> list = noticeRepository.findByUser_BranchId(branchId);
+	    List<NoticeDTO> noticeList = list.stream()
+	    		.map(e->mapper.map(e, NoticeDTO.class))
+                .collect(Collectors.toList());
+	    return noticeList;
 	}
 
 	@Override
-	public List<Notice> getAllGlobalNotices() {
-		return noticeRepository.findByIsGlobalTrue();
+	public List<NoticeDTO> getAllGlobalNotices() {
+		ModelMapper mapper = new ModelMapper();
+	    List<Notice> list = noticeRepository.findByIsGlobalTrue();
+	    List<NoticeDTO> noticeList = list.stream()
+	    		.map(e->mapper.map(e, NoticeDTO.class))
+                .collect(Collectors.toList());
+	    return noticeList;
 	}
 
 }

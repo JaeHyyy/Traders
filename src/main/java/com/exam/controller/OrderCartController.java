@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,29 +43,6 @@ public class OrderCartController {
 	public List<OrderCartDTO> findAll() {
 		return orderCartService.findAll();
 	}
-	
-//	//메인에서 발주하기 눌렀을 때 ordercart db테이블에 해당 상품 저장 
-//	@Transactional
-//	 @PostMapping("/saveAll")
-//	    public ResponseEntity<String> saveAll(@RequestBody List<OrderCartDTO> dtos) {
-//		 System.out.println("Received OrderCartDTOs: " + dtos); // 요청된 데이터 로그
-//	        orderCartService.saveAll(dtos);
-//	        return ResponseEntity.ok("OrderCartDTOs saved successfully");
-//	    }
-//	
-//	//발주하기 페이지에서 선택 후 담았던 상품 삭제 
-//	@DeleteMapping("/delete/{ordercode}")
-//	public void delete(@PathVariable int ordercode) {
-//		orderCartService.delete(ordercode);
-//	}
-//	
-//	//발주하기 페이지에서 수량 변경 후 수정 내용 변경하기
-//	@PutMapping("/update/{ordercode}")
-//	public void update(@PathVariable int ordercode, 
-//			@RequestBody OrderCartDTO dto) {
-//		orderCartService.update(ordercode, dto);
-//	}
-//	
 
 	// ------- ▼ security 적용후 -------------------------------------------------------
 	
@@ -115,7 +93,7 @@ public class OrderCartController {
         
         return part1 + "-" + part2 + "-" + part3;
     }
-
+    
 
     // 결제성공시 상품 삭제
     @DeleteMapping("/delete/{branchId}/{ordercode}")
