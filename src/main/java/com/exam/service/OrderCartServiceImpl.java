@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.OrderCartDTO;
+import com.exam.entity.DisUse;
 import com.exam.entity.OrderCart;
 import com.exam.entity.User;
 import com.exam.repository.OrderCartRepository;
@@ -144,6 +145,21 @@ public class OrderCartServiceImpl implements OrderCartService {
         if (orderCart != null) {
             orderCart.setGcount(dto.getGcount());
             orderCartRepository.save(orderCart);
+        }
+    }
+
+    
+    //발주하기 페이지에서 선택한 상품 삭제
+    @Transactional
+    @Override
+    public void selectedDelete(String branchId, String gcode) {
+        OrderCart orderCart2 = orderCartRepository.findByBranchIdAndGcode(branchId, gcode);
+        System.out.println(orderCart2);
+        if(orderCart2 != null) {
+            orderCartRepository.delete(orderCart2);
+            System.out.println("OrderCart 삭제 완료: " + gcode);
+        } else {
+            System.out.println("OrderCart를 찾을 수 없습니다: gcode = " + gcode + ", branchId = " + branchId);
         }
     }
 

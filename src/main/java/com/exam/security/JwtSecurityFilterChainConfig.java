@@ -43,7 +43,7 @@ public class JwtSecurityFilterChainConfig {
 	                .authorizeHttpRequests(auth ->
 	                auth.antMatchers("/signup","/login","/images/**","/uploadForm/**",
 	                		"/mobile/**", "/stock/**", "/movement/**","/goods/**","/api/**",
-	                		"/mobile/productDetail/**","/mobile/main/**","/payment/PaymentSuccess/**","/home/**").permitAll()
+	                		"/mobile/productDetail/**","/mobile/main/**","/payment/PaymentSuccess/**","/home/**","/ordercart/**").permitAll()
 
 
 	                    .antMatchers("/authenticate").permitAll() 

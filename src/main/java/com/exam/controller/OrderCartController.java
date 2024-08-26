@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,12 +101,19 @@ public class OrderCartController {
     public void delete(@PathVariable String branchId, @PathVariable String ordercode) {
         orderCartService.delete(branchId, ordercode);
     }
-
+    
     // branchId와 gcode로 수량 업데이트
     @PutMapping("/updateByGcode/{branchId}/{gcode}")
     public ResponseEntity<String> updateByGcode(@PathVariable String branchId, @PathVariable String gcode, @RequestBody OrderCartDTO dto) {
         orderCartService.updateByGcode(branchId, gcode, dto);
         return ResponseEntity.ok("OrderCart updated successfully");
+    }
+    
+  //발주하기 페이지에서 선택한 상품 삭제
+    @DeleteMapping("/delete/selected/{gcode}/{branchId}")
+    public void selectedDelete(@PathVariable String branchId, @PathVariable String gcode) {
+    	System.out.println("branchId: " + branchId + ", gcode: " + gcode);
+        orderCartService.selectedDelete(branchId, gcode);
     }
    	
 }
