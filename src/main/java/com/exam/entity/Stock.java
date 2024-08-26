@@ -2,6 +2,7 @@ package com.exam.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,8 +39,11 @@ public class Stock {
 	String loc2;
 	String loc3;
 	
+	@Column(name = "gcode")
+	String gcode;
+	
 	@ManyToOne
-	@JoinColumn(name = "gcode")
+	@JoinColumn(name = "gcode", referencedColumnName = "gcode", insertable = false, updatable = false)
 	Goods goods;
 	
     @ManyToOne(fetch = FetchType.EAGER)

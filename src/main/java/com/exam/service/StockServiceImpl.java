@@ -14,8 +14,10 @@ import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.GoodsDTO;
 import com.exam.dto.StockDTO;
 import com.exam.dto.UserStockDTO;
+import com.exam.entity.Goods;
 import com.exam.entity.Stock;
 import com.exam.entity.User;
+import com.exam.repository.GoodsRepository;
 import com.exam.repository.StockRepository;
 import com.exam.repository.UserRepository;
 
@@ -24,6 +26,7 @@ import com.exam.repository.UserRepository;
 public class StockServiceImpl implements StockService{
 	
 	StockRepository stockRepository;
+	GoodsRepository goodsRepository;
     private final ModelMapper mapper;  // ModelMapper를 클래스 레벨 필드로 선언
     
     @Autowired
@@ -65,20 +68,20 @@ public class StockServiceImpl implements StockService{
     // 특정 gcode에 대한 stock 데이터 + goods 데이터 조회
     @Override
     public List<StockDTO> findGcodeData(String gcode) {
-        List<Stock> list = stockRepository.findByGcode(gcode); // 새로운 메서드를 호출합니다.
+        List<Stock> list = stockRepository.findByGcode(gcode); // 이 메서드가 올바른 데이터를 반환하는지 확인하세요
         return list.stream()
                    .map(stock -> {
                        StockDTO stockDTO = mapper.map(stock, StockDTO.class);
                        GoodsDTO goodsDTO = mapper.map(stock.getGoods(), GoodsDTO.class);
-                       stockDTO.setGoods(null); // goods 엔티티를 제거
-                       stockDTO.setGoodsData(goodsDTO); // GoodsDTO를 StockDTO에 설정
-                       stockDTO.setGcode(goodsDTO.getGcode()); // gcode 가져옴.
+                       stockDTO.setGoods(null); // goods 데이터를 올바르게 설정하고 있는지 확인하세요
+                       stockDTO.setGoodsData(goodsDTO);
+                       stockDTO.setGcode(goodsDTO.getGcode());
                        goodsDTO.setGname(goodsDTO.getGname());
-                       
                        return stockDTO;
                    })
                    .collect(Collectors.toList());
     }
+
     
     // 특정 gcode 와 branchId 에 대한 stock 데이터 + goods 데이터 조회
     @Override
@@ -117,9 +120,32 @@ public class StockServiceImpl implements StockService{
 
 	// 모바일 - 상세정보페이지의 위치업데이트
 	@Override
-	public void mobileUpdateStockLocation(String gcode, String loc1, String loc2, String loc3) {
-		stockRepository.mobileUpdateLocationByGcode(gcode, loc1, loc2, loc3);
+	public void mobileUpdateStockLocation(String gcode, String branchId, String loc1, String loc2, String loc3, Integer price) {
+	    if (price == null) {
+	        // Goods에서 gcostprice를 가져옴
+	        price = goodsRepository.findGcostpriceByGcode(gcode);
+	        
+	        if (price == null) {
+	            System.out.println("gcostprice is null for gcode " + gcode);
+	            throw new RuntimeException("gcostprice not found for gcode: " + gcode);
+	        }
+	    }
+	    
+	    // 디버깅을 위한 로그 출력
+	    System.out.println("gcode: " + gcode);
+	    System.out.println("branchId: " + branchId);
+	    System.out.println("loc1: " + loc1);
+	    System.out.println("loc2: " + loc2);
+	    System.out.println("loc3: " + loc3);
+	    System.out.println("price: " + price);
+
+	    // 가져온 또는 제공된 가격으로 stock 위치를 업데이트
+	    stockRepository.updateLocationWithPrice(gcode, branchId, loc1, loc2, loc3, price);
 	}
+
+
+
+
 	
 	// branchId 로 Stock 조회
     @Override
@@ -200,6 +226,66 @@ public class StockServiceImpl implements StockService{
 	}
     
     
+	
+	///////////////////////////////////////////////////////////////////////////////////
+	
+	// branchId 로 stock 테이블 + goods 테이블 데이터 조회
+    @Override
+    public List<StockDTO> findAllDataByBranchId(String branchId) {
+        LocalDate currentDate = LocalDate.now();
+        List<Stock> list = stockRepository.findAllWithGoodsByBranchId(branchId, currentDate);
+
+        // 데이터 확인을 위한 로그 출력
+        System.out.println("Fetched Stocks: " + list.size());
+        list.forEach(stock -> System.out.println(stock.toString()));
+
+        return list.stream()
+                   .map(stock -> {
+                       StockDTO stockDTO = mapper.map(stock, StockDTO.class);
+                       GoodsDTO goodsDTO = mapper.map(stock.getGoods(), GoodsDTO.class);
+                       stockDTO.setGoods(null);
+                       stockDTO.setGoodsData(goodsDTO);
+                       stockDTO.setGcode(goodsDTO.getGcode());
+                       return stockDTO;
+                   })
+                   .collect(Collectors.toList());
+    }
+    
+    public void saveStock(StockDTO stockDTO) {
+        System.out.println("stockDTO: " + stockDTO);
+
+        // Goods와 User를 gcode와 branchid를 이용해 데이터베이스에서 조회
+        // 주석 처리된 부분은 생략하고, 필요한 필드만 설정
+        // Goods goods = goodsRepository.findByGcode(stockDTO.getGcode());
+        // System.out.println("goods: " + goods);
+
+        User user = userRepository.findByBranchId(stockDTO.getBranchid());
+        System.out.println("user: " + user);
+        
+        // Stock 엔티티 설정
+        Stock stock = new Stock();
+        // stock.setGoods(goods); // goods는 설정하지 않음
+        stock.setUser(user);
+        stock.setStockquantity(stockDTO.getStockquantity());
+        stock.setExpdate(stockDTO.getExpdate());
+        stock.setGprice(stockDTO.getGprice());
+        stock.setLoc1(stockDTO.getLoc1());
+        stock.setLoc2(stockDTO.getLoc2());
+        stock.setLoc3(stockDTO.getLoc3());
+        stock.setGcode(stockDTO.getGcode()); // gcode를 설정
+
+        System.out.println("stock: " + stock);
+        
+        // Stock 저장
+        stockRepository.save(stock);
+    }
+
+
+
+
+
+
+
 
 	
     

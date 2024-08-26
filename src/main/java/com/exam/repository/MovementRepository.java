@@ -29,8 +29,10 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 
 	// 모바일 - 상태업데이트 ( 대기 -> 완료 )
 	@Modifying
-	@Query("UPDATE Movement m SET m.movstatus = :newStatus WHERE m.movidx = :movidx")
-	void updateMovStatus(@Param("movidx") Long movidx, @Param("newStatus") String newStatus);
+	@Query("UPDATE Movement m SET m.movstatus = :newStatus WHERE m.branchid = :branchid AND m.gcode = :gcode AND m.movdate = :movdate")
+	void updateMovStatusByBranchIdAndGcode(@Param("branchid") String branchid, @Param("gcode") String gcode, @Param("movdate") LocalDate movdate, @Param("newStatus") String newStatus);
+
+
 
 //	@Modifying
 //	@Query("INSERT INTO Movement (ordercode, gcode, branchid, movdate, movquantity, movstatus) "
