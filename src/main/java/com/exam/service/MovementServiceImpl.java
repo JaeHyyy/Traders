@@ -55,7 +55,8 @@ public class MovementServiceImpl implements MovementService {
         List<MovementDTO> groupedMovements = results.stream()
                                                     .map(result -> MovementDTO.builder()
                                                                               .movdate((LocalDate) result[0])
-                                                                              .count((Long) result[1])
+                                                                              .ordercode((String) result[1])
+                                                                              .count((Long) result[2])
                                                                               .build())
                                                     .collect(Collectors.toList());
         logger.debug("Grouped movements found: {}", groupedMovements);
@@ -185,6 +186,7 @@ public class MovementServiceImpl implements MovementService {
 	        movement.setMovquantity(dto.getMovquantity()); // gcount -> movquantity
 	        movement.setMovdate(dto.getMovdate()); // 프론트에서 받아온 movdate
 	        movement.setMovstatus(dto.getMovstatus()); // 프론트에서 받아온 movstatus
+	        movement.setOrdercode(dto.getOrdercode());
 	        movements.add(movement);
 	    }
 	    return movementRepository.saveAll(movements);

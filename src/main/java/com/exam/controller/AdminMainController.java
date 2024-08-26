@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.exam.dto.GnameSummaryDTO;
 import com.exam.dto.GoodsDTO;
 import com.exam.dto.MovementGoodsDTO;
+import com.exam.dto.NoticeDTO;
 import com.exam.dto.UserDTO;
 import com.exam.dto.UserStockDTO;
 import com.exam.entity.Notice;
@@ -91,17 +92,17 @@ public class AdminMainController {
         return ResponseEntity.ok(savedNotice);
     }
 	
-	//지점 메세지 받기
+	// 지점 메세지 받기
     @GetMapping("/getnotice/{branchId}")
-    public ResponseEntity<List<Notice>> getNoticesForBranch(@PathVariable String branchId) {
-        List<Notice> notices = noticeService.getNoticesForBranch(branchId);
+    public ResponseEntity<List<NoticeDTO>> getNoticesForBranch(@PathVariable String branchId) {
+        List<NoticeDTO> notices = noticeService.getNoticesForBranch(branchId);
         return ResponseEntity.ok(notices);
     }
     
-    //전제 메시지 받기
+    // 전체 메시지 받기
     @GetMapping("/globalnotice")
-    public ResponseEntity<List<Notice>> getAllGlobalNotices() {
-        List<Notice> notices = noticeService.getAllGlobalNotices();
+    public ResponseEntity<List<NoticeDTO>> getAllGlobalNotices() {
+        List<NoticeDTO> notices = noticeService.getAllGlobalNotices();
         return ResponseEntity.ok(notices);
     }
 	

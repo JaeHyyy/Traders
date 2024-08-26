@@ -16,8 +16,8 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 
 	@Query("SELECT m FROM Movement m WHERE m.branchid = :branchid AND m.movdate = :movdate")
 	List<Movement> findByMovdate(@Param("branchid") String branchid, LocalDate movdate);
-
-	@Query("SELECT m.movdate, count(m) FROM Movement m WHERE m.branchid = :branchid and m.movstatus = '출고 완료' GROUP BY m.movdate order by m.movdate desc")
+	//입고페이지 - 지점명+날짜별로 그룹화하여 상태가 출고완료인것만 건수 표기
+	@Query("SELECT m.movdate, m.ordercode, count(m) FROM Movement m WHERE m.branchid = :branchid and m.movstatus = '출고 완료' GROUP BY m.movdate, m.ordercode order by m.movdate desc")
 	List<Object[]> findGroupedByMovdate(@Param("branchid") String branchid);
 
 	List<Movement> findAllByOrderByMovdateAsc(); // 날짜순으로 모든 이동 데이터를 찾기 위한 새로운 메서드
@@ -43,16 +43,20 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
     List<Object[]> findMovementsWithGoodsByMovdate(@Param("branchid") String branchid, @Param("movdate") LocalDate movdate);
     
     
-    //admin page
+    //admin page 출고관리 페이지 - 출고대기상품 조회
     @Query("select u.branchName, m.movdate, count(m) from User u JOIN Movement m ON u.branchId = m.branchid where m.movstatus = '출고 대기' group by u.branchName, m.movdate")
     List<Object[]> findBranchMovements();
     
     @Modifying
-    @Transactional
+    @Transactional //선택한 지점+날짜 에 해당하는 데이터의 상태변경
     @Query("UPDATE Movement m SET m.movstatus = :movstatus WHERE m.branchid = (SELECT u.branchId FROM User u WHERE u.branchName = :branchName) AND m.movdate = :movdate")
     void updateMovstatusForGroup(@Param("branchName") String branchName, @Param("movdate") LocalDate movdate, @Param("movstatus") String movstatus);
-    
+    // 선택한 지점+날짜 에 해당하는 데이터들의 개별 상태조회
     @Query("SELECT m, g FROM Movement m JOIN Goods g ON m.gcode = g.gcode WHERE m.branchid = (SELECT u.branchId FROM User u WHERE u.branchName = :branchName) AND m.movdate = :movdate AND m.movstatus=:movstatus ")
     List<Object[]> findPendingMovementsByBranchAndDate(@Param("branchName") String branchName, @Param("movdate") LocalDate movdate, @Param("movstatus") String movstatus);
-
+    
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Movement m Set m.movdate = :movstatus WHERE ")
+    
 }
