@@ -48,27 +48,37 @@ public class StockController {
     public List<StockDTO> findGcodeData(@PathVariable String gcode) {
         return stockService.findGcodeData(gcode);
     }
-    
-    @GetMapping("/gcode-data/{gcode}/{branchId}")
-    public List<StockDTO> findByGcodeDataAndBranchId(@PathVariable String gcode, @PathVariable String branchId) {
-    	return null;
-    }
+   
 
     //유통기한관리페이지에서 폐기완료 버튼 클릭시 stock테이블의 해당 데이터 삭제
 	@DeleteMapping("/delete/{stockid}/{branchId}")
-	public void deleteByBranchIdStock(@PathVariable int stockid, String branchId) {
-		stockService.deleteByBranchIdStock(stockid, branchId);
+	public void deleteByBranchIdStock(@PathVariable int stockid, String branchid) {
+		stockService.deleteByBranchIdStock(stockid, branchid);
 	} 
     
 
-    // 모바일 상세정보 페이지에서 위치정보 업데이트
-    @PutMapping("/mobile-update-location")
-    public void mobileUpdateLocation(@RequestParam String gcode,
-            @RequestParam String loc1,
-            @RequestParam String loc2,
-            @RequestParam String loc3) {
-    	stockService.mobileUpdateStockLocation(gcode, loc1, loc2, loc3);
-    }
+	// 모바일 상세정보 페이지에서 위치정보 업데이트
+	@PutMapping("/mobile-update-location")
+	public void mobileUpdateLocation(@RequestParam String gcode,
+	        @RequestParam String branchId,
+	        @RequestParam String loc1,
+	        @RequestParam String loc2,
+	        @RequestParam String loc3,
+	        @RequestParam(required = false) Integer price) {  // Integer로 수정, price가 선택사항임
+		
+	    // 매개변수 값을 출력
+	    System.out.println("gcode: " + gcode);
+	    System.out.println("branchId: " + branchId);
+	    System.out.println("loc1: " + loc1);
+	    System.out.println("loc2: " + loc2);
+	    System.out.println("loc3: " + loc3);
+	    System.out.println("price: " + (price != null ? price : 0));
+
+	    stockService.mobileUpdateStockLocation(gcode, branchId, loc1, loc2, loc3, price);
+	}
+
+
+
     
 	// branchId 로 Stock 조회
     @GetMapping("/branch/{branchId}")
@@ -83,6 +93,12 @@ public class StockController {
         return stockService.searchStock(branchId, keyword);
     }
     
-
+    ///////////////////////////////////////////////////////////////////////
+    
+    // branchId 로 stock 테이블 + goods 테이블 데이터 조회
+    @GetMapping("/all-data/{branchId}")
+    public List<StockDTO> findAllDataByBranchId(@PathVariable String branchId) {
+        return stockService.findAllDataByBranchId(branchId);
+    }
 
 }
