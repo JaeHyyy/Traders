@@ -145,10 +145,13 @@ public class MovementServiceImpl implements MovementService {
     }
 
     // 모바일 - status 변경 (대기 -> 완료)
-	@Override
-	public void updateMovStatus(Long movidx, String newStatus) {
-		movementRepository.updateMovStatus(movidx, newStatus);
-	}
+    @Override
+    public void updateMovStatusByBranchIdAndGcode(String branchid, String gcode, LocalDate movdate, String newStatus) {
+        System.out.printf("Updating movstatus for branchid: {}, gcode: {}, movdate: {} to newStatus: {}", branchid, gcode, movdate, newStatus);
+        movementRepository.updateMovStatusByBranchIdAndGcode(branchid, gcode, movdate, newStatus);
+    }
+
+
 	
 	// 모바일 - branchId 와 movdate 로 데이터 조회
     @Override
@@ -183,6 +186,7 @@ public class MovementServiceImpl implements MovementService {
 	        movement.setMovquantity(dto.getMovquantity()); // gcount -> movquantity
 	        movement.setMovdate(dto.getMovdate()); // 프론트에서 받아온 movdate
 	        movement.setMovstatus(dto.getMovstatus()); // 프론트에서 받아온 movstatus
+	        movement.setOrdercode(dto.getOrdercode());
 	        movements.add(movement);
 	    }
 	    return movementRepository.saveAll(movements);

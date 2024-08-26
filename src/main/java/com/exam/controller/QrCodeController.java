@@ -28,20 +28,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class QrCodeController {
 	public QrCodeService qrCodeService;
-    public MovementService movementService;
+    
 
-    public QrCodeController(QrCodeService qrCodeService, MovementService movementService) {
+    public QrCodeController(QrCodeService qrCodeService) {
         this.qrCodeService = qrCodeService;
-        this.movementService = movementService;
+
     }
 
     @GetMapping("/{branchid}/qrcode")
     public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date) {
         try {
             // 이동할 URL을 branchid와 date만 포함하도록 생성
-            String qrCodeText = "http://10.10.10.153:3000/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
+            String qrCodeText = "http://10.10.10.25:3000/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
                               + "&date=" + URLEncoder.encode(date, "UTF-8");
-//            String qrCodeText = "http://192.168.0.109:3000/mobile/main?branchid=" + URLEncoder.encode(branchid, "UTF-8")
+//            String qrCodeText = "http://192.168.0.109:3000/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
 //            + "&date=" + URLEncoder.encode(date, "UTF-8");
             System.out.println("Generated QR Code URL: " + qrCodeText);
 
@@ -59,20 +59,6 @@ public class QrCodeController {
     }
 
     
-    // 모바일 status 변경 (대기 -> 완료)
-    @PostMapping("/updateMovStatus")
-    public ResponseEntity<?> updateMovStatus(@RequestBody List<Map<String, Object>> itemsToUpdate) {
-        try {
-            for (Map<String, Object> item : itemsToUpdate) {
-                Long movidx = Long.parseLong((String) item.get("movidx"));
-                String newStatus = (String) item.get("newStatus");
-                movementService.updateMovStatus(movidx, newStatus);
-            }
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            System.out.println("Error updating movement statuses: "+ e);
-            return ResponseEntity.status(500).body("Error updating movement statuses: " + e.getMessage());
-        }
-    }
+
 
 }

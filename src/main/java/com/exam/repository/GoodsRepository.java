@@ -30,6 +30,9 @@ public interface GoodsRepository extends JpaRepository<Goods, String> {
 
 	// 모바일용 - gcode 기준으로 데이터 찾기
 	Goods findByGcode(String gcode);
+	
+    @Query("SELECT g.gcostprice FROM Goods g WHERE g.gcode = :gcode")
+    Integer findGcostpriceByGcode(String gcode);
 
 
 
