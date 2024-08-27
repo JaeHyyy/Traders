@@ -109,6 +109,7 @@ public class DisUseServiceImpl implements DisUseService {
 //    public void scheduleExpiredStockCheck() {
 //        moveExpiredStocksToDisuse();
 //    }
+	
    //어플리케이션 실행 시 자동으로 유통기한 지난 재고상품 disuse에 저장시키기
 	@EventListener(ContextRefreshedEvent.class)
 	public void onApplicationEvent(ContextRefreshedEvent event) {

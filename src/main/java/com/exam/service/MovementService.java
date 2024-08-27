@@ -50,4 +50,7 @@ public interface MovementService {
  // 출고 대기 상태인 Movement와 Goods 조회
     List<MovementGoodsDTO> findPendingMovementsByBranchAndDate(String branchName, LocalDate movdate, String movstatus);
 
+ // branchId 기준으로 movstatus 가 반려인 데이터 조회
+    List<MovementDTO> findRejectedMovementsByBranchId(String branchid);
+
 }

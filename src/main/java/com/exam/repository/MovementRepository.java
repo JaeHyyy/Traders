@@ -59,4 +59,9 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 //    @Transactional
 //    @Query("UPDATE Movement m Set m.movdate = :movstatus WHERE ")
     
+    // branchId 기준으로 movstatus 가 반려인 데이터 조회
+    @Query("SELECT m FROM Movement m WHERE m.branchid = :branchid AND m.movstatus = '반려'")
+    List<Movement> findByBranchIdAndMovstatusRejected(@Param("branchid") String branchid);
+
+    
 }

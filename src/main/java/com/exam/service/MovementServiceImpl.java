@@ -217,4 +217,14 @@ public class MovementServiceImpl implements MovementService {
                       .collect(Collectors.toList());
     }
 
+ // branchId 기준으로 movstatus 가 반려인 데이터 조회
+    @Override
+    public List<MovementDTO> findRejectedMovementsByBranchId(String branchid) {
+        List<Movement> rejectedMovements = movementRepository.findByBranchIdAndMovstatusRejected(branchid);
+        return rejectedMovements.stream()
+                                .map(movement -> mapper.map(movement, MovementDTO.class))
+                                .collect(Collectors.toList());
+    }
+
+
 }

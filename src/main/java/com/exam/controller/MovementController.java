@@ -122,35 +122,6 @@ public class MovementController {
                 movementDataService.updateMovStatusByBranchIdAndGcode(branchid, gcode, movdate, newStatus);
 
                 // "입고 완료"로 상태가 변경된 항목만 Stock 테이블에 삽입
-//                if ("입고 완료".equals(newStatus)) {
-//                    Integer movquantity = null;
-//                    if (item.get("movquantity") instanceof String) {
-//                        movquantity = Integer.parseInt((String) item.get("movquantity"));
-//                    } else if (item.get("movquantity") instanceof Integer) {
-//                        movquantity = (Integer) item.get("movquantity");
-//                    }
-//
-//                    if (movquantity == null) {
-//                        throw new IllegalArgumentException("movquantity 값이 누락되었습니다: " + item);
-//                    }
-//
-//                    // StockDTO 생성 및 데이터 설정
-//                    StockDTO stockDTO = new StockDTO();
-//                    stockDTO.setBranchid(branchid);
-//                    stockDTO.setGcode(gcode != null ? gcode : "gcode");
-//                    stockDTO.setStockquantity(movquantity);
-//                    stockDTO.setExpdate(movdate);
-//                    stockDTO.setLoc1(loc1 != null ? loc1 : "loc1"); // 기본값 사용
-//                    stockDTO.setLoc2(loc2 != null ? loc2 : "loc2"); // 기본값 사용
-//                    stockDTO.setLoc3(loc3 != null ? loc3 : "loc3"); // 기본값 사용
-//                    stockDTO.setGprice(gprice != null ? gprice : 0); // 가격이 null이면 0으로 설정
-//
-//                    System.out.println("입고된 데이터: " + item);
-//                    System.out.println("StockDTO: " + stockDTO);
-//                    // Stock 테이블에 데이터 삽입
-//                    stockService.saveStock(stockDTO);
-//                }
-             // "입고 완료"로 상태가 변경된 항목만 Stock 테이블에 삽입
                 if ("입고 완료".equals(newStatus)) {
                     Integer movquantity = null;
                     if (item.get("movquantity") instanceof String) {
@@ -194,6 +165,11 @@ public class MovementController {
 
 
 
+    // branchId 기준으로 movstatus 가 반려인 데이터 조회
+    @GetMapping("/rejected/{branchid}")
+    public List<MovementDTO> findRejectedMovements(@PathVariable String branchid) {
+        return movementDataService.findRejectedMovementsByBranchId(branchid);
+    }
 
 
 

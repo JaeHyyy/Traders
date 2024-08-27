@@ -254,11 +254,6 @@ public class StockServiceImpl implements StockService{
     public void saveStock(StockDTO stockDTO) {
         System.out.println("stockDTO: " + stockDTO);
 
-        // Goods와 User를 gcode와 branchid를 이용해 데이터베이스에서 조회
-        // 주석 처리된 부분은 생략하고, 필요한 필드만 설정
-        // Goods goods = goodsRepository.findByGcode(stockDTO.getGcode());
-        // System.out.println("goods: " + goods);
-
         User user = userRepository.findByBranchId(stockDTO.getBranchid());
         System.out.println("user: " + user);
         
