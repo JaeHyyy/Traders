@@ -9,4 +9,6 @@ public interface NoticeService {
 	Notice sendNotice(Notice notice);
     List<NoticeDTO> getNoticesForBranch(String branchId);
     List<NoticeDTO> getAllGlobalNotices();
+    List<NoticeDTO> findAllNotices();
+    void deleteNoticeById(Long noticeId);  // 공지 삭제
 }

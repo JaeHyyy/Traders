@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -109,6 +110,20 @@ public class AdminMainController {
     @GetMapping("/sendbranch")
     public List<UserDTO> getAllBranches() {
         return userService.findAll();
+    }
+    
+    //모든 공지 조회
+    @GetMapping("/notices")
+    public ResponseEntity<List<NoticeDTO>> getAllNotices() {
+        List<NoticeDTO> notices = noticeService.findAllNotices();
+        return ResponseEntity.ok(notices);
+    }
+    
+    // 공지 삭제 
+    @DeleteMapping("/deletenotice/{noticeId}")
+    public ResponseEntity<?> deleteNotice(@PathVariable Long noticeId) {
+        noticeService.deleteNoticeById(noticeId);
+        return ResponseEntity.ok("Notice deleted successfully");
     }
 	
 	

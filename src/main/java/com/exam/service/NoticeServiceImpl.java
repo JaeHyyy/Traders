@@ -47,5 +47,19 @@ public class NoticeServiceImpl implements NoticeService {
                 .collect(Collectors.toList());
 	    return noticeList;
 	}
+	
+	@Override
+    public List<NoticeDTO> findAllNotices() {
+		ModelMapper mapper = new ModelMapper();
+        List<Notice> list = noticeRepository.findAll();
+        return list.stream()
+                   .map(e -> mapper.map(e, NoticeDTO.class))
+                   .collect(Collectors.toList());
+    }
+	
+	@Override
+    public void deleteNoticeById(Long noticeId) {
+        noticeRepository.deleteById(noticeId);  // 공지 삭제
+    }
 
 }
