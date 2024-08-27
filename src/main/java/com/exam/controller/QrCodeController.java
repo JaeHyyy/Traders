@@ -39,7 +39,7 @@ public class QrCodeController {
     public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date) {
         try {
             // 이동할 URL을 branchid와 date만 포함하도록 생성
-            String qrCodeText = "http://10.10.10.25:3000/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
+            String qrCodeText = "http://traders5reactbucket.s3-website-ap-northeast-1.amazonaws.com/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
                               + "&date=" + URLEncoder.encode(date, "UTF-8");
 //            String qrCodeText = "http://192.168.0.109:3000/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
 //            + "&date=" + URLEncoder.encode(date, "UTF-8");
