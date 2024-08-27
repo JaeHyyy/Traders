@@ -113,9 +113,8 @@ public class DisUseServiceImpl implements DisUseService {
    //어플리케이션 실행 시 자동으로 유통기한 지난 재고상품 disuse에 저장시키기
 	@EventListener(ContextRefreshedEvent.class)
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-	    // 유통기한이 지난 재고상품들을 각 지점(branchId)별로 처리
 	    this.moveExpiredStocksToDisuse(null);  // branchId를 인수로 전달하지 않음
-	    System.out.println("Checked and moved expired stocks at startup for all branches.");
+	    System.out.println("폐기완료");
 	}
     
 

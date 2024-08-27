@@ -41,7 +41,7 @@ public class OrderCart {
 	Integer gcount;
 	
 	//연관 테이블 참조
-	@ManyToOne   //다대일
+	@ManyToOne  //다대일
 	@JoinColumn(name = "gcode") //조인하는 컬럼
 	Goods goods;
     
