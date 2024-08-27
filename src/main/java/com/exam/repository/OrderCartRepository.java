@@ -44,4 +44,5 @@ public interface OrderCartRepository extends JpaRepository<OrderCart, Integer> {
     @Query("SELECT o FROM OrderCart o JOIN o.user u WHERE o.goods.gcode = :gcode AND u.branchId = :branchId")
     OrderCart findByBranchIdAndGcode(@Param("branchId") String branchId, @Param("gcode") String gcode);
 
+    
 }
