@@ -42,9 +42,13 @@ public class JwtSecurityFilterChainConfig {
 	        return httpSecurity
 	                .authorizeHttpRequests(auth ->
 	                auth.antMatchers("/signup","/login","/images/**","/uploadForm/**",
-	                		"/mobile/**", "/stock/**", "/movement/**","/goods/**","/api/**","/mobile/productDetail/**","/mobile/main/**").permitAll()
+	                		"/mobile/**", "/stock/**", "/movement/**","/goods/**","/api/**",
+	                		"/mobile/productDetail/**","/mobile/main/**","/payment/PaymentSuccess/**","/home/**").permitAll()
 
-	                    .antMatchers("/authenticate").permitAll()
+
+
+
+	                    .antMatchers("/authenticate").permitAll() 
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 	                    .anyRequest()

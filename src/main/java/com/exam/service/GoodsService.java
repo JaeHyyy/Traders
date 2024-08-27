@@ -18,5 +18,8 @@ public interface GoodsService {
 	public List<GoodsDTO> findAllData();
 	// 모바일용 데이터 - gcode 기준으로 찾기
 	GoodsDTO findByGcode(String gcode);
+	
+	//본사 상품 추가
+	GoodsDTO addGoods(GoodsDTO goodsDTO);
 
 }

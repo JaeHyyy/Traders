@@ -25,8 +25,14 @@ public interface MovementService {
 
     // 모바일 - gcode 로 데이터 조회
     List<MovementDTO> findByGcode(String gcode);
+    
+    
     // 모바일 - status 변경 (대기 -> 완료)
-    void updateMovStatus(Long movidx, String newStatus);
+    void updateMovStatusByBranchIdAndGcode(String branchid, String gcode, LocalDate movdate, String newStatus);
+    
+    
+    // 모바일 - branchId와 movdate로 조회
+    List<MovementDTO> findByBranchIdAndMovdate(String branchid, LocalDate movdate);
 
     
     public List<MovementGoodsDTO> findMovementsWithGoodsByMovdate(String branchid, LocalDate movdate);
@@ -43,5 +49,8 @@ public interface MovementService {
     
  // 출고 대기 상태인 Movement와 Goods 조회
     List<MovementGoodsDTO> findPendingMovementsByBranchAndDate(String branchName, LocalDate movdate, String movstatus);
+
+ // branchId 기준으로 movstatus 가 반려인 데이터 조회
+    List<MovementDTO> findRejectedMovementsByBranchId(String branchid);
 
 }
