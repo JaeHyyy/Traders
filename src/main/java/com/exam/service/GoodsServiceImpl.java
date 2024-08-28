@@ -143,6 +143,7 @@ public class GoodsServiceImpl implements GoodsService {
 	            // 파일 이름을 UUID로 설정하여 중복 및 특수 문자 문제 해결
 	            String originalFileName = multipartFile.getOriginalFilename();
 	            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));  // .png 등 확장자 추출
+
 	            String fileNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf("."));  // 파일 이름
 	            
 	            Path uploadPath = Paths.get(UPLOAD_DIR + fileExtension);  //실제 저장 경로
