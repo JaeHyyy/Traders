@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.nimbusds.jose.JOSEException;
@@ -40,26 +41,19 @@ public class JwtSecurityFilterChainConfig {
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
 	                .authorizeHttpRequests(auth ->
-	                auth.antMatchers("/signup","/login").permitAll()
-//	                		,"/success","/users","/hello","/home", 
-//	                		"/home/{keyword}","/receipt","/api/**","/movdateasc","/movdatedesc",
-//
-//	                		"/stock","/ordercart/**","/home/save","/images/items/{filename}","/images/**",
-//
-//	                		"/stock/**","/ordercart","/home/save","/images/items/{filename}","/images/**",
-//
-//	                		"/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-//	                		"/updateLocation/**","/getLocation/**","/stock/**","/gcode-data/{gcode}"
-//	                		,"/goods", "/goods/{gcode}", "/movement/**",
-//
-//	                		"/disuse/**","/ordercart/saveAll","api/qrcode?date=${movdate}","/receiptmodify/**",
-//	                		"/updateLocation/**","/getLocation/**","/findgcode/**","/join/**","/mobile/main").permitAll()  // 회원가입 요청 허용.
+	                auth.antMatchers("/signup","/login","/images/**","/uploadForm/**",
+	                		"/mobile/**", "/stock/**", "/movement/**","/goods/**","/api/**",
+	                		"/mobile/productDetail/**","/mobile/main/**","/payment/PaymentSuccess/**","/home/**").permitAll()
 
-	                    .antMatchers("/authenticate").permitAll()
+
+
+
+	                    .antMatchers("/authenticate").permitAll() 
 //	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 	                    .anyRequest()
 	                    .authenticated())
+//	                .cors(Customizer.withDefaults()) // CORS 설정 추가
 	                .csrf(AbstractHttpConfigurer::disable)
 	                .sessionManagement(session -> session.
 	                    sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -71,7 +65,7 @@ public class JwtSecurityFilterChainConfig {
 	                    frameOptions().sameOrigin();})
 	                .build();
 	    }
-//
+
 	
 	  
 	    @Bean
@@ -121,5 +115,8 @@ public class JwtSecurityFilterChainConfig {
 	    
 }
 
+
+//"/api/**","/stock/**","/movement/**","/goods/**",
+//"/mobile/**","/mobile/main/**","/mobile/productDetail/**"
 
 

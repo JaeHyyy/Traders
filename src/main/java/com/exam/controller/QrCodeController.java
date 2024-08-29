@@ -28,27 +28,23 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class QrCodeController {
 	public QrCodeService qrCodeService;
-    public MovementService movementService;
+    
 
-    public QrCodeController(QrCodeService qrCodeService, MovementService movementService) {
+    public QrCodeController(QrCodeService qrCodeService) {
         this.qrCodeService = qrCodeService;
-        this.movementService = movementService;
+
     }
 
     @GetMapping("/{branchid}/qrcode")
     public ResponseEntity<byte[]> generateQRCode(@PathVariable String branchid, @RequestParam("date") String date) {
         try {
-            LocalDate movdate = LocalDate.parse(date);
-            List<MovementDTO> movements = movementService.findByMovdate(branchid, movdate);
-            String text = movements.stream()
-                    .map(MovementDTO::toString)
-                    .collect(Collectors.joining("\n"));
-            
-            // 이동할 URL을 포함한 QR 코드 텍스트 생성 (ssg wifi : 10.10.10.197)
-            String qrCodeText = "http://10.10.10.170:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
-//            String qrCodeText = "http://10.10.10.207:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
-//            String qrCodeText = "http://192.168.0.109:3000/mobile/main?data=" + URLEncoder.encode(text, "UTF-8");
-            
+            // 이동할 URL을 branchid와 date만 포함하도록 생성
+            String qrCodeText = "http://traders5reactbucket.s3-website-ap-northeast-1.amazonaws.com/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
+                              + "&date=" + URLEncoder.encode(date, "UTF-8");
+//            String qrCodeText = "http://192.168.0.109:3000/mobile/login?branchid=" + URLEncoder.encode(branchid, "UTF-8")
+//            + "&date=" + URLEncoder.encode(date, "UTF-8");
+            System.out.println("Generated QR Code URL: " + qrCodeText);
+
             // qr코드 이미지 생성
             byte[] qrCodeImage = qrCodeService.generateQRCode(qrCodeText, 250, 250);
 
@@ -61,23 +57,8 @@ public class QrCodeController {
             return ResponseEntity.badRequest().build();
         }
     }
+
     
-    // 모바일 status 변경 (대기 -> 완료)
-    @PostMapping("/updateMovStatus")
-    public ResponseEntity<?> updateMovStatus(@RequestBody List<Map<String, Object>> itemsToUpdate) {
-        try {
-            for (Map<String, Object> item : itemsToUpdate) {
-                Long movidx = Long.parseLong((String) item.get("movidx"));
-                String newStatus = (String) item.get("newStatus");
-                movementService.updateMovStatus(movidx, newStatus);
-            }
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            System.out.println("Error updating movement statuses: "+ e);
-            return ResponseEntity.status(500).body("Error updating movement statuses: " + e.getMessage());
-        }
-    }
 
 
-	
 }

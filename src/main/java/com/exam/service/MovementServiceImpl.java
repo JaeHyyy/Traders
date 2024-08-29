@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.exam.dto.GoodsDTO;
 import com.exam.dto.MovementDTO;
 import com.exam.dto.MovementGoodsDTO;
-import com.exam.dto.GoodsDTO; 
 import com.exam.entity.Goods;
 import com.exam.entity.Movement;
 import com.exam.repository.MovementRepository;
@@ -54,7 +55,8 @@ public class MovementServiceImpl implements MovementService {
         List<MovementDTO> groupedMovements = results.stream()
                                                     .map(result -> MovementDTO.builder()
                                                                               .movdate((LocalDate) result[0])
-                                                                              .count((Long) result[1])
+                                                                              .ordercode((String) result[1])
+                                                                              .count((Long) result[2])
                                                                               .build())
                                                     .collect(Collectors.toList());
         logger.debug("Grouped movements found: {}", groupedMovements);
@@ -143,10 +145,86 @@ public class MovementServiceImpl implements MovementService {
     }
 
     // 모바일 - status 변경 (대기 -> 완료)
+    @Override
+    public void updateMovStatusByBranchIdAndGcode(String branchid, String gcode, LocalDate movdate, String newStatus) {
+        System.out.printf("Updating movstatus for branchid: {}, gcode: {}, movdate: {} to newStatus: {}", branchid, gcode, movdate, newStatus);
+        movementRepository.updateMovStatusByBranchIdAndGcode(branchid, gcode, movdate, newStatus);
+    }
+
+
+	
+	// 모바일 - branchId 와 movdate 로 데이터 조회
+    @Override
+    public List<MovementDTO> findByBranchIdAndMovdate(String branchid, LocalDate movdate) {
+        logger.debug("Request to find movements by branchid: {} and movdate: {}", branchid, movdate);
+        List<Movement> movements = movementRepository.findByMovdate(branchid, movdate);
+        return movements.stream()
+                        .map(movement -> mapper.map(movement, MovementDTO.class))
+                        .collect(Collectors.toList());
+    }
+	
+	
+	//admin
 	@Override
-	public void updateMovStatus(Long movidx, String newStatus) {
-		movementRepository.updateMovStatus(movidx, newStatus);
+    public List<Object[]> findBranchMovements() {
+        return movementRepository.findBranchMovements();
+    }
+    
+    @Override
+    public void updateMovstatusForGroup(String branchName, LocalDate movdate, String movstatus) {
+        movementRepository.updateMovstatusForGroup(branchName, movdate, movstatus);
+    }
+
+	@Override
+	public List<Movement> OrderSaveMovements(List<MovementDTO> movementDTOs) {
+	    List<Movement> movements = new ArrayList<>();
+	    for (MovementDTO dto : movementDTOs) {
+	        Movement movement = new Movement();
+	        movement.setOrdernum(dto.getOrdernum());
+	        movement.setBranchid(dto.getBranchid());
+	        movement.setGcode(dto.getGcode());
+	        movement.setMovquantity(dto.getMovquantity()); // gcount -> movquantity
+	        movement.setMovdate(dto.getMovdate()); // 프론트에서 받아온 movdate
+	        movement.setMovstatus(dto.getMovstatus()); // 프론트에서 받아온 movstatus
+	        movement.setOrdercode(dto.getOrdercode());
+	        movements.add(movement);
+	    }
+	    return movementRepository.saveAll(movements);
 	}
+	
+//	@Override
+//	public List<MovementDTO> findByOrdercode(String ordercode){
+//		ModelMapper mapper = new ModelMapper();
+//		
+//		List<Movement> list = movementRepository.findByOrdercode(ordercode);
+//		List<MovementDTO> movementList = list.stream()
+//				 							 .map(e->mapper.map(e, MovementDTO.class))
+//				 							 .collect(Collectors.toList());
+//		return movementList;
+//	}
+
+    @Override
+    public List<MovementGoodsDTO> findPendingMovementsByBranchAndDate(String branchName, LocalDate movdate, String movstatus) {
+        logger.debug("Request to find pending movements for branch: {} and date: {} with movstatus: {}", branchName, movdate, movstatus);
+        List<Object[]> results = movementRepository.findPendingMovementsByBranchAndDate(branchName, movdate, movstatus);
+        return results.stream()
+                      .map(result -> {
+                          Movement movement = (Movement) result[0];
+                          Goods goods = (Goods) result[1];
+                          return new MovementGoodsDTO(mapper.map(movement, MovementDTO.class),
+                                                      mapper.map(goods, GoodsDTO.class));
+                      })
+                      .collect(Collectors.toList());
+    }
+
+ // branchId 기준으로 movstatus 가 반려인 데이터 조회
+    @Override
+    public List<MovementDTO> findRejectedMovementsByBranchId(String branchid) {
+        List<Movement> rejectedMovements = movementRepository.findByBranchIdAndMovstatusRejected(branchid);
+        return rejectedMovements.stream()
+                                .map(movement -> mapper.map(movement, MovementDTO.class))
+                                .collect(Collectors.toList());
+    }
 
 
 }

@@ -1,18 +1,18 @@
 package com.exam.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.Table;
-
-import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
@@ -51,4 +52,7 @@ public class User {
 
     @Column(name = "phonenum")
     private String phoneNum; // 전화번호
+    
+    @Column(name = "role")
+    private String role; //역할
 }

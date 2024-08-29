@@ -8,26 +8,38 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.exam.dto.GoodsDTO;
+import com.exam.dto.PasswordChangeRequest;
 import com.exam.dto.UserDTO;
 import com.exam.entity.User;
+import com.exam.repository.UserRepository;
 import com.exam.security.JwtTokenResponse;
 import com.exam.security.JwtTokenService;
 import com.exam.service.UserService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -36,16 +48,18 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenService jwtTokenService;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService, JwtTokenService jwtTokenService) {
+    public UserController(UserService userService, JwtTokenService jwtTokenService,UserRepository userRepository) {
         this.userService = userService;
         this.jwtTokenService = jwtTokenService;
+        this.userRepository = userRepository;
     }
 
     
     @PostMapping("/signup")
     public ResponseEntity<String> signup(
-            @RequestParam("branchId") String branchId,
+            @Valid @RequestParam("branchId") String branchId,
             @RequestParam("passwd") String passwd,
             @RequestParam("branchName") String branchName,
             @RequestParam("branchNum") String branchNum,
@@ -135,5 +149,68 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed: " + e.getMessage());
         }
     }
+    
+    
 
-}
+    //로그인시 branchName값 가지고 오기
+    @GetMapping("/branchname/{branchId}")
+    public ResponseEntity<String> getBranchName(@PathVariable String branchId) {
+        User user = userRepository.findByBranchId(branchId);
+        if (user != null) {
+            return ResponseEntity.ok(user.getBranchName());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Branch not found");
+        }
+    }
+    
+    
+ // 지점 정보 수정
+    @PostMapping("/updateBranch")
+    public ResponseEntity<String> updateBranch(@RequestBody UserDTO userDTO) {
+        try {
+            userService.updateBranchInfo(userDTO);
+            return ResponseEntity.ok("지점 정보가 성공적으로 수정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("지점 정보 수정에 실패했습니다: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping("/user/{branchId}")
+    public ResponseEntity<UserDTO> getUserByBranchId(@PathVariable String branchId) {
+        User user = userService.findByBranchId(branchId);
+        if (user != null) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setBranchId(user.getBranchId());
+            userDTO.setBranchName(user.getBranchName());
+            userDTO.setBranchNum(user.getBranchNum());
+            userDTO.setPost(user.getPost());
+            userDTO.setAddr1(user.getAddr1());
+            userDTO.setAddr2(user.getAddr2());
+            userDTO.setPhoneNum(user.getPhoneNum());
+            // 필요한 경우 추가 필드 설정
+            return ResponseEntity.ok(userDTO);
+        } else {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+    
+    // 현재 비밀번호를 검증
+    @GetMapping("/validatePassword")
+    public ResponseEntity<?> validatePassword(@RequestParam String branchId, @RequestParam String passwd) {
+        boolean isValid = userService.validatePassword(branchId, passwd);
+        return ResponseEntity.ok().body(Map.of("valid", isValid));
+    }
+
+    //비밀번호 변경
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequest request) {
+        String result = userService.changePassword(request.getBranchId(), request.getPasswd());
+        if ("SUCCESS".equals(result)) {
+            return ResponseEntity.ok().body("Password changed successfully");
+        } else {
+            return ResponseEntity.status(400).body(result);
+        }
+    }
+    
+
+}//end

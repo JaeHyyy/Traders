@@ -3,6 +3,7 @@ package com.exam.entity;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,11 +32,11 @@ public class Movement {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long movidx;
 	Long movcode;
-	Long ordercode;
+	Long ordernum;
 	String gcode;
 	String branchid;
 	LocalDate movdate;
 	Long movquantity;
 	String movstatus;
-	
+	String ordercode;
 }

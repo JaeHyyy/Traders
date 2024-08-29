@@ -14,10 +14,12 @@ import com.exam.entity.Goods;
 
 public interface DisUseService {
 
-	public List<DisUseDTO> findAll();
-	 void moveExpiredStocksToDisuse();
-	 public void delete(int disid);
-	 public void update(int disid, DisUseDTO dto);
+
+	 void moveExpiredStocksToDisuse(String branchId);
+	 public void deleteByBranchIdDisuse(int disid,String branchId);
+	 public void updateByBranchIdDisuse(int disid,String branchId,DisUseDTO dto);
 	 public List<DisUseDTO> findByBranchIdDisuse(String branchId);
+	 
+//	 public List<String> findDuplicateGcodes(List<String> gcodes, String branchId);
 
 }
